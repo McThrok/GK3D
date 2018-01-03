@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Objects
 {
-    class FaceVertex
+    public class FaceVertex
     {
         public Vector3 Position;
         public Vector3 Normal;

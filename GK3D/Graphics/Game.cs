@@ -15,27 +15,22 @@ using GK3D.Graphics.Objects;
 namespace GK3D.Graphics
 {
 
-    class Game : GameWindow
+    public class Game : GameWindow
     {
+        Dictionary<string, int> textures = new Dictionary<string, int>();
+        Dictionary<string, Material> materials = new Dictionary<string, Material>();
         Dictionary<string, ShaderProgram> shaders = new Dictionary<string, ShaderProgram>();
         string activeShader = "default";
 
-        Dictionary<string, int> textures = new Dictionary<string, int>();
-        Vector2[] texcoorddata;
-
-        Dictionary<string, Material> materials = new Dictionary<string, Material>();
-
         Light activeLight = new Light(new Vector3(), new Vector3(0.9f, 0.80f, 0.8f));
-        private int ibo_elements;
-        private Vector3[] vertdata;
-        private Vector3[] coldata;
-        Vector3[] normdata;
-        Matrix4 view = Matrix4.Identity;
 
-        private int[] indicedata;
+        private int ibo_elements;
         private List<Volume> objects = new List<Volume>();
+
         private Camera cam = new Camera();
         Vector2 lastMousePos = new Vector2();
+
+        Matrix4 view;
 
         float time = 0.0f;
         public Game() : base(512, 512, new GraphicsMode(32, 24, 0, 4))
@@ -54,27 +49,25 @@ namespace GK3D.Graphics
         void InitProgram()
         {
             lastMousePos = new Vector2(Mouse.X, Mouse.Y);
-
             GL.GenBuffers(1, out ibo_elements);
 
             // Load shaders from file
             shaders.Add("default", new ShaderProgram("Graphics\\Shaders\\vs.glsl", "Graphics\\Shaders\\fs.glsl", true));
-            //shaders.Add("textured", new ShaderProgram("vs_tex.glsl", "fs_tex.glsl", true));
-           // shaders.Add("normal", new ShaderProgram("vs_norm.glsl", "fs_norm.glsl", true));
             shaders.Add("lit", new ShaderProgram("Graphics\\Shaders\\vs_lit.glsl", "Graphics\\Shaders\\fs_lit.glsl", true));
 
             activeShader = "lit";
-            loadMaterials("Graphics\\Materials\\opentk.mtl");
+
+            textures.Add("opentksquare.png", LoadImage("Graphics\\Textures\\opentksquare.png"));
+            textures.Add("opentksquare2.png", LoadImage("Graphics\\Textures\\opentksquare2.png"));
+            LoadMaterials("Graphics\\Materials\\opentk.mtl");
 
             // Create our objects
-            textures.Add("opentksquare.png", loadImage("Graphics\\Textures\\opentksquare.png"));
             TexturedCube tc = new TexturedCube();
             tc.TextureID = textures[materials["opentk1"].DiffuseMap];
             tc.CalculateNormals();
             tc.Material = materials["opentk1"];
             objects.Add(tc);
 
-            textures.Add("opentksquare2.png", loadImage("Graphics\\Textures\\opentksquare2.png"));
             TexturedCube tc2 = new TexturedCube();
             tc2.Position += new Vector3(1f, 1f, 1f);
             tc2.TextureID = textures[materials["opentk2"].DiffuseMap];
@@ -85,19 +78,12 @@ namespace GK3D.Graphics
             // Move camera away from origin
             cam.Position += new Vector3(0f, 0f, 3f);
 
-            textures.Add("earth.png", loadImage("Graphics\\Textures\\earth.png"));
+            textures.Add("earth.png", LoadImage("Graphics\\Textures\\earth.png"));
             ObjVolume earth = ObjVolume.LoadFromFile("Graphics\\Models\\earth.obj");
             earth.TextureID = textures["earth.png"];
             earth.Position += new Vector3(1f, 1f, -2f);
             earth.Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5);
             objects.Add(earth);
-
-            //ObjVolume car = ObjVolume.LoadFromFile("Low-Poly-Racing-Car.obj");
-            //car.Scale = new Vector3(0.001f);
-            //car.Position += new Vector3(1f, 1f, -2f);
-            //objects.Add(car);
-
-
         }
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -203,22 +189,16 @@ namespace GK3D.Graphics
                 vertcount += v.VertCount;
             }
 
-            vertdata = verts.ToArray();
-            indicedata = inds.ToArray();
-            coldata = colors.ToArray();
-            texcoorddata = texcoords.ToArray();
-            normdata = normals.ToArray();
-
             GL.BindBuffer(BufferTarget.ArrayBuffer, shaders[activeShader].GetBuffer("vPosition"));
 
-            GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(vertdata.Length * Vector3.SizeInBytes), vertdata, BufferUsageHint.StaticDraw);
+            GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(verts.Count * Vector3.SizeInBytes), verts.ToArray(), BufferUsageHint.StaticDraw);
             GL.VertexAttribPointer(shaders[activeShader].GetAttribute("vPosition"), 3, VertexAttribPointerType.Float, false, 0, 0);
 
             // Buffer vertex color if shader supports it
             if (shaders[activeShader].GetAttribute("vColor") != -1)
             {
                 GL.BindBuffer(BufferTarget.ArrayBuffer, shaders[activeShader].GetBuffer("vColor"));
-                GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(coldata.Length * Vector3.SizeInBytes), coldata, BufferUsageHint.StaticDraw);
+                GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(colors.Count * Vector3.SizeInBytes), colors.ToArray(), BufferUsageHint.StaticDraw);
                 GL.VertexAttribPointer(shaders[activeShader].GetAttribute("vColor"), 3, VertexAttribPointerType.Float, true, 0, 0);
             }
 
@@ -227,27 +207,19 @@ namespace GK3D.Graphics
             if (shaders[activeShader].GetAttribute("texcoord") != -1)
             {
                 GL.BindBuffer(BufferTarget.ArrayBuffer, shaders[activeShader].GetBuffer("texcoord"));
-                GL.BufferData<Vector2>(BufferTarget.ArrayBuffer, (IntPtr)(texcoorddata.Length * Vector2.SizeInBytes), texcoorddata, BufferUsageHint.StaticDraw);
+                GL.BufferData<Vector2>(BufferTarget.ArrayBuffer, (IntPtr)(texcoords.Count * Vector2.SizeInBytes), texcoords.ToArray(), BufferUsageHint.StaticDraw);
                 GL.VertexAttribPointer(shaders[activeShader].GetAttribute("texcoord"), 2, VertexAttribPointerType.Float, true, 0, 0);
             }
 
             if (shaders[activeShader].GetAttribute("vNormal") != -1)
             {
                 GL.BindBuffer(BufferTarget.ArrayBuffer, shaders[activeShader].GetBuffer("vNormal"));
-                GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(normdata.Length * Vector3.SizeInBytes), normdata, BufferUsageHint.StaticDraw);
+                GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(normals.Count * Vector3.SizeInBytes), normals.ToArray(), BufferUsageHint.StaticDraw);
                 GL.VertexAttribPointer(shaders[activeShader].GetAttribute("vNormal"), 3, VertexAttribPointerType.Float, true, 0, 0);
             }
 
             // Update object positions
             time += (float)e.Time;
-
-            //objects[0].Position = new Vector3(0.3f, -0.5f + (float)Math.Sin(time), -3.0f);
-            //objects[0].Rotation = new Vector3(0.55f * time, 0.25f * time, 0);
-            //objects[0].Scale = new Vector3(0.5f, 0.5f, 0.5f);
-
-            //objects[1].Position = new Vector3(-1f, 0.5f + (float)Math.Cos(time), -2.0f);
-            //objects[1].Rotation = new Vector3(-0.25f * time, -0.35f * time, 0);
-            //objects[1].Scale = new Vector3(0.7f, 0.7f, 0.7f);
 
             // Update model view matrices
             foreach (Volume v in objects)
@@ -263,7 +235,7 @@ namespace GK3D.Graphics
 
             // Buffer index data
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, ibo_elements);
-            GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(indicedata.Length * sizeof(int)), indicedata, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(inds.Count * sizeof(int)), inds.ToArray(), BufferUsageHint.StaticDraw);
 
 
             // Reset mouse position
@@ -280,19 +252,19 @@ namespace GK3D.Graphics
 
         }
 
-        private int loadImage(string filename)
+        private int LoadImage(string filename)
         {
             try
             {
-                Bitmap file = new System.Drawing.Bitmap(filename);
-                return loadImage(file);
+                Bitmap file = new Bitmap(filename);
+                return LoadImage(file);
             }
             catch (FileNotFoundException)
             {
                 return -1;
             }
         }
-        private int loadImage(Bitmap image)
+        private int LoadImage(Bitmap image)
         {
             int texID = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, texID);
@@ -303,7 +275,7 @@ namespace GK3D.Graphics
 
             return texID;
         }
-        private void loadMaterials(String filename)
+        private void LoadMaterials(string filename)
         {
             foreach (var mat in Material.LoadFromFile(filename))
             {
@@ -318,27 +290,27 @@ namespace GK3D.Graphics
             {
                 if (File.Exists(mat.AmbientMap) && !textures.ContainsKey(mat.AmbientMap))
                 {
-                    textures.Add(mat.AmbientMap, loadImage(mat.AmbientMap));
+                    textures.Add(mat.AmbientMap, LoadImage(mat.AmbientMap));
                 }
 
                 if (File.Exists(mat.DiffuseMap) && !textures.ContainsKey(mat.DiffuseMap))
                 {
-                    textures.Add(mat.DiffuseMap, loadImage(mat.DiffuseMap));
+                    textures.Add(mat.DiffuseMap, LoadImage(mat.DiffuseMap));
                 }
 
                 if (File.Exists(mat.SpecularMap) && !textures.ContainsKey(mat.SpecularMap))
                 {
-                    textures.Add(mat.SpecularMap, loadImage(mat.SpecularMap));
+                    textures.Add(mat.SpecularMap, LoadImage(mat.SpecularMap));
                 }
 
                 if (File.Exists(mat.NormalMap) && !textures.ContainsKey(mat.NormalMap))
                 {
-                    textures.Add(mat.NormalMap, loadImage(mat.NormalMap));
+                    textures.Add(mat.NormalMap, LoadImage(mat.NormalMap));
                 }
 
                 if (File.Exists(mat.OpacityMap) && !textures.ContainsKey(mat.OpacityMap))
                 {
-                    textures.Add(mat.OpacityMap, loadImage(mat.OpacityMap));
+                    textures.Add(mat.OpacityMap, LoadImage(mat.OpacityMap));
                 }
             }
         }

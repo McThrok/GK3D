@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics
 {
-    class Light
+    public class Light
     {
         public Light(Vector3 position, Vector3 color, float diffuseintensity = 1.0f, float ambientintensity = 1.0f)
         {

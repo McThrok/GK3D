@@ -74,6 +74,9 @@
     <Compile Include="Graphics\Objects\ObjVolume.cs" />
     <Compile Include="Graphics\Objects\TexturedCube.cs" />
     <Compile Include="Graphics\Objects\Volume.cs" />
+    <Compile Include="Graphics\MainScene.cs" />
+    <Compile Include="Graphics\Scene.cs" />
+    <Compile Include="Graphics\SceneCollection.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
