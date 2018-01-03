@@ -67,6 +67,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\FrameManager.cs" />
     <Compile Include="Graphics\Game.cs" />
     <Compile Include="Graphics\Light.cs" />
     <Compile Include="Graphics\Material.cs" />
