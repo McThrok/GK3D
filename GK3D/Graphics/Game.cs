@@ -18,15 +18,13 @@ namespace GK3D.Graphics
 
     public class Game : GameWindow
     {
-        Scene scene;
-        FrameManager frameManeger;
+        private Scene _scene;
+        private FrameManager _frameManeger;
+        private Vector2 _lastMousePos;
+        private float _time = 0.0f;
+        private bool isMouseDown;
 
-        int ibo_elements;
-        Vector2 lastMousePos = new Vector2();
-       // Matrix4 view;
-
-        float time = 0.0f;
-        public Game() : base(512, 512, new GraphicsMode(32, 24, 0, 4),"Game")
+        public Game() : base(512, 512, new GraphicsMode(32, 24, 0, 4), "Game")
         {
         }
 
@@ -34,45 +32,53 @@ namespace GK3D.Graphics
         {
             base.OnLoad(e);
 
-            scene = new MainScene();
-            frameManeger = new FrameManager();
-            lastMousePos = new Vector2(Mouse.X, Mouse.Y);
-           // GL.GenBuffers(1, out ibo_elements);
+            _scene = new MainScene();
+            _frameManeger = new FrameManager();
+            _frameManeger.Scene = _scene;
+            _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
+
+            Mouse.ButtonUp += (s, ee) => isMouseDown = false;
+            Mouse.ButtonDown += (s, ee) =>
+            {
+                ResetCursor();
+                isMouseDown = true;
+            };
 
             GL.ClearColor(Color.CornflowerBlue);
             GL.PointSize(5f);
         }
-      
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
             GL.Viewport(0, 0, Width, Height);
 
-            frameManeger.RenderFrame(scene);
+            _frameManeger.RenderFrame();
 
             SwapBuffers();
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
+            _time += (float)e.Time;
+            UpdateActiveCamera();
 
-            time += (float)e.Time;
-            // Reset mouse position
-            if (Focused)
+            _frameManeger.UpdateFrame(ClientSize.Width / (float)ClientSize.Height);
+        }
+        private void UpdateActiveCamera()
+        {
+            if (Focused && isMouseDown)
             {
-                Vector2 delta = lastMousePos - new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
-                lastMousePos += delta;
+                Vector2 delta = _lastMousePos - new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
+                _lastMousePos += delta;
 
-                scene.ActiveCamera.AddRotation(delta.X, delta.Y);
+                _scene.ActiveCamera.AddRotation(delta.X, delta.Y);
                 ResetCursor();
             }
-
-           frameManeger.UpdateFrame(scene, ClientSize.Width / (float)ClientSize.Height);
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
-            var camm = scene.ActiveCamera;
+            var camm = _scene.ActiveCamera;
             base.OnKeyPress(e);
             switch (e.KeyChar)
             {
@@ -98,7 +104,7 @@ namespace GK3D.Graphics
         }
         void ResetCursor()
         {
-            lastMousePos = new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
+            _lastMousePos = new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
         }
         protected override void OnFocusedChanged(EventArgs e)
         {

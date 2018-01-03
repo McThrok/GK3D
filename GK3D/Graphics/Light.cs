@@ -9,6 +9,11 @@ namespace GK3D.Graphics
 {
     public class Light
     {
+        public Vector3 Position;
+        public Vector3 Color = new Vector3();
+        public float DiffuseIntensity;
+        public float AmbientIntensity;
+
         public Light(Vector3 position, Vector3 color, float diffuseintensity = 1.0f, float ambientintensity = 1.0f)
         {
             Position = position;
@@ -18,9 +23,5 @@ namespace GK3D.Graphics
             AmbientIntensity = ambientintensity;
         }
 
-        public Vector3 Position;
-        public Vector3 Color = new Vector3();
-        public float DiffuseIntensity = 1.0f;
-        public float AmbientIntensity = 0.1f;
     }
 }
