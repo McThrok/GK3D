@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GK3D.Graphics
+namespace GK3D.Graphics.SceneComponents
 {
     public class SceneCollection
     {

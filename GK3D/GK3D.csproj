@@ -74,9 +74,9 @@
     <Compile Include="Graphics\Objects\ObjVolume.cs" />
     <Compile Include="Graphics\Objects\TexturedCube.cs" />
     <Compile Include="Graphics\Objects\Volume.cs" />
-    <Compile Include="Graphics\MainScene.cs" />
-    <Compile Include="Graphics\Scene.cs" />
-    <Compile Include="Graphics\SceneCollection.cs" />
+    <Compile Include="Graphics\SceneComponents\MainScene.cs" />
+    <Compile Include="Graphics\SceneComponents\Scene.cs" />
+    <Compile Include="Graphics\SceneComponents\SceneCollection.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -101,31 +101,31 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Graphics\Materials\opentk.mtl">
+    <None Include="Graphics\Resources\Materials\opentk.mtl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Models\cow.obj">
+    <None Include="Graphics\Resources\Models\cow.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Models\earth.obj">
+    <None Include="Graphics\Resources\Models\earth.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Models\Low-Poly-Racing-Car.obj">
+    <None Include="Graphics\Resources\Models\Low-Poly-Racing-Car.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Models\teapot.obj">
+    <None Include="Graphics\Resources\Models\teapot.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Shaders\fs.glsl">
+    <None Include="Graphics\Resources\Shaders\fs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Shaders\fs_lit.glsl">
+    <None Include="Graphics\Resources\Shaders\fs_lit.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Shaders\vs.glsl">
+    <None Include="Graphics\Resources\Shaders\vs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Shaders\vs_lit.glsl">
+    <None Include="Graphics\Resources\Shaders\vs_lit.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="OpenTK.dll.config" />
@@ -140,13 +140,13 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="Graphics\Textures\earth.png">
+    <Content Include="Graphics\Resources\Textures\earth.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Graphics\Textures\opentksquare.png">
+    <Content Include="Graphics\Resources\Textures\opentksquare.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Graphics\Textures\opentksquare2.png">
+    <Content Include="Graphics\Resources\Textures\opentksquare2.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

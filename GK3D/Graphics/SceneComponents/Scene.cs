@@ -9,13 +9,14 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing.Imaging;
 
-namespace GK3D.Graphics
+namespace GK3D.Graphics.SceneComponents
 {
     public abstract class Scene
     {
         public SceneCollection Collection { get; private set; }
         public ShaderProgram ActiveShader { get; set; }
         public Camera ActiveCamera { get; set; }
+        public Light ActiveLights { get; set; }
 
         public Scene()
         {

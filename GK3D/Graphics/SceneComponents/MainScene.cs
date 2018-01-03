@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GK3D.Graphics
+namespace GK3D.Graphics.SceneComponents
 {
     public class MainScene : Scene
     {
@@ -15,15 +15,16 @@ namespace GK3D.Graphics
         protected override void Load()
         {
             Collection.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.9f, 0.80f, 0.8f)));
+            ActiveLights = Collection.Lights.Values.First();
 
             // Load shaders from file
-            Collection.Shaders.Add("lit", new ShaderProgram("Graphics\\Shaders\\vs_lit.glsl", "Graphics\\Shaders\\fs_lit.glsl", true));
-            Collection.Shaders.Add("default", new ShaderProgram("Graphics\\Shaders\\vs.glsl", "Graphics\\Shaders\\fs.glsl", true));
+            Collection.Shaders.Add("lit", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit.glsl", "Graphics\\Resources\\Shaders\\fs_lit.glsl", true));
+            Collection.Shaders.Add("default", new ShaderProgram("Graphics\\Resources\\Shaders\\vs.glsl", "Graphics\\Resources\\Shaders\\fs.glsl", true));
             ActiveShader = Collection.Shaders.Values.First();
 
-            Collection.Textures.Add("opentksquare.png", LoadImage("Graphics\\Textures\\opentksquare.png"));
-            Collection.Textures.Add("opentksquare2.png", LoadImage("Graphics\\Textures\\opentksquare2.png"));
-            LoadMaterials("Graphics\\Materials\\opentk.mtl");
+            Collection.Textures.Add("opentksquare.png", LoadImage("Graphics\\Resources\\Textures\\opentksquare.png"));
+            Collection.Textures.Add("opentksquare2.png", LoadImage("Graphics\\Resources\\Textures\\opentksquare2.png"));
+            LoadMaterials("Graphics\\Resources\\Materials\\opentk.mtl");
 
 
             // Create our objects
@@ -40,8 +41,8 @@ namespace GK3D.Graphics
             tc2.Material = Collection.Materials["opentk2"];
             Collection.Objects.Add("cube2", tc2);
 
-            Collection.Textures.Add("earth.png", LoadImage("Graphics\\Textures\\earth.png"));
-            ObjVolume earth = ObjVolume.LoadFromFile("Graphics\\Models\\earth.obj");
+            Collection.Textures.Add("earth.png", LoadImage("Graphics\\Resources\\Textures\\earth.png"));
+            ObjVolume earth = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\earth.obj");
             earth.TextureID = Collection.Textures["earth.png"];
             earth.Position += new Vector3(1f, 1f, -2f);
             earth.Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5);
@@ -51,6 +52,7 @@ namespace GK3D.Graphics
             Camera cam = new Camera();
             cam.Position += new Vector3(0f, 0f, 3f);
             Collection.Cameras.Add("mainCamera", cam);
+            ActiveCamera = Collection.Cameras.Values.First();
         }
 
     }
