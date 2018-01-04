@@ -8,14 +8,14 @@ out vec3 v_norm;
 out vec3 v_pos;
 out vec2 f_texcoord;
 
-uniform mat4 modelview;
+uniform mat4 modelviewproj;
 uniform mat4 model;
 uniform mat4 view;
 
 void
 main()
 {
- gl_Position = modelview * vec4(vPosition, 1.0);
+ gl_Position = modelviewproj * vec4(vPosition, 1.0);
  f_texcoord = texcoord;
 
  mat3 normMatrix = transpose(inverse(mat3(model)));

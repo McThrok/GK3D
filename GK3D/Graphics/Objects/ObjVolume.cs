@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using GK3D.Graphics.Common;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,20 +9,6 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Objects
 {
-    public class FaceVertex
-    {
-        public Vector3 Position;
-        public Vector3 Normal;
-        public Vector2 TextureCoord;
-
-        public FaceVertex(Vector3 pos, Vector3 norm, Vector2 texcoord)
-        {
-            Position = pos;
-            Normal = norm;
-            TextureCoord = texcoord;
-        }
-    }
-
     public class ObjVolume : Volume
     {
 
@@ -100,7 +87,7 @@ namespace GK3D.Graphics.Objects
             List<Vector3> verts = new List<Vector3>();
             List<Vector3> normals = new List<Vector3>();
             List<Vector2> texs = new List<Vector2>();
-            List<Tuple<TempVertex, TempVertex, TempVertex>> faces = new List<Tuple<TempVertex, TempVertex, TempVertex>>();
+            List<Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>> faces = new List<Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>>();
 
             // Base values
             verts.Add(new Vector3());
@@ -203,7 +190,7 @@ namespace GK3D.Graphics.Objects
                     // Cut off beginning of line
                     String temp = line.Substring(2);
 
-                    Tuple<TempVertex, TempVertex, TempVertex> face = new Tuple<TempVertex, TempVertex, TempVertex>(new TempVertex(), new TempVertex(), new TempVertex());
+                    Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd> face = new Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>(new FaceVertexInd(), new FaceVertexInd(), new FaceVertexInd());
 
                     if (temp.Trim().Count((char c) => c == ' ') == 2) // Check if there's enough elements for a face
                     {
@@ -265,10 +252,10 @@ namespace GK3D.Graphics.Objects
                         }
                         else
                         {
-                            TempVertex tv1 = new TempVertex(v1, n1, t1);
-                            TempVertex tv2 = new TempVertex(v2, n2, t2);
-                            TempVertex tv3 = new TempVertex(v3, n3, t3);
-                            face = new Tuple<TempVertex, TempVertex, TempVertex>(tv1, tv2, tv3);
+                            FaceVertexInd tv1 = new FaceVertexInd(v1, n1, t1);
+                            FaceVertexInd tv2 = new FaceVertexInd(v2, n2, t2);
+                            FaceVertexInd tv3 = new FaceVertexInd(v3, n3, t3);
+                            face = new Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>(tv1, tv2, tv3);
                             faces.Add(face);
                         }
                     }
@@ -294,19 +281,6 @@ namespace GK3D.Graphics.Objects
             return vol;
         }
 
-        private class TempVertex
-        {
-            public int Vertex;
-            public int Normal;
-            public int Texcoord;
-
-            public TempVertex(int vert = 0, int norm = 0, int tex = 0)
-            {
-                Vertex = vert;
-                Normal = norm;
-                Texcoord = tex;
-            }
-        }
 
         public override Vector3[] GetNormals()
         {

@@ -32,7 +32,8 @@ namespace GK3D.Graphics
         {
             base.OnLoad(e);
 
-            _scene = new MainScene();
+            //_scene = new MainScene();
+            _scene = new TestScene();
             _frameManeger = new FrameManager();
             _frameManeger.Scene = _scene;
             _lastMousePos = new Vector2(Mouse.X, Mouse.Y);

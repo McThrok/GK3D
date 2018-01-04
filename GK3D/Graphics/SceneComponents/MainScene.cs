@@ -55,5 +55,11 @@ namespace GK3D.Graphics.SceneComponents
             ActiveCamera = Collection.Cameras.Values.First();
         }
 
+        protected override void SetStart()
+        {
+        }
+        protected override void Process(float deltaTime)
+        {
+        }
     }
 }

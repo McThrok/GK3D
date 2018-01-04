@@ -14,7 +14,7 @@ namespace GK3D.Graphics
     {
         public Scene Scene { get; set; }
         private int _iboElements;
-        private Matrix4 _view;
+        private Matrix4 _viewCameraMatrix;
 
         public FrameManager()
         {
@@ -36,16 +36,21 @@ namespace GK3D.Graphics
             {
                 GL.BindTexture(TextureTarget.Texture2D, v.TextureID);
 
-                GL.UniformMatrix4(Scene.ActiveShader.GetUniform("modelview"), false, ref v.ModelViewProjectionMatrix);
+                GL.UniformMatrix4(Scene.ActiveShader.GetUniform("modelviewproj"), false, ref v.ModelViewProjectionMatrix);
 
                 if (Scene.ActiveShader.GetUniform("maintexture") != -1)
                 {
                     GL.Uniform1(Scene.ActiveShader.GetUniform("maintexture"), 0);
                 }
 
+                if (Scene.ActiveShader.GetUniform("viewPos") != -1)
+                {
+                    GL.Uniform3(Scene.ActiveShader.GetUniform("viewPos"), ref Scene.ActiveCamera.Position);
+                }
+
                 if (Scene.ActiveShader.GetUniform("view") != -1)
                 {
-                    GL.UniformMatrix4(Scene.ActiveShader.GetUniform("view"), false, ref _view);
+                    GL.UniformMatrix4(Scene.ActiveShader.GetUniform("view"), false, ref _viewCameraMatrix);
                 }
 
                 if (Scene.ActiveShader.GetUniform("model") != -1)
@@ -170,7 +175,7 @@ namespace GK3D.Graphics
             GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(inds.Count * sizeof(int)), inds.ToArray(), BufferUsageHint.StaticDraw);
 
 
-            _view = Scene.ActiveCamera.GetViewMatrix();
+            _viewCameraMatrix = Scene.ActiveCamera.GetViewMatrix();
            
 
         }
