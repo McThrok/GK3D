@@ -12,9 +12,11 @@ namespace GK3D.Graphics
 {
     public class FrameManager
     {
+        private const int MaxLight = 30; //taken from shader
+
         public Scene Scene { get; set; }
-        private int _iboElements;
         private Matrix4 _viewCameraMatrix;
+        private int _iboElements;
 
         public FrameManager()
         {
@@ -29,6 +31,7 @@ namespace GK3D.Graphics
             Scene.ActiveShader.EnableVertexAttribArrays();
 
             int indiceat = 0;
+            var lights = Scene.Collection.Lights.Values.ToList();
 
             foreach (var v in Scene.Collection.Objects.Values)
             {
@@ -96,6 +99,43 @@ namespace GK3D.Graphics
                     GL.Uniform1(Scene.ActiveShader.GetUniform("light_ambientIntensity"), Scene.ActiveLights.AmbientIntensity);
                 }
 
+                for (int i = 0; i < Math.Min(lights.Count, MaxLight); i++)
+                {
+                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].position") != -1)
+                    {
+                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].position"), ref lights[i].Position);
+                    }
+
+                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].color") != -1)
+                    {
+                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].color"), ref lights[i].Color);
+                    }
+
+                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].diffuseIntensity") != -1)
+                    {
+                        GL.Uniform1(Scene.ActiveShader.GetUniform("lights[" + i + "].diffuseIntensity"), lights[i].DiffuseIntensity);
+                    }
+
+                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].ambientIntensity") != -1)
+                    {
+                        GL.Uniform1(Scene.ActiveShader.GetUniform("lights[" + i + "].ambientIntensity"), lights[i].AmbientIntensity);
+                    }
+                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].direction") != -1)
+                    {
+                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].direction"), ref lights[i].Direction);
+                    }
+
+                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].type") != -1)
+                    {
+                        GL.Uniform1(Scene.ActiveShader.GetUniform("lights[" + i + "].type"), (int)lights[i].Type);
+                    }
+
+                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].coneAngle") != -1)
+                    {
+                        GL.Uniform1(Scene.ActiveShader.GetUniform("lights[" + i + "].coneAngle"), lights[i].ConeAngle);
+                    }
+                }
+
                 GL.DrawElements(BeginMode.Triangles, v.IndiceCount, DrawElementsType.UnsignedInt, indiceat * sizeof(uint));
                 indiceat += v.IndiceCount;
             }
@@ -103,7 +143,7 @@ namespace GK3D.Graphics
             Scene.ActiveShader.DisableVertexAttribArrays();
             GL.Flush();
         }
-        public void UpdateFrame( float aspect)
+        public void UpdateFrame(float aspect)
         {
             List<Vector3> verts = new List<Vector3>();
             List<int> inds = new List<int>();
@@ -172,7 +212,7 @@ namespace GK3D.Graphics
 
 
             _viewCameraMatrix = Scene.ActiveCamera.GetViewMatrix();
-           
+
 
         }
     }

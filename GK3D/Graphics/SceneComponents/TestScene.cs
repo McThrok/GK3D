@@ -16,8 +16,14 @@ namespace GK3D.Graphics.SceneComponents
         protected override void Load()
         {
             Collection = new SceneCollection();
-            Collection.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f)));
-            ActiveLights = Collection.Lights.Values.First();
+            Collection.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f),0.3f));
+            Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f,1f,1f));
+            spotLight2.Type = LightType.Spot;
+            spotLight2.Direction = new Vector3(0,1.0f,0).Normalized();
+            spotLight2.ConeAngle = 10f;
+            Collection.Lights.Add("spotLight2", spotLight2);
+
+            ActiveLights = Collection.Lights.Values.FirstOrDefault();
 
             // Load shaders from file
             Collection.Shaders.Add("lit_mat", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_mat.glsl", "Graphics\\Resources\\Shaders\\fs_lit_mat.glsl", true));
