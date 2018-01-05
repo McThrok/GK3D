@@ -83,6 +83,7 @@
     <Compile Include="Graphics\SceneComponents\MainScene.cs" />
     <Compile Include="Graphics\SceneComponents\Scene.cs" />
     <Compile Include="Graphics\SceneComponents\SceneCollection.cs" />
+    <Compile Include="Graphics\SceneController.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -18,6 +18,8 @@ namespace GK3D.Graphics
 
     public class Game : GameWindow
     {
+        public SceneController SceneController { get; private set; }
+
         private Scene _scene;
         private FrameManager _frameManeger;
         private Vector2 _lastMousePos;
@@ -33,7 +35,9 @@ namespace GK3D.Graphics
             base.OnLoad(e);
 
             //_scene = new MainScene();
-            _scene = new TestScene();
+            var testScene = new TestScene();
+            _scene = testScene;
+            SceneController = new TestSceneController(testScene);
             _frameManeger = new FrameManager();
             _frameManeger.Scene = _scene;
             _lastMousePos = new Vector2(Mouse.X, Mouse.Y);

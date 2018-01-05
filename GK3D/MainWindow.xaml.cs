@@ -54,5 +54,10 @@ namespace GK3D
             });
             
         }
+
+        private void cameraChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            _game.SceneController.ChangeCamera();
+        }
     }
 }

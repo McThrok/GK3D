@@ -52,6 +52,10 @@ namespace GK3D.Graphics.SceneComponents
             Camera cam = new Camera();
             cam.Position += new Vector3(0f, 0f, 3f);
             Collection.Cameras.Add("mainCamera", cam);
+
+            Camera secondCamera = new Camera();
+            secondCamera.Position += new Vector3(0f, 0f, 5f);
+            Collection.Cameras.Add("secondCamera", secondCamera);
             ActiveCamera = Collection.Cameras.Values.First();
         }
 
