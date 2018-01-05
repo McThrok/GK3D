@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using GK3D.Graphics.Common;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,8 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Objects
 {
-    public abstract class Volume
+    public abstract class Volume :GameObject
     {
-        public Vector3 Position = Vector3.Zero;
-        public Vector3 Rotation = Vector3.Zero;
-        public Vector3 Scale = Vector3.One;
         public Material Material = new Material();
 
         public bool IsTextured = false;
@@ -19,7 +17,6 @@ namespace GK3D.Graphics.Objects
         public abstract Vector2[] GetTextureCoords();
 
         Vector3[] Normals = new Vector3[0];
-
 
         public virtual int VertCount { get; set; }
         public virtual int IndiceCount { get; set; }

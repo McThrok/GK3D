@@ -81,7 +81,7 @@ namespace GK3D.Graphics
 
                 if (Scene.ActiveShader.GetUniform("light_position") != -1)
                 {
-                    GL.Uniform3(Scene.ActiveShader.GetUniform("light_position"), ref Scene.ActiveLights.Position);
+                    GL.Uniform3(Scene.ActiveShader.GetUniform("light_position"), Scene.ActiveLights.Position);
                 }
 
                 if (Scene.ActiveShader.GetUniform("light_color") != -1)
@@ -103,12 +103,12 @@ namespace GK3D.Graphics
                 {
                     if (Scene.ActiveShader.GetUniform("lights[" + i + "].position") != -1)
                     {
-                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].position"), ref lights[i].Position);
+                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].position"), lights[i].Position);
                     }
 
                     if (Scene.ActiveShader.GetUniform("lights[" + i + "].color") != -1)
                     {
-                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].color"), ref lights[i].Color);
+                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].color"), lights[i].Color);
                     }
 
                     if (Scene.ActiveShader.GetUniform("lights[" + i + "].diffuseIntensity") != -1)
@@ -122,7 +122,7 @@ namespace GK3D.Graphics
                     }
                     if (Scene.ActiveShader.GetUniform("lights[" + i + "].direction") != -1)
                     {
-                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].direction"), ref lights[i].Direction);
+                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].direction"), lights[i].Rotation);
                     }
 
                     if (Scene.ActiveShader.GetUniform("lights[" + i + "].type") != -1)

@@ -42,6 +42,8 @@ namespace GK3D.Graphics
             _frameManeger.Scene = _scene;
             _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
 
+            _scene.Load();
+
             Mouse.ButtonUp += (s, ee) => isMouseDown = false;
             Mouse.ButtonDown += (s, ee) =>
             {
@@ -65,8 +67,8 @@ namespace GK3D.Graphics
         {
             base.OnUpdateFrame(e);
             _time += (float)e.Time;
+            _scene.Process((float)e.Time);
             UpdateActiveCamera();
-
             _frameManeger.UpdateFrame(ClientSize.Width / (float)ClientSize.Height);
         }
         private void UpdateActiveCamera()

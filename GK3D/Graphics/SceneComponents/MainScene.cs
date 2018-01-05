@@ -10,9 +10,7 @@ namespace GK3D.Graphics.SceneComponents
 {
     public class MainScene : Scene
     {
-        public MainScene() : base() { }
-
-        protected override void Load()
+        public override void Load()
         {
             Collection.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.9f, 0.80f, 0.8f)));
             ActiveLights = Collection.Lights.Values.First();
@@ -55,10 +53,10 @@ namespace GK3D.Graphics.SceneComponents
             ActiveCamera = Collection.Cameras.Values.First();
         }
 
-        protected override void SetStart()
+        public override void SetStart()
         {
         }
-        protected override void Process(float deltaTime)
+        public override void Process(float deltaTime)
         {
         }
     }

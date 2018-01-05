@@ -1,4 +1,5 @@
-﻿using OpenTK;
+﻿using GK3D.Graphics.Common;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace GK3D.Graphics
 
     public enum LightType { Point, Spot, Directional }
 
-    public class Light
+    public class Light : GameObject
     {
         public Light(Vector3 position, Vector3 color, float diffuseintensity = 1.0f, float ambientintensity = 1.0f)
         {
@@ -21,17 +22,15 @@ namespace GK3D.Graphics
             AmbientIntensity = ambientintensity;
 
             Type = LightType.Point;
-            Direction = new Vector3(0, 0, 1);
+            Rotation = new Vector3(0, 0, 1);
             ConeAngle = 15.0f;
         }
 
-        public Vector3 Position;
         public Vector3 Color;
         public float DiffuseIntensity;
         public float AmbientIntensity;
 
         public LightType Type;
-        public Vector3 Direction;
         public float ConeAngle;
     }
 }

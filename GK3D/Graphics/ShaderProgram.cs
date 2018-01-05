@@ -57,7 +57,7 @@ namespace GK3D.Graphics
             Link();
             GenBuffers();
         }
-        private void loadShader(string code, ShaderType type, out int address)
+        private void LoadShader(string code, ShaderType type, out int address)
         {
             address = GL.CreateShader(type);
             GL.ShaderSource(address, code);
@@ -68,18 +68,18 @@ namespace GK3D.Graphics
         public void LoadShaderFromString(string code, ShaderType type)
         {
             if (type == ShaderType.VertexShader)
-                loadShader(code, type, out VShaderID);
+                LoadShader(code, type, out VShaderID);
             else if (type == ShaderType.FragmentShader)
-                loadShader(code, type, out FShaderID);
+                LoadShader(code, type, out FShaderID);
         }
         public void LoadShaderFromFile(string filename, ShaderType type)
         {
             using (StreamReader sr = new StreamReader(filename))
             {
                 if (type == ShaderType.VertexShader)
-                    loadShader(sr.ReadToEnd(), type, out VShaderID);
+                    LoadShader(sr.ReadToEnd(), type, out VShaderID);
                 else if (type == ShaderType.FragmentShader)
-                    loadShader(sr.ReadToEnd(), type, out FShaderID);
+                    LoadShader(sr.ReadToEnd(), type, out FShaderID);
             }
         }
         public void Link()

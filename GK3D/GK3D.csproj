@@ -70,10 +70,12 @@
     <Compile Include="Graphics\Common\Face.cs" />
     <Compile Include="Graphics\Common\FaceVertex.cs" />
     <Compile Include="Graphics\Common\FaceVertexInd.cs" />
+    <Compile Include="Graphics\Common\GameObject.cs" />
     <Compile Include="Graphics\FrameManager.cs" />
     <Compile Include="Graphics\Game.cs" />
     <Compile Include="Graphics\Light.cs" />
     <Compile Include="Graphics\Material.cs" />
+    <Compile Include="Graphics\Objects\ComplexObject.cs" />
     <Compile Include="Graphics\Objects\Cube.cs" />
     <Compile Include="Graphics\Objects\IcoSphere.cs" />
     <Compile Include="Graphics\Objects\ObjVolume.cs" />
@@ -158,16 +160,5 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="Graphics\Resources\Textures\earth.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Graphics\Resources\Textures\opentksquare.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Graphics\Resources\Textures\opentksquare2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

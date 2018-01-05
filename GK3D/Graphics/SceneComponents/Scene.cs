@@ -13,19 +13,14 @@ namespace GK3D.Graphics.SceneComponents
 {
     public abstract class Scene
     {
-        public SceneCollection Collection { get;  set; }
+        public SceneCollection Collection { get; set; } = new SceneCollection();
         public ShaderProgram ActiveShader { get; set; }
         public Camera ActiveCamera { get; set; }
         public Light ActiveLights { get; set; }
 
-        public Scene()
-        {
-            Collection = new SceneCollection();
-            Load();
-        }
-        protected abstract void Load();
-        protected abstract void SetStart();
-        protected abstract void Process(float deltaTime);
+        public abstract void Load();
+        public abstract void SetStart();
+        public abstract void Process(float deltaTime);
 
         protected int LoadImage(string filename)
         {
