@@ -125,6 +125,9 @@
     <None Include="Graphics\Resources\Shaders\fs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Graphics\Resources\Shaders\fs_lit_mat.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Graphics\Resources\Shaders\fs_lit_color.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -132,6 +135,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Shaders\vs.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\Resources\Shaders\vs_lit_mat.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Shaders\vs_lit_color.glsl">

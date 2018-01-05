@@ -20,9 +20,10 @@ namespace GK3D.Graphics.SceneComponents
             ActiveLights = Collection.Lights.Values.First();
 
             // Load shaders from file
-            Collection.Shaders.Add("lit_color", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_color.glsl", "Graphics\\Resources\\Shaders\\fs_lit_color.glsl", true));
-            Collection.Shaders.Add("default", new ShaderProgram("Graphics\\Resources\\Shaders\\vs.glsl", "Graphics\\Resources\\Shaders\\fs.glsl", true));
-            Collection.Shaders.Add("lit", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit.glsl", "Graphics\\Resources\\Shaders\\fs_lit.glsl", true));
+            Collection.Shaders.Add("lit_mat", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_mat.glsl", "Graphics\\Resources\\Shaders\\fs_lit_mat.glsl", true));
+            //Collection.Shaders.Add("default", new ShaderProgram("Graphics\\Resources\\Shaders\\vs.glsl", "Graphics\\Resources\\Shaders\\fs.glsl", true));
+            // Collection.Shaders.Add("lit_color", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_color.glsl", "Graphics\\Resources\\Shaders\\fs_lit_color.glsl", true));
+            //  Collection.Shaders.Add("lit", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit.glsl", "Graphics\\Resources\\Shaders\\fs_lit.glsl", true));
             ActiveShader = Collection.Shaders.Values.First();
 
 

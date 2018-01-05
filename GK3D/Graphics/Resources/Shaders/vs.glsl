@@ -1,14 +1,14 @@
 ﻿#version 330
- 
+
 in vec3 vPosition;
-in  vec3 vColor;
+in vec3 vColor;
 out vec4 color;
-uniform mat4 modelview;
+uniform mat4 modelviewproj;
  
 void
 main()
 {
-    gl_Position = modelview * vec4(vPosition, 1.0);
+    gl_Position = modelviewproj * vec4(vPosition, 1.0);
  
     color = vec4( vColor, 1.0);
 }

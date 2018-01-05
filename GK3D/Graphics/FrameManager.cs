@@ -25,9 +25,7 @@ namespace GK3D.Graphics
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
-
             GL.UseProgram(Scene.ActiveShader.ProgramID);
-
             Scene.ActiveShader.EnableVertexAttribArrays();
 
             int indiceat = 0;
@@ -103,9 +101,7 @@ namespace GK3D.Graphics
             }
 
             Scene.ActiveShader.DisableVertexAttribArrays();
-
             GL.Flush();
-
         }
         public void UpdateFrame( float aspect)
         {
