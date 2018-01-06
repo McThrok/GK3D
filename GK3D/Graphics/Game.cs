@@ -15,7 +15,7 @@ using GK3D.Graphics.SceneComponents;
 
 namespace GK3D.Graphics
 {
-
+    //buid 86x!!! - avoid exception test
     public class Game : GameWindow
     {
         public SceneController SceneController { get; private set; }

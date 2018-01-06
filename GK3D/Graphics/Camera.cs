@@ -12,7 +12,7 @@ namespace GK3D.Graphics
     public class Camera : GameObject
     {
         public float MoveSpeed = 0.2f;
-        public float MouseSensitivity = 0.005f;
+        public float MouseSensitivity = 0.003f;
 
         public Matrix4 GetViewMatrix()
         {
@@ -52,7 +52,7 @@ namespace GK3D.Graphics
             x *= MouseSensitivity;
             y *= MouseSensitivity;
             Rotation.Y = (Rotation.Y + x) % ((float)Math.PI * 2.0f);
-            Rotation.X = Math.Max(Math.Min(Rotation.X + y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
+            Rotation.X = Math.Max(Math.Min(Rotation.X - y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
         }
     }
 }
