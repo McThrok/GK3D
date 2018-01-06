@@ -17,7 +17,7 @@ namespace GK3D.Graphics.SceneComponents
         {
             Collection = new SceneCollection();
             Collection.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
-            Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f));
+            Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1);
             spotLight2.Type = LightType.Spot;
             spotLight2.Rotation = new Vector3(0, 1.0f, 0).Normalized();
             spotLight2.ConeAngle = 10f;
@@ -30,59 +30,71 @@ namespace GK3D.Graphics.SceneComponents
             ActiveShader = Collection.Shaders.Values.FirstOrDefault();
 
             // Create our objects
-            Cube cubex = new Cube
+            Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
             {
-                Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5),
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
                 Position = new Vector3(2f, 0, 0),
                 Rotation = new Vector3(0, 0, 0)
             };
             cubex.CalculateNormals();
-            Collection.Objects.Add("x", cubex);
+           // Collection.Objects.Add("x", cubex);
 
-            Cube cubey = new Cube
+            Cube cubey = new ColoredCube(new Vector3(1, 0, 0))
             {
-                Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5),
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
                 Position = new Vector3(0, 5f, 0),
                 Rotation = new Vector3(0, 0, 0)
             };
             cubey.CalculateNormals();
-            Collection.Objects.Add("y", cubey);
+           // Collection.Objects.Add("y", cubey);
 
-            Cube cubez = new Cube
+            Cube cubez = new ColoredCube(new Vector3(0, 1, 0))
             {
-                Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5),
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
                 Position = new Vector3(0, 0, 3.5f),
                 Rotation = new Vector3(0, 0, 0)
             };
             cubez.CalculateNormals();
-            Collection.Objects.Add("z", cubez);
+            //Collection.Objects.Add("z", cubez);
 
-            Cube center = new Cube
+            Cube center = new ColoredCube(new Vector3(0, 0, 1))
             {
                 Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5),
                 Position = new Vector3(0, 0, 0),
                 Rotation = new Vector3(0, 0, 0)
             };
             center.CalculateNormals();
-            center.Scale = new Vector3(2f, 2f, 2f);
+            center.Scale = new Vector3(3f, 3f, 3f);
             Collection.Objects.Add("center", center);
 
-            ComplexObject co = new ComplexObject();
-            //co.Objects.Add("car", cubex);
-            //co.Move(Vector3.One);
 
+
+            Cube car = new ColoredCube(new Vector3(1, 1, 1))
+            {
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+                Position = new Vector3(2f,2f,2f),
+                Rotation = new Vector3(0, 0, 0)
+            };
+            car.CalculateNormals();
+            Collection.Objects.Add("car", car);
+
+            ComplexObject co = new ComplexObject();
+            co.Objects.Add("car", Collection.Objects["car"]);
+            co.Objects.Add("center", Collection.Objects["center"]);
+             co.Rotate(new Vector3(0, (float) Math.PI/16,0 ));
+            Collection.ComplexObjects.Add("co", co);
 
 
             //Move camera away from origin
             Camera cam = new Camera();
-            cam.Position += new Vector3(5f, 0f, 0);
-            cam.Rotation = new Vector3(0f, (float)Math.PI / 2, 0f);
+            cam.Position += new Vector3(0, 0f, 7f);
+            cam.Rotation = new Vector3(0f, (float)Math.PI, 0f);
             Collection.Cameras.Add("mainCamera", cam);
 
 
             Camera secondCamera = new Camera();
-            secondCamera.Position = new Vector3(0f, 0f, -7f);
-            secondCamera.Rotation = new Vector3(0, 0.1f, 0f);
+            secondCamera.Position = new Vector3(0f, 8f, 0);
+            secondCamera.Rotation = new Vector3(-(float)Math.PI / 2 + 0.1f, (float)Math.PI, 0f);
             Collection.Cameras.Add("secondCamera", secondCamera);
 
 
@@ -94,7 +106,7 @@ namespace GK3D.Graphics.SceneComponents
         }
         public override void Process(float deltaTime)
         {
-            // Collection.Objects["car"].Position += new Vector3(2*deltaTime, 0, 0);
+            Collection.ComplexObjects["co"].Rotate(new Vector3(0,0,0.1f));
         }
 
     }

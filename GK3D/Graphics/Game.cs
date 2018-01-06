@@ -15,7 +15,6 @@ using GK3D.Graphics.SceneComponents;
 
 namespace GK3D.Graphics
 {
-    //buid 86x!!! - avoid exception test
     public class Game : GameWindow
     {
         public SceneController SceneController { get; private set; }
@@ -89,24 +88,12 @@ namespace GK3D.Graphics
             base.OnKeyPress(e);
             switch (e.KeyChar)
             {
-                case 'w':
-                    camm.MoveWithSeparatedY(0f, 0f, 0.1f);
-                    break;
-                case 'a':
-                    camm.MoveWithSeparatedY(0.1f, 0f, 0f);
-                    break;
-                case 's':
-                    camm.MoveWithSeparatedY(0f, 0f, -0.1f);
-                    break;
-                case 'd':
-                    camm.MoveWithSeparatedY(-0.1f, 0f, 0f);
-                    break;
-                case 'q':
-                    camm.MoveWithSeparatedY(0f, 0.1f, 0f);
-                    break;
-                case 'e':
-                    camm.MoveWithSeparatedY(0f, -0.1f, 0f);
-                    break;
+                case 'w': camm.MoveWithSeparatedY(0f, 0f, 0.1f); break;
+                case 'a': camm.MoveWithSeparatedY(0.1f, 0f, 0f); break;
+                case 's': camm.MoveWithSeparatedY(0f, 0f, -0.1f); break;
+                case 'd': camm.MoveWithSeparatedY(-0.1f, 0f, 0f); break;
+                case 'q': camm.MoveWithSeparatedY(0f, 0.1f, 0f); break;
+                case 'e': camm.MoveWithSeparatedY(0f, -0.1f, 0f); break;
             }
         }
         void ResetCursor()

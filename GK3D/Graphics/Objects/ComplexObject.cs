@@ -25,7 +25,7 @@ namespace GK3D.Graphics.Objects
         public void SetPosition(Vector3 position)
         {
             foreach (var item in GetObjects())
-                item.Position = position;
+                item.Position = position + (item.Position - _position);
         }
         public void Move(Vector3 offset)
         {
@@ -43,12 +43,34 @@ namespace GK3D.Graphics.Objects
         }
         public void Rotate(Vector3 rotation)
         {
-            var matrix = Matrix4.CreateTranslation(_position) * Matrix4.CreateRotationX(rotation.X) * Matrix4.CreateRotationY(rotation.Y) * Matrix4.CreateRotationZ(rotation.Z) * Matrix4.CreateTranslation(_position).Inverted();
+            var a1 = new Matrix4();
+            a1[0, 0] = 1;
+            a1[1, 0] = 1;
+            var qwe = a1 * Vector4.One;
+
+            var m1 =  Matrix4.CreateRotationX((float)Math.PI / 2) * Matrix4.CreateRotationY((float)Math.PI / 2);
+            //var m1 = Matrix4.CreateRotationY((float)Math.PI / 2);
+            var m2 = Matrix4.CreateRotationY((float)Math.PI / 2) * Matrix4.CreateRotationX((float)Math.PI / 2);
+
+            var v = new Vector4(1, 0, 0, 1);
+            var a = m1 * v;
+            var a2 =  v*m1;
+            var b = m2 * v;
+            var b2 = v * m2;
+
+
+            var mat =  Matrix4.CreateRotationY(_rotation.Y)*Matrix4.CreateRotationZ(_rotation.Z)* Matrix4.CreateRotationX(_rotation.X);
+            var aa = mat * new Vector4(4, 0, 0, 1);
+            var rot = mat * new Vector4(rotation, 1);
+            var rotationMatrix = Matrix4.CreateRotationX(rot.X) * Matrix4.CreateRotationY(rot.Y) * Matrix4.CreateRotationZ(rot.Z); ;
             foreach (var item in GetObjects())
             {
-                item.Position += matrix.ExtractTranslation();
-                item.Rotation += matrix.ExtractRotation().Xyz;
+                var a11 = new Vector4(item.Position - _position, 1);
+                var rotated = rotationMatrix * new Vector4(item.Position - _position, 1);
+                item.Position = _position + rotated.Xyz;
+                item.Rotation += -rotation;
             }
+            _rotation += rotation;
         }
 
         public Vector3 GetScale()
@@ -60,10 +82,10 @@ namespace GK3D.Graphics.Objects
             foreach (var item in GetObjects())
             {
                 item.Scale = scale;
-                item.Position += (item.Position - _position) * scale;
+                item.Position = _position + (item.Position - _position) * scale;
             }
         }
-        public void Scale(Vector3 scale)
+        public void MultiplyScale(Vector3 scale)
         {
             SetScale(_scale * scale);
         }

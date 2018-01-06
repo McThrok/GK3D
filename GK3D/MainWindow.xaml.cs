@@ -46,13 +46,13 @@ namespace GK3D
             var size = new System.Drawing.Size(Convert.ToInt32(SystemParameters.PrimaryScreenWidth - 2 * Left - Width), Convert.ToInt32(Height));
 
             Task.Factory.StartNew(() =>
-            {
-                _game = new Game();
-                _game.Location = location;
-                _game.Size = size;
-                _game.Run(30, 30);
-            });
-            
+          {
+              _game = new Game();
+              _game.Location = location;
+              _game.Size = size;
+              _game.Run(30, 30);
+          });
+
         }
 
         private void cameraChangeButton_Click(object sender, RoutedEventArgs e)

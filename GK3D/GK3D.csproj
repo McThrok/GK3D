@@ -15,7 +15,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -75,7 +75,9 @@
     <Compile Include="Graphics\Game.cs" />
     <Compile Include="Graphics\Light.cs" />
     <Compile Include="Graphics\Material.cs" />
+    <Compile Include="Graphics\Matrix4Extension.cs" />
     <Compile Include="Graphics\Objects\ComplexObject.cs" />
+    <Compile Include="Graphics\Objects\ColoredCube.cs" />
     <Compile Include="Graphics\Objects\Cube.cs" />
     <Compile Include="Graphics\Objects\IcoSphere.cs" />
     <Compile Include="Graphics\Objects\ObjVolume.cs" />
