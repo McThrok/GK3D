@@ -37,12 +37,12 @@ namespace GK3D.Graphics
             //_scene = new MainScene();
             var testScene = new TestScene();
             _scene = testScene;
+            _scene.Load();
             SceneController = new TestSceneController(testScene);
             _frameManeger = new FrameManager();
             _frameManeger.Scene = _scene;
             _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
 
-            _scene.Load();
 
             Mouse.ButtonUp += (s, ee) => isMouseDown = false;
             Mouse.ButtonDown += (s, ee) =>
@@ -90,22 +90,22 @@ namespace GK3D.Graphics
             switch (e.KeyChar)
             {
                 case 'w':
-                    camm.Move(0f, 0.1f, 0f);
+                    camm.MoveWithSeparatedY(0f, 0f, 0.1f);
                     break;
                 case 'a':
-                    camm.Move(-0.1f, 0f, 0f);
+                    camm.MoveWithSeparatedY(0.1f, 0f, 0f);
                     break;
                 case 's':
-                    camm.Move(0f, -0.1f, 0f);
+                    camm.MoveWithSeparatedY(0f, 0f, -0.1f);
                     break;
                 case 'd':
-                    camm.Move(0.1f, 0f, 0f);
+                    camm.MoveWithSeparatedY(-0.1f, 0f, 0f);
                     break;
                 case 'q':
-                    camm.Move(0f, 0f, 0.1f);
+                    camm.MoveWithSeparatedY(0f, 0.1f, 0f);
                     break;
                 case 'e':
-                    camm.Move(0f, 0f, -0.1f);
+                    camm.MoveWithSeparatedY(0f, -0.1f, 0f);
                     break;
             }
         }

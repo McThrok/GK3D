@@ -2,6 +2,7 @@
 using OpenTK;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,33 +12,36 @@ namespace GK3D.Graphics
     public class Camera : GameObject
     {
         public float MoveSpeed = 0.2f;
-        public float MouseSensitivity = 0.01f;
-        public Camera()
-        {
-            Rotation = new Vector3((float)Math.PI, 0f, 0f);
-        }
+        public float MouseSensitivity = 0.005f;
 
         public Matrix4 GetViewMatrix()
         {
-            Vector3 lookat = new Vector3();
+            Vector4 lookat = new Vector4(Vector3.UnitZ, 1);
+            Vector4 up = new Vector4(Vector3.UnitY, 1);
 
-            lookat.X = (float)(Math.Sin((float)Rotation.X) * Math.Cos((float)Rotation.Y));
-            lookat.Y = (float)Math.Sin((float)Rotation.Y);
-            lookat.Z = (float)(Math.Cos((float)Rotation.X) * Math.Cos((float)Rotation.Y));
+            //X*Y does not work
+            //lookat = Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * lookat;
+            lookat = Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationX(Rotation.X) * lookat;
+            up = Matrix4.CreateRotationZ(Rotation.Z) * up;
 
-            return Matrix4.LookAt(Position, Position + lookat, Vector3.UnitY);
+            return Matrix4.LookAt(Position, Position + lookat.Xyz, up.Xyz);
         }
         public void Move(float x, float y, float z)
         {
-            Vector3 offset = new Vector3();
+            Vector4 offset4 = new Vector4(x, y, z, 1);
+            offset4 = Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationZ(Rotation.Z) * offset4;
 
-            Vector3 forward = new Vector3((float)Math.Sin((float)Rotation.X), 0, (float)Math.Cos((float)Rotation.X));
-            Vector3 right = new Vector3(-forward.Z, 0, forward.X);
+            var offset = offset4.Xyz;
+            offset.NormalizeFast();
+            offset = Vector3.Multiply(offset, MoveSpeed);
 
-            offset += x * right;
-            offset += y * forward;
-            offset.Y += z;
+            Position += offset;
+        }
+        public void MoveWithSeparatedY(float x, float y, float z)
+        {
+            var direction = Matrix4.CreateRotationY(Rotation.Y) * new Vector4(x, 0, z, 1);
 
+            var offset = new Vector3(direction.X, y, direction.Z);
             offset.NormalizeFast();
             offset = Vector3.Multiply(offset, MoveSpeed);
 
@@ -47,9 +51,8 @@ namespace GK3D.Graphics
         {
             x *= MouseSensitivity;
             y *= MouseSensitivity;
-
-            Rotation.X = (Rotation.X + x) % ((float)Math.PI * 2.0f);
-            Rotation.Y = Math.Max(Math.Min(Rotation.Y + y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
+            Rotation.Y = (Rotation.Y + x) % ((float)Math.PI * 2.0f);
+            Rotation.X = Math.Max(Math.Min(Rotation.X + y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
         }
     }
 }
