@@ -31,6 +31,11 @@ namespace GK3D.Graphics.SceneComponents.Test
             collection.Shaders.Add("lit_mat", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_mat.glsl", "Graphics\\Resources\\Shaders\\fs_lit_mat.glsl", true));
             collection.ActiveShader = collection.Shaders.Values.FirstOrDefault();
 
+            Capsule2D capsule = new Capsule2D(1, new Vector3(1, 1, 0), 1);
+            capsule.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            capsule.Position = new Vector3(0, 0, -3f);
+            capsule.CalculateNormals();
+            collection.Objects.Add("cap", capsule);
 
 
             Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
@@ -42,10 +47,6 @@ namespace GK3D.Graphics.SceneComponents.Test
             cubex.CalculateNormals();
             collection.Objects.Add("x", cubex);
 
-            Capsule2D capsule = new Capsule2D(1, new Vector3(1, 1,0),1);
-            capsule.Position = new Vector3(0, 0, -3f);
-            capsule.CalculateNormals();
-            collection.Objects.Add("cap", capsule);
 
             Cube center = new ColoredCube(new Vector3(0, 0, 1))
             {

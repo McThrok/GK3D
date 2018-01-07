@@ -158,11 +158,9 @@ namespace GK3D.Graphics
             {
                 verts.AddRange(v.GetVerts().ToList());
                 inds.AddRange(v.GetIndices(vertcount).ToList());
-                //colors.AddRange(v.GetColorData().ToList());
-                colors.AddRange(v.GetColorData().ToList().Select(x => new Vector3(0, 0, 1)));
+                colors.AddRange(v.GetColorData().ToList());
                 texcoords.AddRange(v.GetTextureCoords());
-                //normals.AddRange(v.GetNormals().ToList());
-                normals.AddRange(v.GetNormals().ToList().Select(x=>new Vector3(0,0,1)));
+                normals.AddRange(v.GetNormals().ToList());
                 vertcount += v.VertCount;
             }
 
