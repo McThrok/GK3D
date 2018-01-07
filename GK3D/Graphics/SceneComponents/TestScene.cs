@@ -9,31 +9,33 @@ using System.Windows.Media.Media3D;
 
 namespace GK3D.Graphics.SceneComponents
 {
-    public class TestScene : Scene
+    public class TestSceneLoader : SceneLoader
     {
-        public TestScene() : base() { }
+        public TestSceneLoader() : base() { }
 
-        public override void Load()
+        public override SceneCollection Load()
         {
-            Collection = new SceneCollection();
-            Collection.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
+
+            var collection = new SceneCollection();
+
+            collection.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
             Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1);
             spotLight2.Type = LightType.Spot;
             spotLight2.Rotation = new Vector3(0, 1.0f, 0).Normalized();
             spotLight2.ConeAngle = 10f;
-            Collection.Lights.Add("spotLight2", spotLight2);
+            collection.Lights.Add("spotLight2", spotLight2);
 
-            ActiveLights = Collection.Lights.Values.FirstOrDefault();
+            collection.ActiveLights = collection.Lights.Values.FirstOrDefault();
 
             // Load shaders from file
-            Collection.Shaders.Add("lit_mat", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_mat.glsl", "Graphics\\Resources\\Shaders\\fs_lit_mat.glsl", true));
-            ActiveShader = Collection.Shaders.Values.FirstOrDefault();
+            collection.Shaders.Add("lit_mat", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_mat.glsl", "Graphics\\Resources\\Shaders\\fs_lit_mat.glsl", true));
+            collection.ActiveShader = collection.Shaders.Values.FirstOrDefault();
 
             // Create our objects
             ObjVolume cow = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\test.obj");
             cow.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
            // cow.Scale = new Vector3(0.01f);
-            Collection.Objects.Add("cow", cow);
+            collection.Objects.Add("cow", cow);
 
 
 
@@ -96,25 +98,18 @@ namespace GK3D.Graphics.SceneComponents
             Camera cam = new Camera();
             cam.Position += new Vector3(0, 0f, 7f);
             cam.Rotation = new Vector3(0f, (float)Math.PI, 0f);
-            Collection.Cameras.Add("mainCamera", cam);
+            collection.Cameras.Add("mainCamera", cam);
 
 
             Camera secondCamera = new Camera();
             secondCamera.Position = new Vector3(0f, 8f, 0);
             secondCamera.Rotation = new Vector3(-(float)Math.PI / 2 + 0.1f, (float)Math.PI, 0f);
-            Collection.Cameras.Add("secondCamera", secondCamera);
+            collection.Cameras.Add("secondCamera", secondCamera);
 
 
-            ActiveCamera = Collection.Cameras.Values.FirstOrDefault();
+            collection.ActiveCamera = collection.Cameras.Values.FirstOrDefault();
+
+            return collection;
         }
-
-        public override void SetStart()
-        {
-        }
-        public override void Process(float deltaTime)
-        {
-          //  Collection.ComplexObjects["co"].Rotate(new Vector3(0, 0, 0.1f));
-        }
-
     }
 }

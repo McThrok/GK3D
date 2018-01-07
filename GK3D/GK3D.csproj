@@ -82,9 +82,10 @@
     <Compile Include="Graphics\Objects\ObjVolume.cs" />
     <Compile Include="Graphics\Objects\TexturedCube.cs" />
     <Compile Include="Graphics\Objects\Volume.cs" />
+    <Compile Include="Graphics\SceneComponents\SceneScenario.cs" />
     <Compile Include="Graphics\SceneComponents\TestScene.cs" />
     <Compile Include="Graphics\SceneComponents\MainScene.cs" />
-    <Compile Include="Graphics\SceneComponents\Scene.cs" />
+    <Compile Include="Graphics\SceneComponents\SceneLoader.cs" />
     <Compile Include="Graphics\SceneComponents\SceneCollection.cs" />
     <Compile Include="Graphics\SceneController.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />

@@ -17,5 +17,10 @@ namespace GK3D.Graphics.SceneComponents
         public Dictionary<string, Volume> Objects { get; private set; } = new Dictionary<string, Volume>();
         public Dictionary<string, Camera> Cameras { get; private set; } = new Dictionary<string, Camera>();
         public Dictionary<string, ComplexObject> ComplexObjects { get; private set; } = new Dictionary<string, ComplexObject>();
+
+        public ShaderProgram ActiveShader { get; set; }
+        public Camera ActiveCamera { get; set; }
+        public Light ActiveLights { get; set; }
     }
+
 }

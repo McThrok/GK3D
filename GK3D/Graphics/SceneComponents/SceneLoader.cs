@@ -11,16 +11,9 @@ using System.Drawing.Imaging;
 
 namespace GK3D.Graphics.SceneComponents
 {
-    public abstract class Scene
+    public abstract class SceneLoader
     {
-        public SceneCollection Collection { get; set; } = new SceneCollection();
-        public ShaderProgram ActiveShader { get; set; }
-        public Camera ActiveCamera { get; set; }
-        public Light ActiveLights { get; set; }
-
-        public abstract void Load();
-        public abstract void SetStart();
-        public abstract void Process(float deltaTime);
+        public abstract SceneCollection Load();
 
         protected int LoadImage(string filename)
         {
@@ -45,41 +38,41 @@ namespace GK3D.Graphics.SceneComponents
 
             return texID;
         }
-        protected void LoadMaterials(string filename)
+        protected void LoadMaterials(SceneCollection collection, string filename)
         {
             foreach (var mat in Material.LoadFromFile(filename))
             {
-                if (!Collection.Materials.ContainsKey(mat.Key))
+                if (!collection.Materials.ContainsKey(mat.Key))
                 {
-                    Collection.Materials.Add(mat.Key, mat.Value);
+                    collection.Materials.Add(mat.Key, mat.Value);
                 }
             }
 
-            foreach (Material mat in Collection.Materials.Values)
+            foreach (Material mat in collection.Materials.Values)
             {
-                if (File.Exists(mat.AmbientMap) && !Collection.Textures.ContainsKey(mat.AmbientMap))
+                if (File.Exists(mat.AmbientMap) && !collection.Textures.ContainsKey(mat.AmbientMap))
                 {
-                    Collection.Textures.Add(mat.AmbientMap, LoadImage(mat.AmbientMap));
+                    collection.Textures.Add(mat.AmbientMap, LoadImage(mat.AmbientMap));
                 }
 
-                if (File.Exists(mat.DiffuseMap) && !Collection.Textures.ContainsKey(mat.DiffuseMap))
+                if (File.Exists(mat.DiffuseMap) && !collection.Textures.ContainsKey(mat.DiffuseMap))
                 {
-                    Collection.Textures.Add(mat.DiffuseMap, LoadImage(mat.DiffuseMap));
+                    collection.Textures.Add(mat.DiffuseMap, LoadImage(mat.DiffuseMap));
                 }
 
-                if (File.Exists(mat.SpecularMap) && !Collection.Textures.ContainsKey(mat.SpecularMap))
+                if (File.Exists(mat.SpecularMap) && !collection.Textures.ContainsKey(mat.SpecularMap))
                 {
-                    Collection.Textures.Add(mat.SpecularMap, LoadImage(mat.SpecularMap));
+                    collection.Textures.Add(mat.SpecularMap, LoadImage(mat.SpecularMap));
                 }
 
-                if (File.Exists(mat.NormalMap) && !Collection.Textures.ContainsKey(mat.NormalMap))
+                if (File.Exists(mat.NormalMap) && !collection.Textures.ContainsKey(mat.NormalMap))
                 {
-                    Collection.Textures.Add(mat.NormalMap, LoadImage(mat.NormalMap));
+                    collection.Textures.Add(mat.NormalMap, LoadImage(mat.NormalMap));
                 }
 
-                if (File.Exists(mat.OpacityMap) && !Collection.Textures.ContainsKey(mat.OpacityMap))
+                if (File.Exists(mat.OpacityMap) && !collection.Textures.ContainsKey(mat.OpacityMap))
                 {
-                    Collection.Textures.Add(mat.OpacityMap, LoadImage(mat.OpacityMap));
+                    collection.Textures.Add(mat.OpacityMap, LoadImage(mat.OpacityMap));
                 }
             }
         }

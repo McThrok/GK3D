@@ -9,24 +9,34 @@ namespace GK3D.Graphics
 {
     public abstract class SceneController
     {
+        public SceneLoader Loader { get; set; }
+        public SceneScenario Scenario { get; set; }
+        public SceneCollection Collection { get; set; }
+
+
         public abstract void ChangeCamera();
+
+        public SceneController(SceneLoader loader = null, SceneScenario scenario = null)
+        {
+            Loader = loader;
+            Scenario = scenario;
+            Collection = Loader.Load();
+        }
     }
     public class TestSceneController : SceneController
     {
-        private TestScene _scene;
-        public TestSceneController(TestScene scene)
-        {
-            _scene = scene;
-        }
+        public TestSceneController(SceneLoader loader = null, SceneScenario scenario = null) : base(loader, scenario)
+        { }
+
         public override void ChangeCamera()
         {
-            if (_scene.ActiveCamera != null)
+            if (Collection.ActiveCamera != null)
             {
-                var activeCam = _scene.Collection.Cameras.SingleOrDefault(x => x.Value == _scene.ActiveCamera);
+                var activeCam = Collection.Cameras.SingleOrDefault(x => x.Value == Collection.ActiveCamera);
                 if (activeCam.Value != null)
                 {
-                    var cameraList = _scene.Collection.Cameras.ToList();
-                    _scene.ActiveCamera = cameraList[(cameraList.IndexOf(activeCam) + 1) % cameraList.Count].Value;
+                    var cameraList = Collection.Cameras.ToList();
+                    Collection.ActiveCamera = cameraList[(cameraList.IndexOf(activeCam) + 1) % cameraList.Count].Value;
                 }
             }
         }

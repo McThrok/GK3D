@@ -19,7 +19,6 @@ namespace GK3D.Graphics
     {
         public SceneController SceneController { get; private set; }
 
-        private Scene _scene;
         private FrameManager _frameManeger;
         private Vector2 _lastMousePos;
         private float _time = 0.0f;
@@ -34,12 +33,9 @@ namespace GK3D.Graphics
             base.OnLoad(e);
 
             //_scene = new MainScene();
-            var testScene = new TestScene();
-            _scene = testScene;
-            _scene.Load();
-            SceneController = new TestSceneController(testScene);
+            SceneController = new TestSceneController(new TestSceneLoader(),new TestSceneScenario());
             _frameManeger = new FrameManager();
-            _frameManeger.Scene = _scene;
+            _frameManeger.Collection = SceneController.Collection;
             _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
 
 
@@ -66,7 +62,7 @@ namespace GK3D.Graphics
         {
             base.OnUpdateFrame(e);
             _time += (float)e.Time;
-            _scene.Process((float)e.Time);
+            SceneController.Scenario.Process((float)e.Time);
             UpdateActiveCamera();
             _frameManeger.UpdateFrame(ClientSize.Width / (float)ClientSize.Height);
         }
@@ -77,14 +73,14 @@ namespace GK3D.Graphics
                 Vector2 delta = _lastMousePos - new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
                 _lastMousePos += delta;
 
-                _scene.ActiveCamera.AddRotation(delta.X, delta.Y);
+                SceneController.Collection.ActiveCamera.AddRotation(delta.X, delta.Y);
                 ResetCursor();
             }
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
-            var camm = _scene.ActiveCamera;
+            var camm = SceneController.Collection.ActiveCamera;
             base.OnKeyPress(e);
             switch (e.KeyChar)
             {

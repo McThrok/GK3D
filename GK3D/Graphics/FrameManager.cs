@@ -14,7 +14,7 @@ namespace GK3D.Graphics
     {
         private const int MaxLight = 30; //taken from shader
 
-        public Scene Scene { get; set; }
+        public SceneCollection Collection { get; set; }
         private Matrix4 _viewCameraMatrix;
         private int _iboElements;
 
@@ -27,112 +27,112 @@ namespace GK3D.Graphics
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
-            GL.UseProgram(Scene.ActiveShader.ProgramID);
-            Scene.ActiveShader.EnableVertexAttribArrays();
+            GL.UseProgram(Collection.ActiveShader.ProgramID);
+            Collection.ActiveShader.EnableVertexAttribArrays();
 
             int indiceat = 0;
-            var lights = Scene.Collection.Lights.Values.ToList();
+            var lights = Collection.Lights.Values.ToList();
 
-            foreach (var v in Scene.Collection.Objects.Values)
+            foreach (var v in Collection.Objects.Values)
             {
                 GL.BindTexture(TextureTarget.Texture2D, v.TextureID);
 
-                GL.UniformMatrix4(Scene.ActiveShader.GetUniform("modelviewproj"), false, ref v.ModelViewProjectionMatrix);
+                GL.UniformMatrix4(Collection.ActiveShader.GetUniform("modelviewproj"), false, ref v.ModelViewProjectionMatrix);
 
-                if (Scene.ActiveShader.GetUniform("maintexture") != -1)
+                if (Collection.ActiveShader.GetUniform("maintexture") != -1)
                 {
-                    GL.Uniform1(Scene.ActiveShader.GetUniform("maintexture"), 0);
+                    GL.Uniform1(Collection.ActiveShader.GetUniform("maintexture"), 0);
                 }
 
-                if (Scene.ActiveShader.GetUniform("viewPos") != -1)
+                if (Collection.ActiveShader.GetUniform("viewPos") != -1)
                 {
-                    GL.Uniform3(Scene.ActiveShader.GetUniform("viewPos"), ref Scene.ActiveCamera.Position);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("viewPos"), ref Collection.ActiveCamera.Position);
                 }
 
-                if (Scene.ActiveShader.GetUniform("view") != -1)
+                if (Collection.ActiveShader.GetUniform("view") != -1)
                 {
-                    GL.UniformMatrix4(Scene.ActiveShader.GetUniform("view"), false, ref _viewCameraMatrix);
+                    GL.UniformMatrix4(Collection.ActiveShader.GetUniform("view"), false, ref _viewCameraMatrix);
                 }
 
-                if (Scene.ActiveShader.GetUniform("model") != -1)
+                if (Collection.ActiveShader.GetUniform("model") != -1)
                 {
-                    GL.UniformMatrix4(Scene.ActiveShader.GetUniform("model"), false, ref v.ModelMatrix);
+                    GL.UniformMatrix4(Collection.ActiveShader.GetUniform("model"), false, ref v.ModelMatrix);
                 }
 
-                if (Scene.ActiveShader.GetUniform("material_ambient") != -1)
+                if (Collection.ActiveShader.GetUniform("material_ambient") != -1)
                 {
-                    GL.Uniform3(Scene.ActiveShader.GetUniform("material_ambient"), ref v.Material.AmbientColor);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_ambient"), ref v.Material.AmbientColor);
                 }
 
-                if (Scene.ActiveShader.GetUniform("material_diffuse") != -1)
+                if (Collection.ActiveShader.GetUniform("material_diffuse") != -1)
                 {
-                    GL.Uniform3(Scene.ActiveShader.GetUniform("material_diffuse"), ref v.Material.DiffuseColor);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_diffuse"), ref v.Material.DiffuseColor);
                 }
 
-                if (Scene.ActiveShader.GetUniform("material_specular") != -1)
+                if (Collection.ActiveShader.GetUniform("material_specular") != -1)
                 {
-                    GL.Uniform3(Scene.ActiveShader.GetUniform("material_specular"), ref v.Material.SpecularColor);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_specular"), ref v.Material.SpecularColor);
                 }
 
-                if (Scene.ActiveShader.GetUniform("material_specExponent") != -1)
+                if (Collection.ActiveShader.GetUniform("material_specExponent") != -1)
                 {
-                    GL.Uniform1(Scene.ActiveShader.GetUniform("material_specExponent"), v.Material.SpecularExponent);
+                    GL.Uniform1(Collection.ActiveShader.GetUniform("material_specExponent"), v.Material.SpecularExponent);
                 }
 
-                if (Scene.ActiveShader.GetUniform("light_position") != -1)
+                if (Collection.ActiveShader.GetUniform("light_position") != -1)
                 {
-                    GL.Uniform3(Scene.ActiveShader.GetUniform("light_position"), Scene.ActiveLights.Position);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("light_position"), Collection.ActiveLights.Position);
                 }
 
-                if (Scene.ActiveShader.GetUniform("light_color") != -1)
+                if (Collection.ActiveShader.GetUniform("light_color") != -1)
                 {
-                    GL.Uniform3(Scene.ActiveShader.GetUniform("light_color"), ref Scene.ActiveLights.Color);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("light_color"), ref Collection.ActiveLights.Color);
                 }
 
-                if (Scene.ActiveShader.GetUniform("light_diffuseIntensity") != -1)
+                if (Collection.ActiveShader.GetUniform("light_diffuseIntensity") != -1)
                 {
-                    GL.Uniform1(Scene.ActiveShader.GetUniform("light_diffuseIntensity"), Scene.ActiveLights.DiffuseIntensity);
+                    GL.Uniform1(Collection.ActiveShader.GetUniform("light_diffuseIntensity"), Collection.ActiveLights.DiffuseIntensity);
                 }
 
-                if (Scene.ActiveShader.GetUniform("light_ambientIntensity") != -1)
+                if (Collection.ActiveShader.GetUniform("light_ambientIntensity") != -1)
                 {
-                    GL.Uniform1(Scene.ActiveShader.GetUniform("light_ambientIntensity"), Scene.ActiveLights.AmbientIntensity);
+                    GL.Uniform1(Collection.ActiveShader.GetUniform("light_ambientIntensity"), Collection.ActiveLights.AmbientIntensity);
                 }
 
                 for (int i = 0; i < Math.Min(lights.Count, MaxLight); i++)
                 {
-                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].position") != -1)
+                    if (Collection.ActiveShader.GetUniform("lights[" + i + "].position") != -1)
                     {
-                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].position"), lights[i].Position);
+                        GL.Uniform3(Collection.ActiveShader.GetUniform("lights[" + i + "].position"), lights[i].Position);
                     }
 
-                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].color") != -1)
+                    if (Collection.ActiveShader.GetUniform("lights[" + i + "].color") != -1)
                     {
-                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].color"), lights[i].Color);
+                        GL.Uniform3(Collection.ActiveShader.GetUniform("lights[" + i + "].color"), lights[i].Color);
                     }
 
-                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].diffuseIntensity") != -1)
+                    if (Collection.ActiveShader.GetUniform("lights[" + i + "].diffuseIntensity") != -1)
                     {
-                        GL.Uniform1(Scene.ActiveShader.GetUniform("lights[" + i + "].diffuseIntensity"), lights[i].DiffuseIntensity);
+                        GL.Uniform1(Collection.ActiveShader.GetUniform("lights[" + i + "].diffuseIntensity"), lights[i].DiffuseIntensity);
                     }
 
-                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].ambientIntensity") != -1)
+                    if (Collection.ActiveShader.GetUniform("lights[" + i + "].ambientIntensity") != -1)
                     {
-                        GL.Uniform1(Scene.ActiveShader.GetUniform("lights[" + i + "].ambientIntensity"), lights[i].AmbientIntensity);
+                        GL.Uniform1(Collection.ActiveShader.GetUniform("lights[" + i + "].ambientIntensity"), lights[i].AmbientIntensity);
                     }
-                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].direction") != -1)
+                    if (Collection.ActiveShader.GetUniform("lights[" + i + "].direction") != -1)
                     {
-                        GL.Uniform3(Scene.ActiveShader.GetUniform("lights[" + i + "].direction"), lights[i].Rotation);
-                    }
-
-                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].type") != -1)
-                    {
-                        GL.Uniform1(Scene.ActiveShader.GetUniform("lights[" + i + "].type"), (int)lights[i].Type);
+                        GL.Uniform3(Collection.ActiveShader.GetUniform("lights[" + i + "].direction"), lights[i].Rotation);
                     }
 
-                    if (Scene.ActiveShader.GetUniform("lights[" + i + "].coneAngle") != -1)
+                    if (Collection.ActiveShader.GetUniform("lights[" + i + "].type") != -1)
                     {
-                        GL.Uniform1(Scene.ActiveShader.GetUniform("lights[" + i + "].coneAngle"), lights[i].ConeAngle);
+                        GL.Uniform1(Collection.ActiveShader.GetUniform("lights[" + i + "].type"), (int)lights[i].Type);
+                    }
+
+                    if (Collection.ActiveShader.GetUniform("lights[" + i + "].coneAngle") != -1)
+                    {
+                        GL.Uniform1(Collection.ActiveShader.GetUniform("lights[" + i + "].coneAngle"), lights[i].ConeAngle);
                     }
                 }
 
@@ -140,7 +140,7 @@ namespace GK3D.Graphics
                 indiceat += v.IndiceCount;
             }
 
-            Scene.ActiveShader.DisableVertexAttribArrays();
+            Collection.ActiveShader.DisableVertexAttribArrays();
             GL.Flush();
         }
         public void UpdateFrame(float aspect)
@@ -153,7 +153,7 @@ namespace GK3D.Graphics
 
             // Assemble vertex and indice data for all volumes
             int vertcount = 0;
-            foreach (var v in Scene.Collection.Objects.Values)
+            foreach (var v in Collection.Objects.Values)
             {
                 verts.AddRange(v.GetVerts().ToList());
                 inds.AddRange(v.GetIndices(vertcount).ToList());
@@ -163,46 +163,46 @@ namespace GK3D.Graphics
                 vertcount += v.VertCount;
             }
 
-            GL.BindBuffer(BufferTarget.ArrayBuffer, Scene.ActiveShader.GetBuffer("vPosition"));
+            GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vPosition"));
 
             GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(verts.Count * Vector3.SizeInBytes), verts.ToArray(), BufferUsageHint.StaticDraw);
-            GL.VertexAttribPointer(Scene.ActiveShader.GetAttribute("vPosition"), 3, VertexAttribPointerType.Float, false, 0, 0);
+            GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vPosition"), 3, VertexAttribPointerType.Float, false, 0, 0);
 
             // Buffer vertex color if shader supports it
-            if (Scene.ActiveShader.GetAttribute("vColor") != -1)
+            if (Collection.ActiveShader.GetAttribute("vColor") != -1)
             {
-                GL.BindBuffer(BufferTarget.ArrayBuffer, Scene.ActiveShader.GetBuffer("vColor"));
+                GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vColor"));
                 GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(colors.Count * Vector3.SizeInBytes), colors.ToArray(), BufferUsageHint.StaticDraw);
-                GL.VertexAttribPointer(Scene.ActiveShader.GetAttribute("vColor"), 3, VertexAttribPointerType.Float, true, 0, 0);
+                GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vColor"), 3, VertexAttribPointerType.Float, true, 0, 0);
             }
 
 
             // Buffer texture coordinates if shader supports it
-            if (Scene.ActiveShader.GetAttribute("texcoord") != -1)
+            if (Collection.ActiveShader.GetAttribute("texcoord") != -1)
             {
-                GL.BindBuffer(BufferTarget.ArrayBuffer, Scene.ActiveShader.GetBuffer("texcoord"));
+                GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("texcoord"));
                 GL.BufferData<Vector2>(BufferTarget.ArrayBuffer, (IntPtr)(texcoords.Count * Vector2.SizeInBytes), texcoords.ToArray(), BufferUsageHint.StaticDraw);
-                GL.VertexAttribPointer(Scene.ActiveShader.GetAttribute("texcoord"), 2, VertexAttribPointerType.Float, true, 0, 0);
+                GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("texcoord"), 2, VertexAttribPointerType.Float, true, 0, 0);
             }
 
-            if (Scene.ActiveShader.GetAttribute("vNormal") != -1)
+            if (Collection.ActiveShader.GetAttribute("vNormal") != -1)
             {
-                GL.BindBuffer(BufferTarget.ArrayBuffer, Scene.ActiveShader.GetBuffer("vNormal"));
+                GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vNormal"));
                 GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(normals.Count * Vector3.SizeInBytes), normals.ToArray(), BufferUsageHint.StaticDraw);
-                GL.VertexAttribPointer(Scene.ActiveShader.GetAttribute("vNormal"), 3, VertexAttribPointerType.Float, true, 0, 0);
+                GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vNormal"), 3, VertexAttribPointerType.Float, true, 0, 0);
             }
 
             // Update object positions
 
             // Update model view matrices
-            foreach (var v in Scene.Collection.Objects.Values)
+            foreach (var v in Collection.Objects.Values)
             {
                 v.CalculateModelMatrix();
-                v.ViewProjectionMatrix = Scene.ActiveCamera.GetViewMatrix() * Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 40.0f);
+                v.ViewProjectionMatrix = Collection.ActiveCamera.GetViewMatrix() * Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 40.0f);
                 v.ModelViewProjectionMatrix = v.ModelMatrix * v.ViewProjectionMatrix;
             }
 
-            GL.UseProgram(Scene.ActiveShader.ProgramID);
+            GL.UseProgram(Collection.ActiveShader.ProgramID);
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 
@@ -211,7 +211,7 @@ namespace GK3D.Graphics
             GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(inds.Count * sizeof(int)), inds.ToArray(), BufferUsageHint.StaticDraw);
 
 
-            _viewCameraMatrix = Scene.ActiveCamera.GetViewMatrix();
+            _viewCameraMatrix = Collection.ActiveCamera.GetViewMatrix();
 
 
         }
