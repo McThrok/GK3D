@@ -67,11 +67,6 @@ namespace GK3D.Graphics.Objects
             return new Vector3[ColorDataCount];
         }
 
-        public override void CalculateModelMatrix()
-        {
-            ModelMatrix = Matrix4.Scale(Scale) * Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationZ(Rotation.Z) * Matrix4.CreateTranslation(Position);
-        }
-
         public static ObjVolume LoadFromFile(string filename)
         {
             ObjVolume obj = new ObjVolume();

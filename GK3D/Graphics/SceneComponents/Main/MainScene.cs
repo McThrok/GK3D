@@ -1,4 +1,5 @@
 ﻿using GK3D.Graphics.Objects;
+using GK3D.Graphics.SceneComponents.Base;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GK3D.Graphics.SceneComponents
+namespace GK3D.Graphics.SceneComponents.Main
 {
     public class MainScene : SceneLoader
     {

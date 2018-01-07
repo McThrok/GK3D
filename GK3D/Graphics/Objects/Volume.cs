@@ -32,7 +32,10 @@ namespace GK3D.Graphics.Objects
         public abstract Vector3[] GetVerts();
         public abstract int[] GetIndices(int offset = 0);
         public abstract Vector3[] GetColorData();
-        public abstract void CalculateModelMatrix();
+        public virtual void CalculateModelMatrix()
+        {
+            ModelMatrix = Matrix4.Scale(Scale) * Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationZ(Rotation.Z) * Matrix4.CreateTranslation(Position);
+        }
 
         public void CalculateNormals()
         {

@@ -76,18 +76,21 @@
     <Compile Include="Graphics\Light.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\Matrix4Extension.cs" />
+    <Compile Include="Graphics\Objects\Capsule2D.cs" />
     <Compile Include="Graphics\Objects\ComplexObject.cs" />
     <Compile Include="Graphics\Objects\ColoredCube.cs" />
     <Compile Include="Graphics\Objects\Cube.cs" />
     <Compile Include="Graphics\Objects\ObjVolume.cs" />
     <Compile Include="Graphics\Objects\TexturedCube.cs" />
     <Compile Include="Graphics\Objects\Volume.cs" />
-    <Compile Include="Graphics\SceneComponents\SceneScenario.cs" />
-    <Compile Include="Graphics\SceneComponents\TestScene.cs" />
-    <Compile Include="Graphics\SceneComponents\MainScene.cs" />
-    <Compile Include="Graphics\SceneComponents\SceneLoader.cs" />
-    <Compile Include="Graphics\SceneComponents\SceneCollection.cs" />
-    <Compile Include="Graphics\SceneController.cs" />
+    <Compile Include="Graphics\SceneComponents\Base\SceneScenario.cs" />
+    <Compile Include="Graphics\SceneComponents\Test\TestScene.cs" />
+    <Compile Include="Graphics\SceneComponents\Main\MainScene.cs" />
+    <Compile Include="Graphics\SceneComponents\Base\SceneLoader.cs" />
+    <Compile Include="Graphics\SceneComponents\Base\SceneCollection.cs" />
+    <Compile Include="Graphics\SceneComponents\Base\SceneController.cs" />
+    <Compile Include="Graphics\SceneComponents\Test\TestSceneController.cs" />
+    <Compile Include="Graphics\SceneComponents\Test\TestSceneScenario.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

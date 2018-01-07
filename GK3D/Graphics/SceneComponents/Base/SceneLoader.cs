@@ -9,7 +9,7 @@ using OpenTK;
 using OpenTK.Graphics.OpenGL;
 using System.Drawing.Imaging;
 
-namespace GK3D.Graphics.SceneComponents
+namespace GK3D.Graphics.SceneComponents.Base
 {
     public abstract class SceneLoader
     {

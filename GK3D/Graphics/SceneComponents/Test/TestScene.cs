@@ -1,4 +1,5 @@
 ﻿using GK3D.Graphics.Objects;
+using GK3D.Graphics.SceneComponents.Base;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace GK3D.Graphics.SceneComponents
+namespace GK3D.Graphics.SceneComponents.Test
 {
     public class TestSceneLoader : SceneLoader
     {
@@ -15,7 +16,6 @@ namespace GK3D.Graphics.SceneComponents
 
         public override SceneCollection Load()
         {
-
             var collection = new SceneCollection();
 
             collection.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
@@ -31,12 +31,6 @@ namespace GK3D.Graphics.SceneComponents
             collection.Shaders.Add("lit_mat", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_mat.glsl", "Graphics\\Resources\\Shaders\\fs_lit_mat.glsl", true));
             collection.ActiveShader = collection.Shaders.Values.FirstOrDefault();
 
-            // Create our objects
-            ObjVolume cow = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\test.obj");
-            cow.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
-           // cow.Scale = new Vector3(0.01f);
-            collection.Objects.Add("cow", cow);
-
 
 
             Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
@@ -46,25 +40,12 @@ namespace GK3D.Graphics.SceneComponents
                 Rotation = new Vector3(0, 0, 0)
             };
             cubex.CalculateNormals();
-            // Collection.Objects.Add("x", cubex);
+            collection.Objects.Add("x", cubex);
 
-            Cube cubey = new ColoredCube(new Vector3(1, 0, 0))
-            {
-                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(0, 5f, 0),
-                Rotation = new Vector3(0, 0, 0)
-            };
-            cubey.CalculateNormals();
-            // Collection.Objects.Add("y", cubey);
-
-            Cube cubez = new ColoredCube(new Vector3(0, 1, 0))
-            {
-                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(0, 0, 3.5f),
-                Rotation = new Vector3(0, 0, 0)
-            };
-            cubez.CalculateNormals();
-            //Collection.Objects.Add("z", cubez);
+            Capsule2D capsule = new Capsule2D(1, new Vector3(1, 1,0),1);
+            capsule.Position = new Vector3(0, 0, -3f);
+            capsule.CalculateNormals();
+            collection.Objects.Add("cap", capsule);
 
             Cube center = new ColoredCube(new Vector3(0, 0, 1))
             {
@@ -74,7 +55,7 @@ namespace GK3D.Graphics.SceneComponents
                 Scale = new Vector3(3f, 3f, 3f)
             };
             center.CalculateNormals();
-           // Collection.Objects.Add("center", center);
+            // Collection.Objects.Add("center", center);
 
 
 

@@ -7,6 +7,7 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics;
 using OpenTK;
 using GK3D.Graphics.SceneComponents;
+using GK3D.Graphics.SceneComponents.Base;
 
 namespace GK3D.Graphics
 {
@@ -157,9 +158,11 @@ namespace GK3D.Graphics
             {
                 verts.AddRange(v.GetVerts().ToList());
                 inds.AddRange(v.GetIndices(vertcount).ToList());
-                colors.AddRange(v.GetColorData().ToList());
+                //colors.AddRange(v.GetColorData().ToList());
+                colors.AddRange(v.GetColorData().ToList().Select(x => new Vector3(0, 0, 1)));
                 texcoords.AddRange(v.GetTextureCoords());
-                normals.AddRange(v.GetNormals().ToList());
+                //normals.AddRange(v.GetNormals().ToList());
+                normals.AddRange(v.GetNormals().ToList().Select(x=>new Vector3(0,0,1)));
                 vertcount += v.VertCount;
             }
 

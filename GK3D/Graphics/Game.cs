@@ -12,6 +12,8 @@ using OpenTK.Input;
 using System.Drawing.Imaging;
 using GK3D.Graphics.Objects;
 using GK3D.Graphics.SceneComponents;
+using GK3D.Graphics.SceneComponents.Test;
+using GK3D.Graphics.SceneComponents.Base;
 
 namespace GK3D.Graphics
 {
@@ -53,9 +55,7 @@ namespace GK3D.Graphics
         {
             base.OnRenderFrame(e);
             GL.Viewport(0, 0, Width, Height);
-
             _frameManeger.RenderFrame();
-
             SwapBuffers();
         }
         protected override void OnUpdateFrame(FrameEventArgs e)

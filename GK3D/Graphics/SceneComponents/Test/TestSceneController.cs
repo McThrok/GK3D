@@ -1,28 +1,12 @@
-﻿using GK3D.Graphics.SceneComponents;
+﻿using GK3D.Graphics.SceneComponents.Base;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GK3D.Graphics
+namespace GK3D.Graphics.SceneComponents.Test
 {
-    public abstract class SceneController
-    {
-        public SceneLoader Loader { get; set; }
-        public SceneScenario Scenario { get; set; }
-        public SceneCollection Collection { get; set; }
-
-
-        public abstract void ChangeCamera();
-
-        public SceneController(SceneLoader loader = null, SceneScenario scenario = null)
-        {
-            Loader = loader;
-            Scenario = scenario;
-            Collection = Loader.Load();
-        }
-    }
     public class TestSceneController : SceneController
     {
         public TestSceneController(SceneLoader loader = null, SceneScenario scenario = null) : base(loader, scenario)
@@ -41,5 +25,4 @@ namespace GK3D.Graphics
             }
         }
     }
-
 }
