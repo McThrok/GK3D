@@ -127,6 +127,9 @@
     <None Include="Graphics\Resources\Models\Low-Poly-Racing-Car.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Graphics\Resources\Models\StreetLamp.obj">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Graphics\Resources\Models\teapot.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

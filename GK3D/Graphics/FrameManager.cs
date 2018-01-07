@@ -80,26 +80,6 @@ namespace GK3D.Graphics
                     GL.Uniform1(Collection.ActiveShader.GetUniform("material_specExponent"), v.Material.SpecularExponent);
                 }
 
-                if (Collection.ActiveShader.GetUniform("light_position") != -1)
-                {
-                    GL.Uniform3(Collection.ActiveShader.GetUniform("light_position"), Collection.ActiveLights.Position);
-                }
-
-                if (Collection.ActiveShader.GetUniform("light_color") != -1)
-                {
-                    GL.Uniform3(Collection.ActiveShader.GetUniform("light_color"), ref Collection.ActiveLights.Color);
-                }
-
-                if (Collection.ActiveShader.GetUniform("light_diffuseIntensity") != -1)
-                {
-                    GL.Uniform1(Collection.ActiveShader.GetUniform("light_diffuseIntensity"), Collection.ActiveLights.DiffuseIntensity);
-                }
-
-                if (Collection.ActiveShader.GetUniform("light_ambientIntensity") != -1)
-                {
-                    GL.Uniform1(Collection.ActiveShader.GetUniform("light_ambientIntensity"), Collection.ActiveLights.AmbientIntensity);
-                }
-
                 for (int i = 0; i < Math.Min(lights.Count, MaxLight); i++)
                 {
                     if (Collection.ActiveShader.GetUniform("lights[" + i + "].position") != -1)

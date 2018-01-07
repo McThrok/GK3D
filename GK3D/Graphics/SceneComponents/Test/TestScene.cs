@@ -31,42 +31,48 @@ namespace GK3D.Graphics.SceneComponents.Test
             collection.Shaders.Add("lit_mat", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_lit_mat.glsl", "Graphics\\Resources\\Shaders\\fs_lit_mat.glsl", true));
             collection.ActiveShader = collection.Shaders.Values.FirstOrDefault();
 
-            Capsule2D capsule = new Capsule2D(1, new Vector3(1, 1, 0), 1);
-            capsule.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
-            capsule.Position = new Vector3(0, 0, -3f);
-            capsule.CalculateNormals();
-            collection.Objects.Add("cap", capsule);
+            var lamp = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\Low-Poly-Racing-Car.obj");
+            lamp.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            lamp.Scale = new Vector3(0.01f, 0.01f, 0.01f);
+            collection.Objects.Add(nameof(lamp),lamp);
 
 
-            Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
-            {
-                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(2f, 0, 0),
-                Rotation = new Vector3(0, 0, 0)
-            };
-            cubex.CalculateNormals();
-            collection.Objects.Add("x", cubex);
+            //Capsule2D capsule = new Capsule2D(1, new Vector3(1, 1, 0), 1);
+            //capsule.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            //capsule.Position = new Vector3(0, 0, -3f);
+            //capsule.CalculateNormals();
+            //collection.Objects.Add("cap", capsule);
 
 
-            Cube center = new ColoredCube(new Vector3(0, 0, 1))
-            {
-                Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(0, 0, 0),
-                Rotation = new Vector3(0, 0, 0),
-                Scale = new Vector3(3f, 3f, 3f)
-            };
-            center.CalculateNormals();
-            // Collection.Objects.Add("center", center);
+            //Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
+            //{
+            //    Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+            //    Position = new Vector3(2f, 0, 0),
+            //    Rotation = new Vector3(0, 0, 0)
+            //};
+            //cubex.CalculateNormals();
+            //collection.Objects.Add("x", cubex);
+
+
+            //Cube center = new ColoredCube(new Vector3(0, 0, 1))
+            //{
+            //    Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5),
+            //    Position = new Vector3(0, 0, 0),
+            //    Rotation = new Vector3(0, 0, 0),
+            //    Scale = new Vector3(3f, 3f, 3f)
+            //};
+            //center.CalculateNormals();
+            //Collection.Objects.Add("center", center);
 
 
 
-            Cube car = new ColoredCube(new Vector3(1, 1, 1))
-            {
-                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(2f, 2f, 2f),
-                Rotation = new Vector3(0, 0, 0)
-            };
-            car.CalculateNormals();
+            //Cube car = new ColoredCube(new Vector3(1, 1, 1))
+            //{
+            //    Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+            //    Position = new Vector3(2f, 2f, 2f),
+            //    Rotation = new Vector3(0, 0, 0)
+            //};
+            //car.CalculateNormals();
             //Collection.Objects.Add("car", car);
 
             //ComplexObject co = new ComplexObject();
