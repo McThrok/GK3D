@@ -118,46 +118,55 @@
     <None Include="Graphics\Resources\Materials\opentk.mtl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Models\cow.obj">
+    <None Include="Graphics\Resources\Models\_test_cow.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Models\earth.obj">
+    <None Include="Graphics\Resources\Models\_test_earth.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Models\Low-Poly-Racing-Car.obj">
+    <None Include="Graphics\Resources\Models\racing_car.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Models\StreetLamp.obj">
+    <None Include="Graphics\Resources\Models\mario.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Models\teapot.obj">
+    <None Include="Graphics\Resources\Models\street_lamp.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Models\test.obj">
+    <None Include="Graphics\Resources\Models\_test_teapot.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\fs.glsl">
+    <None Include="Graphics\Resources\Models\_test_test.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\fs_lit_mat.glsl">
+    <None Include="Graphics\Resources\Shaders\old\fs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\fs_lit_color.glsl">
+    <None Include="Graphics\Resources\Shaders\fs_color.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\fs_lit.glsl">
+    <None Include="Graphics\Resources\Shaders\old\fs_lit_color.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\vs.glsl">
+    <None Include="Graphics\Resources\Shaders\old\fs_lit.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\vs_lit_mat.glsl">
+    <None Include="Graphics\Resources\Shaders\old\vs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\vs_lit_color.glsl">
+    <None Include="Graphics\Resources\Shaders\fs_texture.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\vs_lit.glsl">
+    <None Include="Graphics\Resources\Shaders\vs_texture.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\Resources\Shaders\vs_color.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\Resources\Shaders\old\vs_lit_color.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Graphics\Resources\Shaders\old\vs_lit.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="OpenTK.dll.config" />
@@ -170,6 +179,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Graphics\Resources\Textures\mario _mime.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Graphics\Resources\Textures\mario_fire.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Graphics\Resources\Textures\mario_main.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,6 +3,7 @@
 in vec3 vPosition;
 in vec3 vColor;  
 in vec3 vNormal;
+
 out vec3 v_norm;
 out vec3 v_pos;
 out vec4 color;
