@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Common
 {
-    public class FaceVertexInd
+    public struct FaceVertexInd
     {
         public int Vertex;
         public int Normal;

@@ -12,17 +12,18 @@ namespace GK3D.Graphics.Objects
     public class ObjVolume : Volume
     {
 
-        private List<Tuple<FaceVertex, FaceVertex, FaceVertex>> faces = new List<Tuple<FaceVertex, FaceVertex, FaceVertex>>();
+        public List<Tuple<FaceVertex, FaceVertex, FaceVertex>> faces = new List<Tuple<FaceVertex, FaceVertex, FaceVertex>>();
 
-        public override int VertCount { get => faces.Count * 3; }
-        public override int IndiceCount { get => faces.Count * 3; }
-        public override int ColorDataCount { get => faces.Count * 3; }
-        public override int TextureCoordsCount { get { return faces.Count * 3; } }
-
+        public override int VertCount { get => faces.Count*3; }
+        public override int IndiceCount { get => VertCount; }
+        public override int ColorDataCount { get => VertCount; }
+        public override int TextureCoordsCount { get => VertCount; }
+        public override int NormalCount { get => VertCount; }
         public override int[] GetIndices(int offset = 0)
         {
             return Enumerable.Range(offset, IndiceCount).ToArray();
         }
+
         public override Vector3[] GetVerts()
         {
             List<Vector3> verts = new List<Vector3>();
@@ -36,10 +37,6 @@ namespace GK3D.Graphics.Objects
 
             return verts.ToArray();
         }
-        public override Vector3[] GetColorData()
-        {
-            return new Vector3[ColorDataCount];
-        }
         public override Vector2[] GetTextureCoords()
         {
             List<Vector2> coords = new List<Vector2>();
@@ -52,6 +49,24 @@ namespace GK3D.Graphics.Objects
 
             return coords.ToArray();
         }
+        public override Vector3[] GetNormals()
+        {
+            List<Vector3> normals = new List<Vector3>();
+
+            foreach (var face in faces)
+            {
+                normals.Add(face.Item1.Normal);
+                normals.Add(face.Item2.Normal);
+                normals.Add(face.Item3.Normal);
+            }
+
+            return normals.ToArray();
+        }
+        public override Vector3[] GetColorData()
+        {
+            return new Vector3[ColorDataCount];
+        }
+
         public override void CalculateModelMatrix()
         {
             ModelMatrix = Matrix4.Scale(Scale) * Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationZ(Rotation.Z) * Matrix4.CreateTranslation(Position);
@@ -87,7 +102,7 @@ namespace GK3D.Graphics.Objects
             List<Vector3> verts = new List<Vector3>();
             List<Vector3> normals = new List<Vector3>();
             List<Vector2> texs = new List<Vector2>();
-            List<Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>> faces = new List<Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>>();
+            List<FaceInd> faceInds = new List<FaceInd>();
 
             // Base values
             verts.Add(new Vector3());
@@ -190,60 +205,29 @@ namespace GK3D.Graphics.Objects
                     // Cut off beginning of line
                     String temp = line.Substring(2);
 
-                    Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd> face = new Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>(new FaceVertexInd(), new FaceVertexInd(), new FaceVertexInd());
-
-                    if (temp.Trim().Count((char c) => c == ' ') == 2) // Check if there's enough elements for a face
+                    //Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd> face = new Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>(new FaceVertexInd(), new FaceVertexInd(), new FaceVertexInd());
+                    FaceInd face = new FaceInd();
+                    if (temp.Trim().Count((char c) => c == ' ') >= 2) // Check if there's enough elements for a face
                     {
                         String[] faceparts = temp.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                        bool success = true;
 
-                        int v1, v2, v3;
-                        int t1, t2, t3;
-                        int n1, n2, n3;
-
-                        // Attempt to parse each part of the face
-                        bool success = int.TryParse(faceparts[0].Split('/')[0], out v1);
-                        success |= int.TryParse(faceparts[1].Split('/')[0], out v2);
-                        success |= int.TryParse(faceparts[2].Split('/')[0], out v3);
-
-                        if (faceparts[0].Count((char c) => c == '/') >= 2)
+                        foreach (var facepart in faceparts)
                         {
-                            success |= int.TryParse(faceparts[0].Split('/')[1], out t1);
-                            success |= int.TryParse(faceparts[1].Split('/')[1], out t2);
-                            success |= int.TryParse(faceparts[2].Split('/')[1], out t3);
-                            success |= int.TryParse(faceparts[0].Split('/')[2], out n1);
-                            success |= int.TryParse(faceparts[1].Split('/')[2], out n2);
-                            success |= int.TryParse(faceparts[2].Split('/')[2], out n3);
-                        }
-                        else
-                        {
-                            if (texs.Count > v1 && texs.Count > v2 && texs.Count > v3)
+                            int v, t, n;
+                            success |= int.TryParse(facepart.Split('/')[0], out v);
+                            if (faceparts[0].Count((char c) => c == '/') >= 2)
                             {
-                                t1 = v1;
-                                t2 = v2;
-                                t3 = v3;
+                                success |= int.TryParse(facepart.Split('/')[1], out t);
+                                success |= int.TryParse(facepart.Split('/')[2], out n);
                             }
                             else
                             {
-                                t1 = 0;
-                                t2 = 0;
-                                t3 = 0;
+                                t = texs.Count > v ? v : 0;
+                                n = normals.Count > v ? v : 0;
                             }
-
-
-                            if (normals.Count > v1 && normals.Count > v2 && normals.Count > v3)
-                            {
-                                n1 = v1;
-                                n2 = v2;
-                                n3 = v3;
-                            }
-                            else
-                            {
-                                n1 = 0;
-                                n2 = 0;
-                                n3 = 0;
-                            }
+                            face.Vertices.Add(new FaceVertexInd(v, n, t));
                         }
-
 
                         // If any of the parses failed, report the error
                         if (!success)
@@ -252,11 +236,7 @@ namespace GK3D.Graphics.Objects
                         }
                         else
                         {
-                            FaceVertexInd tv1 = new FaceVertexInd(v1, n1, t1);
-                            FaceVertexInd tv2 = new FaceVertexInd(v2, n2, t2);
-                            FaceVertexInd tv3 = new FaceVertexInd(v3, n3, t3);
-                            face = new Tuple<FaceVertexInd, FaceVertexInd, FaceVertexInd>(tv1, tv2, tv3);
-                            faces.Add(face);
+                            faceInds.Add(face);
                         }
                     }
                     else
@@ -269,44 +249,30 @@ namespace GK3D.Graphics.Objects
             // Create the ObjVolume
             ObjVolume vol = new ObjVolume();
 
-            foreach (var face in faces)
+            foreach (var faceInd in faceInds)
             {
-                FaceVertex v1 = new FaceVertex(verts[face.Item1.Vertex], normals[face.Item1.Normal], texs[face.Item1.Texcoord]);
-                FaceVertex v2 = new FaceVertex(verts[face.Item2.Vertex], normals[face.Item2.Normal], texs[face.Item2.Texcoord]);
-                FaceVertex v3 = new FaceVertex(verts[face.Item3.Vertex], normals[face.Item3.Normal], texs[face.Item3.Texcoord]);
 
-                vol.faces.Add(new Tuple<FaceVertex, FaceVertex, FaceVertex>(v1, v2, v3));
+                if (faceInd.Vertices.Count >= 3)
+                {
+                    var start = new FaceVertex(verts[faceInd.Vertices[0].Vertex], normals[faceInd.Vertices[0].Normal], texs[faceInd.Vertices[0].Texcoord]);
+                    var prev = new FaceVertex(verts[faceInd.Vertices[1].Vertex], normals[faceInd.Vertices[1].Normal], texs[faceInd.Vertices[1].Texcoord]);
+                    foreach (var faceVertexInd in faceInd.Vertices.Skip(2))
+                    {
+                        var current = new FaceVertex(verts[faceVertexInd.Vertex], normals[faceVertexInd.Normal], texs[faceVertexInd.Texcoord]);
+                        vol.faces.Add(new Tuple<FaceVertex, FaceVertex, FaceVertex>(start,prev,current));
+                        prev = current;
+
+                    }
+
+                }
             }
 
             return vol;
         }
 
 
-        public override Vector3[] GetNormals()
-        {
-            if (base.GetNormals().Length > 0)
-            {
-                return base.GetNormals();
-            }
+       
 
-            List<Vector3> normals = new List<Vector3>();
-
-            foreach (var face in faces)
-            {
-                normals.Add(face.Item1.Normal);
-                normals.Add(face.Item2.Normal);
-                normals.Add(face.Item3.Normal);
-            }
-
-            return normals.ToArray();
-        }
-
-        public override int NormalCount
-        {
-            get
-            {
-                return faces.Count * 3;
-            }
-        }
+     
     }
 }

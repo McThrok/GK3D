@@ -30,6 +30,13 @@ namespace GK3D.Graphics.SceneComponents
             ActiveShader = Collection.Shaders.Values.FirstOrDefault();
 
             // Create our objects
+            ObjVolume cow = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\test.obj");
+            cow.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+           // cow.Scale = new Vector3(0.01f);
+            Collection.Objects.Add("cow", cow);
+
+
+
             Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
             {
                 Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
@@ -37,7 +44,7 @@ namespace GK3D.Graphics.SceneComponents
                 Rotation = new Vector3(0, 0, 0)
             };
             cubex.CalculateNormals();
-           // Collection.Objects.Add("x", cubex);
+            // Collection.Objects.Add("x", cubex);
 
             Cube cubey = new ColoredCube(new Vector3(1, 0, 0))
             {
@@ -46,7 +53,7 @@ namespace GK3D.Graphics.SceneComponents
                 Rotation = new Vector3(0, 0, 0)
             };
             cubey.CalculateNormals();
-           // Collection.Objects.Add("y", cubey);
+            // Collection.Objects.Add("y", cubey);
 
             Cube cubez = new ColoredCube(new Vector3(0, 1, 0))
             {
@@ -61,28 +68,28 @@ namespace GK3D.Graphics.SceneComponents
             {
                 Material = new Material(new Vector3(0.15f), new Vector3(1), new Vector3(0.2f), 5),
                 Position = new Vector3(0, 0, 0),
-                Rotation = new Vector3(0, 0, 0)
+                Rotation = new Vector3(0, 0, 0),
+                Scale = new Vector3(3f, 3f, 3f)
             };
             center.CalculateNormals();
-            center.Scale = new Vector3(3f, 3f, 3f);
-            Collection.Objects.Add("center", center);
+           // Collection.Objects.Add("center", center);
 
 
 
             Cube car = new ColoredCube(new Vector3(1, 1, 1))
             {
                 Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(2f,2f,2f),
+                Position = new Vector3(2f, 2f, 2f),
                 Rotation = new Vector3(0, 0, 0)
             };
             car.CalculateNormals();
-            Collection.Objects.Add("car", car);
+            //Collection.Objects.Add("car", car);
 
-            ComplexObject co = new ComplexObject();
-            co.Objects.Add("car", Collection.Objects["car"]);
-            co.Objects.Add("center", Collection.Objects["center"]);
-             co.Rotate(new Vector3(0, (float) Math.PI/16,0 ));
-            Collection.ComplexObjects.Add("co", co);
+            //ComplexObject co = new ComplexObject();
+            //co.Objects.Add("car", Collection.Objects["car"]);
+            //co.Objects.Add("center", Collection.Objects["center"]);
+            //co.Rotate(new Vector3(0, (float)Math.PI / 16, 0));
+            //Collection.ComplexObjects.Add("co", co);
 
 
             //Move camera away from origin
@@ -106,7 +113,7 @@ namespace GK3D.Graphics.SceneComponents
         }
         public override void Process(float deltaTime)
         {
-            Collection.ComplexObjects["co"].Rotate(new Vector3(0,0,0.1f));
+          //  Collection.ComplexObjects["co"].Rotate(new Vector3(0, 0, 0.1f));
         }
 
     }

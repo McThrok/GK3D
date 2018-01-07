@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Common
 {
-    public class FaceVertex
+    public struct FaceVertex
     {
         public Vector3 Position;
         public Vector3 Normal;
@@ -20,4 +20,5 @@ namespace GK3D.Graphics.Common
             TextureCoord = texcoord;
         }
     }
+
 }
