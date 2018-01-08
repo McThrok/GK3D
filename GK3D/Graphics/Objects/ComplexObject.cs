@@ -49,7 +49,7 @@ namespace GK3D.Graphics.Objects
                 tuples.AddRange(obj.GetPrimitivesWiThGlobalModelMatrices());
             tuples.AddRange(Primitives.Values.Select(x => new KeyValuePair<Primitive, Matrix4>(x, x.CalculateModelMatrix())));
 
-            var updatedTuples = tuples.Select(x => new KeyValuePair<Primitive, Matrix4>(x.Key, matrix * x.Value));
+            var updatedTuples = tuples.Select(x => new KeyValuePair<Primitive, Matrix4>(x.Key, x.Value* matrix ));
             return updatedTuples;
         }
     }

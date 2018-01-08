@@ -179,6 +179,7 @@ namespace GK3D.Graphics
             foreach (var v in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
                 v.Key.CalculateModelMatrix();
+                v.Key.ModelMatrix = v.Value;
                 v.Key.ViewProjectionMatrix = Collection.ActiveCamera.GetViewMatrix() * Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 40.0f);
                 v.Key.ModelViewProjectionMatrix = v.Key.ModelMatrix * v.Key.ViewProjectionMatrix;
             }

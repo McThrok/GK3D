@@ -38,16 +38,16 @@ namespace GK3D.Graphics.SceneComponents.Test
             //car.Scale = new Vector3(0.05f, 0.05f, 0.05f);
             //collection.Objects.Add(nameof(car), car);
 
-            collection.Textures.Add("mario_main", LoadImage("Graphics\\Resources\\Textures\\mario_main.png"));
-            var mario = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\mario.obj");
-            //mario.Material = collection.Materials["mario"];
-            //mario.TextureID =collection.Textures[ collection.Materials["mario"].DiffuseMap];
-            mario.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
-            mario.TextureID = collection.Textures["mario_main"];
-            //mario.IsTextured = true;
-            //mario.Scale = new Vector3(2f, 0.5f, 0.5f);
-            mario.Rotation = new Vector3(-(float)Math.PI / 2, (float)Math.PI,0);
-            collection.SceneObjects.Primitives.Add(nameof(mario), mario);
+            //collection.Textures.Add("mario_main", LoadImage("Graphics\\Resources\\Textures\\mario_main.png"));
+            //var mario = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\mario.obj");
+            ////mario.Material = collection.Materials["mario"];
+            ////mario.TextureID =collection.Textures[ collection.Materials["mario"].DiffuseMap];
+            //mario.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            //mario.TextureID = collection.Textures["mario_main"];
+            ////mario.IsTextured = true;
+            ////mario.Scale = new Vector3(2f, 0.5f, 0.5f);
+            //mario.Rotation = new Vector3(-(float)Math.PI / 2, (float)Math.PI,0);
+            //collection.SceneObjects.Primitives.Add(nameof(mario), mario);
 
 
             //Capsule2D capsule = new Capsule2D(1, new Vector3(1, 1, 0), 1);
@@ -57,15 +57,53 @@ namespace GK3D.Graphics.SceneComponents.Test
             //collection.Objects.Add("cap", capsule);
 
 
-            //Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
-            //{
-            //    Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-            //    Position = new Vector3(2f, 0, 0),
-            //    Rotation = new Vector3(0, 0, 0)
-            //};
-            //cubex.CalculateNormals();
-            //collection.Objects.Add("x", cubex);
 
+            Cube center = new ColoredCube(new Vector3(1,0 , 0))
+            {
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+                Position = new Vector3(0, 0, 0),
+                Rotation = new Vector3(0, 0, 0)
+            };
+            center.CalculateNormals();
+            collection.SceneObjects.Primitives.Add("center", center);
+
+            var com = new ComplexObject();
+            com.Position = new Vector3(0, 1, 0);
+            com.Rotation = new Vector3(0, (float)Math.PI / 16, 0);
+
+            Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
+            {
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+                Position = new Vector3(1f, 0, 0),
+                Rotation = new Vector3(0, (float)Math.PI / 16, 0)
+            };
+            cubex.CalculateNormals();
+            com.Primitives.Add("x", cubex);
+
+            Cube cubexx = new ColoredCube(new Vector3(1, 1, 0))
+            {
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+                Position = new Vector3(-1f, 0, 0),
+                Rotation = new Vector3(0, 0, 0)
+            };
+            cubexx.CalculateNormals();
+            com.Primitives.Add("xx", cubexx);
+
+
+            var com2 = new ComplexObject();
+            collection.SceneObjects.ComplexObjects.Add("com2", com2);
+            com2.Position = new Vector3(1, 0, 0);
+            com2.Rotation = new Vector3(0, (float)Math.PI / 16, 0);
+
+            Cube qwe = new ColoredCube(new Vector3(1, 1, 0))
+            {
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+                Position = new Vector3(-2f, 0, 0),
+                Rotation = new Vector3(0, 0, 0)
+            };
+            qwe.CalculateNormals();
+            com2.Primitives.Add("xx", qwe);
+            com2.ComplexObjects.Add("xxx", com);
 
             //Cube center = new ColoredCube(new Vector3(0, 0, 1))
             //{
