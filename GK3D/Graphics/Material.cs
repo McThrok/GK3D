@@ -1,6 +1,7 @@
 ﻿using OpenTK;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -86,11 +87,11 @@ namespace GK3D.Graphics
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("File not found: {0}", filename);
+                Debug.WriteLine("File not found: {0}", filename);
             }
             catch (Exception)
             {
-                Console.WriteLine("Error loading file: {0}", filename);
+                Debug.WriteLine("Error loading file: {0}", filename);
             }
 
             return mats;
@@ -148,7 +149,7 @@ namespace GK3D.Graphics
                     // If any of the parses failed, report the error
                     if (!success)
                     {
-                        Console.WriteLine("Error parsing color: {0}", line);
+                        Debug.WriteLine("Error parsing color: {0}", line);
                     }
                 }
 
@@ -175,7 +176,7 @@ namespace GK3D.Graphics
                     // If any of the parses failed, report the error
                     if (!success)
                     {
-                        Console.WriteLine("Error parsing color: {0}", line);
+                        Debug.WriteLine("Error parsing color: {0}", line);
                     }
                 }
 
@@ -202,7 +203,7 @@ namespace GK3D.Graphics
                     // If any of the parses failed, report the error
                     if (!success)
                     {
-                        Console.WriteLine("Error parsing color: {0}", line);
+                        Debug.WriteLine("Error parsing color: {0}", line);
                     }
                 }
 
@@ -218,7 +219,7 @@ namespace GK3D.Graphics
                     // If any of the parses failed, report the error
                     if (!success)
                     {
-                        Console.WriteLine("Error parsing specular exponent: {0}", line);
+                        Debug.WriteLine("Error parsing specular exponent: {0}", line);
                     }
                 }
 

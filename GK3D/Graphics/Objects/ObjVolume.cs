@@ -2,6 +2,7 @@
 using OpenTK;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -79,11 +80,11 @@ namespace GK3D.Graphics.Objects
             }
             catch (FileNotFoundException e)
             {
-                Console.WriteLine("File not found: {0}", filename);
+                Debug.WriteLine("File not found: {0}", filename);
             }
             catch (Exception e)
             {
-                Console.WriteLine("Error loading file: {0}", filename);
+                Debug.WriteLine("Error loading file: {0}", filename);
             }
 
             return obj;
@@ -128,12 +129,12 @@ namespace GK3D.Graphics.Objects
                         // If any of the parses failed, report the error
                         if (!success)
                         {
-                            Console.WriteLine("Error parsing vertex: {0}", line);
+                            Debug.WriteLine("Error parsing vertex: {0}", line);
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Error parsing vertex: {0}", line);
+                        Debug.WriteLine("Error parsing vertex: {0}", line);
                     }
 
                     verts.Add(vec);
@@ -156,12 +157,12 @@ namespace GK3D.Graphics.Objects
                         // If any of the parses failed, report the error
                         if (!success)
                         {
-                            Console.WriteLine("Error parsing texture coordinate: {0}", line);
+                            Debug.WriteLine("Error parsing texture coordinate: {0}", line);
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Error parsing texture coordinate: {0}", line);
+                        Debug.WriteLine("Error parsing texture coordinate: {0}", line);
                     }
 
                     texs.Add(vec);
@@ -185,12 +186,12 @@ namespace GK3D.Graphics.Objects
                         // If any of the parses failed, report the error
                         if (!success)
                         {
-                            Console.WriteLine("Error parsing normal: {0}", line);
+                            Debug.WriteLine("Error parsing normal: {0}", line);
                         }
                     }
                     else
                     {
-                        Console.WriteLine("Error parsing normal: {0}", line);
+                        Debug.WriteLine("Error parsing normal: {0}", line);
                     }
 
                     normals.Add(vec);
@@ -227,7 +228,7 @@ namespace GK3D.Graphics.Objects
                         // If any of the parses failed, report the error
                         if (!success)
                         {
-                            Console.WriteLine("Error parsing face: {0}", line);
+                            Debug.WriteLine("Error parsing face: {0}", line);
                         }
                         else
                         {
@@ -236,7 +237,7 @@ namespace GK3D.Graphics.Objects
                     }
                     else
                     {
-                        Console.WriteLine("Error parsing face: {0}", line);
+                        Debug.WriteLine("Error parsing face: {0}", line);
                     }
                 }
             }

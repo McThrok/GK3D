@@ -1,6 +1,7 @@
 ﻿using OpenTK.Graphics.OpenGL;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -63,7 +64,7 @@ namespace GK3D.Graphics
             GL.ShaderSource(address, code);
             GL.CompileShader(address);
             GL.AttachShader(ProgramID, address);
-            Console.WriteLine(GL.GetShaderInfoLog(address));
+            Debug.WriteLine(GL.GetShaderInfoLog(address));
         }
         public void LoadShaderFromString(string code, ShaderType type)
         {
@@ -85,7 +86,7 @@ namespace GK3D.Graphics
         public void Link()
         {
             GL.LinkProgram(ProgramID);
-            Console.WriteLine(GL.GetProgramInfoLog(ProgramID));
+            Debug.WriteLine(GL.GetProgramInfoLog(ProgramID));
             GL.GetProgram(ProgramID, ProgramParameter.ActiveAttributes, out AttributeCount);
             GL.GetProgram(ProgramID, ProgramParameter.ActiveUniforms, out UniformCount);
 
