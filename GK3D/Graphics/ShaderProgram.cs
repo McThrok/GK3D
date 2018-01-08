@@ -85,7 +85,7 @@ namespace GK3D.Graphics
         }
         public void Link()
         {
-                GL.LinkProgram(ProgramID);
+            GL.LinkProgram(ProgramID);
             Debug.WriteLine(GL.GetProgramInfoLog(ProgramID));
             GL.GetProgram(ProgramID, ProgramParameter.ActiveAttributes, out AttributeCount);
             GL.GetProgram(ProgramID, ProgramParameter.ActiveUniforms, out UniformCount);
