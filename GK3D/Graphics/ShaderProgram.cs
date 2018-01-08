@@ -40,6 +40,7 @@ namespace GK3D.Graphics
         {
             ProgramID = GL.CreateProgram();
         }
+      
         public ShaderProgram(string vshader, string fshader, bool fromFile = false)
         {
             ProgramID = GL.CreateProgram();
@@ -159,6 +160,5 @@ namespace GK3D.Graphics
             else
                 return 0;
         }
-
     }
 }

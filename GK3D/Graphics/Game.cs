@@ -23,22 +23,19 @@ namespace GK3D.Graphics
 
         private FrameManager _frameManeger;
         private Vector2 _lastMousePos;
-        private float _time = 0.0f;
         private bool isMouseDown;
 
         public Game() : base(512, 512, new GraphicsMode(32, 24, 0, 4), "Game")
         {
         }
-
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-
             //_scene = new MainScene();
-            SceneController = new TestSceneController(new TestSceneLoader(),new TestSceneScenario());
+            SceneController = new TestSceneController(new TestSceneLoader(), new TestSceneScenario());
             _frameManeger = new FrameManager();
             _frameManeger.Collection = SceneController.Collection;
-            _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
+            //_lastMousePos = new Vector2(Mouse.X, Mouse.Y);
 
 
             Mouse.ButtonUp += (s, ee) => isMouseDown = false;
@@ -61,10 +58,8 @@ namespace GK3D.Graphics
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            _time += (float)e.Time;
             SceneController.Scenario.Process((float)e.Time);
             UpdateActiveCamera();
-           // _frameManeger.UpdateFrame(ClientSize.Width / (float)ClientSize.Height);
         }
         private void UpdateActiveCamera()
         {

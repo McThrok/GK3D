@@ -21,7 +21,7 @@ namespace GK3D.Graphics
 
         public FrameManager()
         {
-            GL.GenBuffers(1, out _iboElements);
+            //_iboElements = GL.GenBuffer();
         }
 
         public void RenderFrame(float aspect)
@@ -29,43 +29,43 @@ namespace GK3D.Graphics
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
 
-            var view = Collection.ActiveCamera.GetViewMatrix();
-            var projection = Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 80.0f);
+            //var view = Collection.ActiveCamera.GetViewMatrix();
+            //var projection = Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 80.0f);
 
-            foreach (var primitive in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
-            {
-                var shader = primitive.Key.IsTextured ? Collection.Shaders["colored"] : Collection.Shaders["colored"];
-                GL.UseProgram(shader.ProgramID);
-                shader.EnableVertexAttribArrays();
+            //foreach (var primitive in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
+            //{
+            //    var shader = primitive.Key.IsTextured ? Collection.Shaders["colored"] : Collection.Shaders["colored"];
+            //    GL.UseProgram(shader.ProgramID);
+            //    shader.EnableVertexAttribArrays();
 
-                GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+            //     GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
 
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, _iboElements);
-                var inds = primitive.Key.GetIndices().ToArray();
-                GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(inds.Length * sizeof(int)), inds, BufferUsageHint.StaticDraw);
+            //    GL.BindBuffer(BufferTarget.ElementArrayBuffer, _iboElements);
+            //    var inds = primitive.Key.GetIndices().ToArray();
+            //    GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(inds.Length * sizeof(int)), inds, BufferUsageHint.StaticDraw);
 
 
-                GL.UniformMatrix4(shader.GetUniform("projection"), false, ref projection);
+            //    GL.UniformMatrix4(shader.GetUniform("projection"), false, ref projection);
 
-                GL.BindTexture(TextureTarget.Texture2D, primitive.Key.TextureID);
-                if (shader.GetUniform("maintexture") != -1)
-                {
-                    GL.Uniform1(shader.GetUniform("maintexture"), 0);
-                }
+            //    GL.BindTexture(TextureTarget.Texture2D, primitive.Key.TextureID);
+            //    if (shader.GetUniform("maintexture") != -1)
+            //    {
+            //        GL.Uniform1(shader.GetUniform("maintexture"), 0);
+            //    }
 
-                if (shader.GetUniform("model") != -1)
-                {
-                    var modelMatrix = primitive.Value;
-                    GL.UniformMatrix4(shader.GetUniform("model"), false, ref modelMatrix);
-                }
+            //    if (shader.GetUniform("model") != -1)
+            //    {
+            //        var modelMatrix = primitive.Value;
+            //        GL.UniformMatrix4(shader.GetUniform("model"), false, ref modelMatrix);
+            //    }
 
-                LoadPrimitiveData(shader, primitive.Key);
-                LoadCamera(shader, view, Collection.ActiveCamera.Position);
-                LoadLights(shader, Collection.SceneObjects.Lights.Values.ToList());
+            //    LoadPrimitiveData(shader, primitive.Key);
+            //    LoadCamera(shader, view, Collection.ActiveCamera.Position);
+            //    LoadLights(shader, Collection.SceneObjects.Lights.Values.ToList());
 
-                GL.DrawElements(BeginMode.Triangles, primitive.Key.IndiceCount, DrawElementsType.UnsignedInt, 0);
-                shader.DisableVertexAttribArrays();
-            }
+            //    GL.DrawElements(BeginMode.Triangles, primitive.Key.IndiceCount, DrawElementsType.UnsignedInt, 0);
+            //    shader.DisableVertexAttribArrays();
+            //}
 
             GL.Flush();
         }
@@ -181,5 +181,6 @@ namespace GK3D.Graphics
             }
 
         }
+
     }
 }

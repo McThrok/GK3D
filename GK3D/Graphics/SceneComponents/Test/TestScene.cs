@@ -18,7 +18,7 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
             var collection = new SceneCollection();
 
-            LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
+           // LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
             collection.SceneObjects.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
             Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1)
