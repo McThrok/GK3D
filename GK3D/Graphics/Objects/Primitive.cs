@@ -25,9 +25,6 @@ namespace GK3D.Graphics.Objects
         public virtual Vector3[] GetNormals() => Normals;
         public virtual int TextureCoordsCount { get; set; }
 
-        public Matrix4 ViewProjectionMatrix = Matrix4.Identity;
-        public Matrix4 ModelViewProjectionMatrix = Matrix4.Identity;
-
         public abstract Vector3[] GetVerts();
         public abstract int[] GetIndices(int offset = 0);
         public abstract Vector3[] GetColorData();
