@@ -1,4 +1,5 @@
 ﻿using GK3D.Graphics.Common;
+using GK3D.Graphics.SceneComponents.Base;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -8,94 +9,48 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Objects
 {
-    public class ComplexObject
+    public class ComplexObject : GameObject
     {
-        public Vector3 _position { get; set; }
-        private Vector3 _scale { get; set; } = new Vector3(1, 1, 1);
-        private Vector3 _rotation { get; set; }
+        public Dictionary<string, Light> Lights { get; set; } = new Dictionary<string, Light>();
+        public Dictionary<string, Primitive> Primitives { get; set; } = new Dictionary<string, Primitive>();
+        public Dictionary<string, Camera> Cameras { get; set; } = new Dictionary<string, Camera>();
+        public Dictionary<string, ComplexObject> ComplexObjects { get; set; } = new Dictionary<string, ComplexObject>();
 
-        public Dictionary<string, Light> Lights { get; private set; } = new Dictionary<string, Light>();
-        public Dictionary<string, Volume> Objects { get; private set; } = new Dictionary<string, Volume>();
-        public Dictionary<string, Camera> Cameras { get; private set; } = new Dictionary<string, Camera>();
-
-        public Vector3 GetPosition()
+        public List<Light> GetAllLights()
         {
-            return _position;
+            var lights = new List<Light>(Lights.Values);
+            foreach (var obj in ComplexObjects.Values)
+                lights.AddRange(obj.GetAllLights());
+
+            return lights;
         }
-        public void SetPosition(Vector3 position)
+        public List<Camera> GetAllCameras()
         {
-            foreach (var item in GetObjects())
-                item.Position = position + (item.Position - _position);
+            var cameras = new List<Camera>(Cameras.Values);
+            foreach (var obj in ComplexObjects.Values)
+                cameras.AddRange(obj.GetAllCameras());
+
+            return cameras;
         }
-        public void Move(Vector3 offset)
+        public List<Primitive> GetAllPrimitiveObjects()
         {
-            SetPosition(_position + offset);
-        }
+            var objs = new List<Primitive>(Primitives.Values);
+            foreach (var obj in ComplexObjects.Values)
+                objs.AddRange(obj.GetAllPrimitiveObjects());
 
-        public Vector3 GetRotation()
-        {
-            return _rotation;
-        }
-        public void SetRotation(Vector3 rotation)
-        {
-            Rotate(-_rotation);
-            Rotate(rotation);
-        }
-        public void Rotate(Vector3 rotation)
-        {
-            var a1 = new Matrix4();
-            a1[0, 0] = 1;
-            a1[1, 0] = 1;
-            var qwe = a1 * Vector4.One;
-
-            var m1 =  Matrix4.CreateRotationX((float)Math.PI / 2) * Matrix4.CreateRotationY((float)Math.PI / 2);
-            //var m1 = Matrix4.CreateRotationY((float)Math.PI / 2);
-            var m2 = Matrix4.CreateRotationY((float)Math.PI / 2) * Matrix4.CreateRotationX((float)Math.PI / 2);
-
-            var v = new Vector4(1, 0, 0, 1);
-            var a = m1 * v;
-            var a2 =  v*m1;
-            var b = m2 * v;
-            var b2 = v * m2;
-
-
-            var mat =  Matrix4.CreateRotationY(_rotation.Y)*Matrix4.CreateRotationZ(_rotation.Z)* Matrix4.CreateRotationX(_rotation.X);
-            var aa = mat * new Vector4(4, 0, 0, 1);
-            var rot = mat * new Vector4(rotation, 1);
-            var rotationMatrix = Matrix4.CreateRotationX(rot.X) * Matrix4.CreateRotationY(rot.Y) * Matrix4.CreateRotationZ(rot.Z); ;
-            foreach (var item in GetObjects())
-            {
-                var a11 = new Vector4(item.Position - _position, 1);
-                var rotated = rotationMatrix * new Vector4(item.Position - _position, 1);
-                item.Position = _position + rotated.Xyz;
-                item.Rotation += -rotation;
-            }
-            _rotation += rotation;
+            return objs;
         }
 
-        public Vector3 GetScale()
+        public IEnumerable<KeyValuePair<Primitive, Matrix4>> GetPrimitivesWiThGlobalModelMatrices()
         {
-            return _scale;
-        }
-        public void SetScale(Vector3 scale)
-        {
-            foreach (var item in GetObjects())
-            {
-                item.Scale = scale;
-                item.Position = _position + (item.Position - _position) * scale;
-            }
-        }
-        public void MultiplyScale(Vector3 scale)
-        {
-            SetScale(_scale * scale);
-        }
+            var matrix = CalculateModelMatrix();
+            var tuples = new List<KeyValuePair<Primitive, Matrix4>>();
+            foreach (var obj in ComplexObjects.Values)
+                tuples.AddRange(obj.GetPrimitivesWiThGlobalModelMatrices());
+            tuples.AddRange(Primitives.Values.Select(x => new KeyValuePair<Primitive, Matrix4>(x, x.CalculateModelMatrix())));
 
-        private IEnumerable<GameObject> GetObjects()
-        {
-            var objects = new List<GameObject>(Objects.Values);
-            objects.AddRange(Cameras.Values);
-            objects.AddRange(Lights.Values);
-            return objects;
+            var updatedTuples = tuples.Select(x => new KeyValuePair<Primitive, Matrix4>(x.Key, matrix * x.Value));
+            return updatedTuples;
         }
     }
 }

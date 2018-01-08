@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Objects
 {
-    public class Cube : Volume
+    public class Cube : Primitive
     {
         public Cube()
         {

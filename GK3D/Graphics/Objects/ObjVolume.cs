@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Objects
 {
-    public class ObjVolume : Volume
+    public class ObjVolume : Primitive
     {
 
         public List<Tuple<FaceVertex, FaceVertex, FaceVertex>> faces = new List<Tuple<FaceVertex, FaceVertex, FaceVertex>>();

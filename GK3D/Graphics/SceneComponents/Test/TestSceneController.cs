@@ -16,10 +16,10 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
             if (Collection.ActiveCamera != null)
             {
-                var activeCam = Collection.Cameras.SingleOrDefault(x => x.Value == Collection.ActiveCamera);
+                var activeCam = Collection.SceneObjects.Cameras.SingleOrDefault(x => x.Value == Collection.ActiveCamera);
                 if (activeCam.Value != null)
                 {
-                    var cameraList = Collection.Cameras.ToList();
+                    var cameraList = Collection.SceneObjects.Cameras.ToList();
                     Collection.ActiveCamera = cameraList[(cameraList.IndexOf(activeCam) + 1) % cameraList.Count].Value;
                 }
             }

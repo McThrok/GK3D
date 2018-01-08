@@ -10,17 +10,12 @@ namespace GK3D.Graphics.SceneComponents.Base
 {
     public class SceneCollection
     {
-        public Dictionary<string, int> Textures { get; private set; } = new Dictionary<string, int>();
-        public Dictionary<string, Material> Materials { get; private set; } = new Dictionary<string, Material>();
-        public Dictionary<string, ShaderProgram> Shaders { get; private set; } = new Dictionary<string, ShaderProgram>();
-        public Dictionary<string, Light> Lights { get; private set; } = new Dictionary<string, Light>();
-        public Dictionary<string, Volume> Objects { get; private set; } = new Dictionary<string, Volume>();
-        public Dictionary<string, Camera> Cameras { get; private set; } = new Dictionary<string, Camera>();
-        public Dictionary<string, ComplexObject> ComplexObjects { get; private set; } = new Dictionary<string, ComplexObject>();
+        public Dictionary<string, int> Textures { get; set; } = new Dictionary<string, int>();
+        public Dictionary<string, Material> Materials { get; set; } = new Dictionary<string, Material>();
+        public Dictionary<string, ShaderProgram> Shaders { get; set; } = new Dictionary<string, ShaderProgram>();
+        public ComplexObject SceneObjects { get; set; } = new ComplexObject();
 
         public ShaderProgram ActiveShader { get; set; }
         public Camera ActiveCamera { get; set; }
-        public Light ActiveLights { get; set; }
     }
-
 }

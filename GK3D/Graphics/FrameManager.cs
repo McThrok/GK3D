@@ -32,13 +32,13 @@ namespace GK3D.Graphics
             Collection.ActiveShader.EnableVertexAttribArrays();
 
             int indiceat = 0;
-            var lights = Collection.Lights.Values.ToList();
+            var lights = Collection.SceneObjects.Lights.Values.ToList();
 
-            foreach (var v in Collection.Objects.Values)
+            foreach (var v in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
-                GL.BindTexture(TextureTarget.Texture2D, v.TextureID);
+                GL.BindTexture(TextureTarget.Texture2D, v.Key.TextureID);
 
-                GL.UniformMatrix4(Collection.ActiveShader.GetUniform("modelviewproj"), false, ref v.ModelViewProjectionMatrix);
+                GL.UniformMatrix4(Collection.ActiveShader.GetUniform("modelviewproj"), false, ref v.Key.ModelViewProjectionMatrix);
 
                 if (Collection.ActiveShader.GetUniform("maintexture") != -1)
                 {
@@ -57,27 +57,27 @@ namespace GK3D.Graphics
 
                 if (Collection.ActiveShader.GetUniform("model") != -1)
                 {
-                    GL.UniformMatrix4(Collection.ActiveShader.GetUniform("model"), false, ref v.ModelMatrix);
+                    GL.UniformMatrix4(Collection.ActiveShader.GetUniform("model"), false, ref v.Key.ModelMatrix);
                 }
 
                 if (Collection.ActiveShader.GetUniform("material_ambient") != -1)
                 {
-                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_ambient"), ref v.Material.AmbientColor);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_ambient"), ref v.Key.Material.AmbientColor);
                 }
 
                 if (Collection.ActiveShader.GetUniform("material_diffuse") != -1)
                 {
-                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_diffuse"), ref v.Material.DiffuseColor);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_diffuse"), ref v.Key.Material.DiffuseColor);
                 }
 
                 if (Collection.ActiveShader.GetUniform("material_specular") != -1)
                 {
-                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_specular"), ref v.Material.SpecularColor);
+                    GL.Uniform3(Collection.ActiveShader.GetUniform("material_specular"), ref v.Key.Material.SpecularColor);
                 }
 
                 if (Collection.ActiveShader.GetUniform("material_specExponent") != -1)
                 {
-                    GL.Uniform1(Collection.ActiveShader.GetUniform("material_specExponent"), v.Material.SpecularExponent);
+                    GL.Uniform1(Collection.ActiveShader.GetUniform("material_specExponent"), v.Key.Material.SpecularExponent);
                 }
 
                 for (int i = 0; i < Math.Min(lights.Count, MaxLight); i++)
@@ -117,8 +117,8 @@ namespace GK3D.Graphics
                     }
                 }
 
-                GL.DrawElements(BeginMode.Triangles, v.IndiceCount, DrawElementsType.UnsignedInt, indiceat * sizeof(uint));
-                indiceat += v.IndiceCount;
+                GL.DrawElements(BeginMode.Triangles, v.Key.IndiceCount, DrawElementsType.UnsignedInt, indiceat * sizeof(uint));
+                indiceat += v.Key.IndiceCount;
             }
 
             Collection.ActiveShader.DisableVertexAttribArrays();
@@ -134,14 +134,14 @@ namespace GK3D.Graphics
 
             // Assemble vertex and indice data for all volumes
             int vertcount = 0;
-            foreach (var v in Collection.Objects.Values)
+            foreach (var v in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
-                verts.AddRange(v.GetVerts().ToList());
-                inds.AddRange(v.GetIndices(vertcount).ToList());
-                colors.AddRange(v.GetColorData().ToList());
-                texcoords.AddRange(v.GetTextureCoords());
-                normals.AddRange(v.GetNormals().ToList());
-                vertcount += v.VertCount;
+                verts.AddRange(v.Key.GetVerts().ToList());
+                inds.AddRange(v.Key.GetIndices(vertcount).ToList());
+                colors.AddRange(v.Key.GetColorData().ToList());
+                texcoords.AddRange(v.Key.GetTextureCoords());
+                normals.AddRange(v.Key.GetNormals().ToList());
+                vertcount += v.Key.VertCount;
             }
 
             GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vPosition"));
@@ -176,11 +176,11 @@ namespace GK3D.Graphics
             // Update object positions
 
             // Update model view matrices
-            foreach (var v in Collection.Objects.Values)
+            foreach (var v in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
-                v.CalculateModelMatrix();
-                v.ViewProjectionMatrix = Collection.ActiveCamera.GetViewMatrix() * Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 40.0f);
-                v.ModelViewProjectionMatrix = v.ModelMatrix * v.ViewProjectionMatrix;
+                v.Key.CalculateModelMatrix();
+                v.Key.ViewProjectionMatrix = Collection.ActiveCamera.GetViewMatrix() * Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 40.0f);
+                v.Key.ModelViewProjectionMatrix = v.Key.ModelMatrix * v.Key.ViewProjectionMatrix;
             }
 
             GL.UseProgram(Collection.ActiveShader.ProgramID);

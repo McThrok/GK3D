@@ -8,7 +8,7 @@ using GK3D.Graphics.Common;
 
 namespace GK3D.Graphics.Objects
 {
-    public class Capsule2D : Volume
+    public class Capsule2D : Primitive
     {
         public int Lod { get; set; }
         public Vector3 Color { get; set; }

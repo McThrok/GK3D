@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GK3D.Graphics.Objects
 {
-    public abstract class Volume :GameObject
+    public abstract class Primitive :GameObject
     {
         public Material Material = new Material();
 
@@ -25,17 +25,12 @@ namespace GK3D.Graphics.Objects
         public virtual Vector3[] GetNormals() => Normals;
         public virtual int TextureCoordsCount { get; set; }
 
-        public Matrix4 ModelMatrix = Matrix4.Identity;
         public Matrix4 ViewProjectionMatrix = Matrix4.Identity;
         public Matrix4 ModelViewProjectionMatrix = Matrix4.Identity;
 
         public abstract Vector3[] GetVerts();
         public abstract int[] GetIndices(int offset = 0);
         public abstract Vector3[] GetColorData();
-        public virtual void CalculateModelMatrix()
-        {
-            ModelMatrix = Matrix4.Scale(Scale) * Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationZ(Rotation.Z) * Matrix4.CreateTranslation(Position);
-        }
 
         public void CalculateNormals()
         {
