@@ -114,15 +114,13 @@ namespace GK3D.Graphics
         {
             for (int i = 0; i < Attributes.Count; i++)
             {
-                uint buffer = 0;
-                GL.GenBuffers(1, out buffer);
+                GL.GenBuffers(1, out uint buffer);
                 Buffers.Add(Attributes.Values.ElementAt(i).name, buffer);
             }
 
             for (int i = 0; i < Uniforms.Count; i++)
             {
-                uint buffer = 0;
-                GL.GenBuffers(1, out buffer);
+                GL.GenBuffers(1, out uint buffer);
                 Buffers.Add(Uniforms.Values.ElementAt(i).name, buffer);
             }
         }

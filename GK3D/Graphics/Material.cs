@@ -62,9 +62,8 @@ namespace GK3D.Graphics
                             if (currentmat.Length > 0)
                             {
                                 Material newMat = new Material();
-                                String newMatName = "";
 
-                                newMat = LoadFromString(currentmat, out newMatName);
+                                newMat = LoadFromString(currentmat, out string newMatName);
 
                                 mats.Add(newMatName, newMat);
                             }
@@ -78,9 +77,8 @@ namespace GK3D.Graphics
                 if (currentmat.Count((char c) => c == '\n') > 0)
                 {
                     Material newMat = new Material();
-                    String newMatName = "";
 
-                    newMat = LoadFromString(currentmat, out newMatName);
+                    newMat = LoadFromString(currentmat, out string newMatName);
 
                     mats.Add(newMatName, newMat);
                 }
@@ -211,8 +209,7 @@ namespace GK3D.Graphics
                 if (line.StartsWith("Ns"))
                 {
                     // Attempt to parse each part of the color
-                    float exponent = 0.0f;
-                    bool success = float.TryParse(line.Substring(3), out exponent);
+                    bool success = float.TryParse(line.Substring(3), out float exponent);
 
                     output.SpecularExponent = exponent;
 

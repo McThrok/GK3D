@@ -21,10 +21,12 @@ namespace GK3D.Graphics.SceneComponents.Test
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
             collection.SceneObjects.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
-            Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1);
-            spotLight2.Type = LightType.Spot;
-            spotLight2.Rotation = new Vector3(0, 1.0f, 0).Normalized();
-            spotLight2.ConeAngle = 10f;
+            Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1)
+            {
+                Type = LightType.Spot,
+                Rotation = new Vector3(0, 1.0f, 0).Normalized(),
+                ConeAngle = 10f
+            };
             collection.SceneObjects.Lights.Add("spotLight2", spotLight2);
 
 
@@ -67,9 +69,11 @@ namespace GK3D.Graphics.SceneComponents.Test
             center.CalculateNormals();
             collection.SceneObjects.Primitives.Add("center", center);
 
-            var com = new ComplexObject();
-            com.Position = new Vector3(0, 1, 0);
-            com.Rotation = new Vector3(0, (float)Math.PI / 16, 0);
+            var com = new ComplexObject
+            {
+                Position = new Vector3(0, 1, 0),
+                Rotation = new Vector3(0, (float)Math.PI / 16, 0)
+            };
 
             Cube cubex = new ColoredCube(new Vector3(1, 1, 0))
             {
@@ -135,16 +139,18 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             //Move camera away from origin
             Camera cam = new Camera();
+
             cam.Position += new Vector3(0, 0f, 7f);
             cam.Rotation = new Vector3(0f, (float)Math.PI, 0f);
             collection.SceneObjects.Cameras.Add("mainCamera", cam);
 
 
-            Camera secondCamera = new Camera();
-            secondCamera.Position = new Vector3(0f, 8f, 0);
-            secondCamera.Rotation = new Vector3(-(float)Math.PI / 2 + 0.1f, (float)Math.PI, 0f);
+            Camera secondCamera = new Camera
+            {
+                Position = new Vector3(0f, 8f, 0),
+                Rotation = new Vector3(-(float)Math.PI / 2 + 0.1f, (float)Math.PI, 0f)
+            };
             collection.SceneObjects.Cameras.Add("secondCamera", secondCamera);
-
 
             collection.ActiveCamera = collection.SceneObjects.Cameras.Values.FirstOrDefault();
 

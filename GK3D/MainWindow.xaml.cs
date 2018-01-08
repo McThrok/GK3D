@@ -47,15 +47,17 @@ namespace GK3D
 
             Task.Factory.StartNew(() =>
           {
-              _game = new Game();
-              _game.Location = location;
-              _game.Size = size;
+              _game = new Game
+              {
+                  Location = location,
+                  Size = size
+              };
               _game.Run(30, 30);
           });
 
         }
 
-        private void cameraChangeButton_Click(object sender, RoutedEventArgs e)
+        private void CameraChangeButton_Click(object sender, RoutedEventArgs e)
         {
             _game.SceneController.ChangeCamera();
         }

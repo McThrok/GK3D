@@ -55,7 +55,7 @@ namespace GK3D.Graphics
         {
             base.OnRenderFrame(e);
             GL.Viewport(0, 0, Width, Height);
-            _frameManeger.RenderFrame();
+            _frameManeger.RenderFrame(ClientSize.Width / (float)ClientSize.Height);
             SwapBuffers();
         }
         protected override void OnUpdateFrame(FrameEventArgs e)
@@ -64,7 +64,7 @@ namespace GK3D.Graphics
             _time += (float)e.Time;
             SceneController.Scenario.Process((float)e.Time);
             UpdateActiveCamera();
-            _frameManeger.UpdateFrame(ClientSize.Width / (float)ClientSize.Height);
+           // _frameManeger.UpdateFrame(ClientSize.Width / (float)ClientSize.Height);
         }
         private void UpdateActiveCamera()
         {
