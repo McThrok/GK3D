@@ -8,6 +8,7 @@ using OpenTK.Graphics;
 using OpenTK;
 using GK3D.Graphics.SceneComponents;
 using GK3D.Graphics.SceneComponents.Base;
+using GK3D.Graphics.Objects;
 
 namespace GK3D.Graphics
 {
@@ -136,8 +137,8 @@ namespace GK3D.Graphics
             int vertcount = 0;
             foreach (var v in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
-                verts.AddRange(v.Key.GetVerts().ToList());
                 inds.AddRange(v.Key.GetIndices(vertcount).ToList());
+                verts.AddRange(v.Key.GetVerts().ToList());
                 colors.AddRange(v.Key.GetColorData().ToList());
                 texcoords.AddRange(v.Key.GetTextureCoords());
                 normals.AddRange(v.Key.GetNormals().ToList());
@@ -156,7 +157,6 @@ namespace GK3D.Graphics
                 GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(colors.Count * Vector3.SizeInBytes), colors.ToArray(), BufferUsageHint.StaticDraw);
                 GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vColor"), 3, VertexAttribPointerType.Float, true, 0, 0);
             }
-
 
             // Buffer texture coordinates if shader supports it
             if (Collection.ActiveShader.GetAttribute("texcoord") != -1)
@@ -207,45 +207,13 @@ namespace GK3D.Graphics
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
 
-
             // Assemble vertex and indice data for all volumes
             foreach (var v in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
                 GL.UseProgram(Collection.ActiveShader.ProgramID);
                 Collection.ActiveShader.EnableVertexAttribArrays();
 
-                var verts = v.Key.GetVerts().ToArray();
                 var inds = v.Key.GetIndices().ToArray();
-                var colors = v.Key.GetColorData().ToArray();
-                var texcoords = v.Key.GetTextureCoords().ToArray();
-                var normals = v.Key.GetNormals().ToArray();
-
-
-                GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vPosition"));
-                GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(verts.Length * Vector3.SizeInBytes), verts, BufferUsageHint.StaticDraw);
-                GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vPosition"), 3, VertexAttribPointerType.Float, false, 0, 0);
-
-                if (Collection.ActiveShader.GetAttribute("vColor") != -1)
-                {
-                    GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vColor"));
-                    GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(colors.Length * Vector3.SizeInBytes), colors, BufferUsageHint.StaticDraw);
-                    GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vColor"), 3, VertexAttribPointerType.Float, true, 0, 0);
-                }
-
-                if (Collection.ActiveShader.GetAttribute("texcoord") != -1)
-                {
-                    GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("texcoord"));
-                    GL.BufferData<Vector2>(BufferTarget.ArrayBuffer, (IntPtr)(texcoords.Length * Vector2.SizeInBytes), texcoords, BufferUsageHint.StaticDraw);
-                    GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("texcoord"), 2, VertexAttribPointerType.Float, true, 0, 0);
-                }
-
-                if (Collection.ActiveShader.GetAttribute("vNormal") != -1)
-                {
-                    GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vNormal"));
-                    GL.BufferData<Vector3>(BufferTarget.ArrayBuffer, (IntPtr)(normals.Length * Vector3.SizeInBytes), normals, BufferUsageHint.StaticDraw);
-                    GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vNormal"), 3, VertexAttribPointerType.Float, true, 0, 0);
-                }
-
 
                 // Update model view matrices
                 v.Key.CalculateModelMatrix();
@@ -264,10 +232,9 @@ namespace GK3D.Graphics
 
                 _viewCameraMatrix = Collection.ActiveCamera.GetViewMatrix();
 
-
-                GL.BindTexture(TextureTarget.Texture2D, v.Key.TextureID);
                 GL.UniformMatrix4(Collection.ActiveShader.GetUniform("modelviewproj"), false, ref v.Key.ModelViewProjectionMatrix);
 
+                GL.BindTexture(TextureTarget.Texture2D, v.Key.TextureID);
                 if (Collection.ActiveShader.GetUniform("maintexture") != -1)
                 {
                     GL.Uniform1(Collection.ActiveShader.GetUniform("maintexture"), 0);
@@ -278,8 +245,8 @@ namespace GK3D.Graphics
                     GL.UniformMatrix4(Collection.ActiveShader.GetUniform("model"), false, ref v.Key.ModelMatrix);
                 }
 
+                LoadPrimitiveData(Collection.ActiveShader, v.Key);
                 LoadCamera(Collection.ActiveShader, _viewCameraMatrix, Collection.ActiveCamera.Position);
-                LoadMaterial(Collection.ActiveShader, v.Key.Material);
                 LoadLights(Collection.ActiveShader, Collection.SceneObjects.Lights.Values.ToList());
 
 
@@ -290,16 +257,42 @@ namespace GK3D.Graphics
 
             GL.Flush();
         }
-        private void LoadCamera(ShaderProgram shader, Matrix4 view, Vector3 cameraPosition)
+        private void LoadPrimitiveData(ShaderProgram shader, Primitive primitive)
         {
-            if (shader.GetUniform("viewPos") != -1)
+
+            LoadPrimitiveArrayData(shader, primitive);
+            LoadMaterial(shader, primitive.Material);
+        }
+        private void LoadPrimitiveArrayData(ShaderProgram shader, Primitive primitive)
+        {
+            var verts = primitive.GetVerts().ToArray();
+            var colors = primitive.GetColorData().ToArray();
+            var texcoords = primitive.GetTextureCoords().ToArray();
+            var normals = primitive.GetNormals().ToArray();
+
+            GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vPosition"));
+            GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(verts.Length * Vector3.SizeInBytes), verts, BufferUsageHint.StaticDraw);
+            GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vPosition"), 3, VertexAttribPointerType.Float, false, 0, 0);
+
+            if (Collection.ActiveShader.GetAttribute("vColor") != -1)
             {
-                GL.Uniform3(shader.GetUniform("viewPos"), ref cameraPosition);
+                GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vColor"));
+                GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(colors.Length * Vector3.SizeInBytes), colors, BufferUsageHint.StaticDraw);
+                GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vColor"), 3, VertexAttribPointerType.Float, true, 0, 0);
             }
 
-            if (shader.GetUniform("view") != -1)
+            if (Collection.ActiveShader.GetAttribute("texcoord") != -1)
             {
-                GL.UniformMatrix4(shader.GetUniform("view"), false, ref view);
+                GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("texcoord"));
+                GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(texcoords.Length * Vector2.SizeInBytes), texcoords, BufferUsageHint.StaticDraw);
+                GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("texcoord"), 2, VertexAttribPointerType.Float, true, 0, 0);
+            }
+
+            if (Collection.ActiveShader.GetAttribute("vNormal") != -1)
+            {
+                GL.BindBuffer(BufferTarget.ArrayBuffer, Collection.ActiveShader.GetBuffer("vNormal"));
+                GL.BufferData(BufferTarget.ArrayBuffer, (IntPtr)(normals.Length * Vector3.SizeInBytes), normals, BufferUsageHint.StaticDraw);
+                GL.VertexAttribPointer(Collection.ActiveShader.GetAttribute("vNormal"), 3, VertexAttribPointerType.Float, true, 0, 0);
             }
         }
         private void LoadMaterial(ShaderProgram shader, Material material)
@@ -322,6 +315,18 @@ namespace GK3D.Graphics
             if (shader.GetUniform("material_specExponent") != -1)
             {
                 GL.Uniform1(shader.GetUniform("material_specExponent"), material.SpecularExponent);
+            }
+        }
+        private void LoadCamera(ShaderProgram shader, Matrix4 view, Vector3 cameraPosition)
+        {
+            if (shader.GetUniform("viewPos") != -1)
+            {
+                GL.Uniform3(shader.GetUniform("viewPos"), ref cameraPosition);
+            }
+
+            if (shader.GetUniform("view") != -1)
+            {
+                GL.UniformMatrix4(shader.GetUniform("view"), false, ref view);
             }
         }
 
