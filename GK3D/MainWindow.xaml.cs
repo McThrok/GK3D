@@ -47,7 +47,7 @@ namespace GK3D
 
             Task.Factory.StartNew(() =>
           {
-              using ( _game = new Game())
+              using (_game = new Game())
               {
                   _game.Location = location;
                   _game.Size = size;

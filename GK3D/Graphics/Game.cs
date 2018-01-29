@@ -33,12 +33,12 @@ namespace GK3D.Graphics
             base.OnLoad(e);
             //_scene = new MainScene();
             SceneController = new TestSceneController(new TestSceneLoader(), new TestSceneScenario());
-            _frameManeger = new FrameManager();
-            _frameManeger.Collection = SceneController.Collection;
-            //_lastMousePos = new Vector2(Mouse.X, Mouse.Y);
+             _frameManeger = new FrameManager();
+             _frameManeger.Collection = SceneController.Collection;
+            _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
 
+                Mouse.ButtonUp += (s, ee) => isMouseDown = false;
 
-            Mouse.ButtonUp += (s, ee) => isMouseDown = false;
             Mouse.ButtonDown += (s, ee) =>
             {
                 ResetCursor();
@@ -52,7 +52,10 @@ namespace GK3D.Graphics
         {
             base.OnRenderFrame(e);
             GL.Viewport(0, 0, Width, Height);
+
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             _frameManeger.RenderFrame(ClientSize.Width / (float)ClientSize.Height);
+
             SwapBuffers();
         }
         protected override void OnUpdateFrame(FrameEventArgs e)

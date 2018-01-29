@@ -15,7 +15,6 @@ namespace GK3D.Graphics.SceneComponents.Base
         public Dictionary<string, ShaderProgram> Shaders { get; set; } = new Dictionary<string, ShaderProgram>();
         public ComplexObject SceneObjects { get; set; } = new ComplexObject();
 
-        public ShaderProgram ActiveShader { get; set; }
         public Camera ActiveCamera { get; set; }
     }
 }
