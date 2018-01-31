@@ -13,7 +13,7 @@ struct Light {
 };
 
 in vec3 v_norm;
-in vec3 v_pos;
+in vec3 FragPos;
 in vec4 color;
 out vec4 outputColor;
 
@@ -39,7 +39,7 @@ outputColor = vec4(0,0,0,1);
    continue;
   }
   
-  vec3 lightvec = normalize(lights[i].position - v_pos);
+  vec3 lightvec = normalize(lights[i].position - FragPos);
 
   // Check spotlight angle
   bool inCone = false;
@@ -70,7 +70,7 @@ outputColor = vec4(0,0,0,1);
 
   // Specular lighting
   vec3 reflectionvec = normalize(reflect(-lightvec, v_norm));
-  vec3 viewvec = normalize(vec3(inverse(view) * vec4(0,0,0,1)) - v_pos); 
+  vec3 viewvec = normalize(vec3(inverse(view) * vec4(0,0,0,1)) - FragPos); 
   float material_specularreflection = max(dot(v_norm, lightvec), 0.0) * pow(max(dot(reflectionvec, viewvec), 0.0), material_specExponent);
 
   // Spotlight, specular reflections are also limited by angle

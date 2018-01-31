@@ -31,9 +31,10 @@ namespace GK3D.Graphics.SceneComponents.Test
 
 
             // Load shaders from file
-            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\fs_color.glsl", true));
+            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\fs_color.glsl", true));
+            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\test\\vs_my.glsl", "Graphics\\Resources\\Shaders\\test\\fs_my.glsl", true));
             //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs_lit_color.glsl", "Graphics\\Resources\\Shaders\\old\\fs_lit_color.glsl", true));
-            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs_my.glsl", "Graphics\\Resources\\Shaders\\old\\fs_my.glsl", true));
+            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs_my.glsl", "Graphics\\Resources\\Shaders\\old\\fs_my.glsl", true));
             // collection.Shaders.Add("textured", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_texture.glsl", "Graphics\\Resources\\Shaders\\fs_texture.glsl", true));
 
             //var car = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");

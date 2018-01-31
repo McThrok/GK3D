@@ -143,18 +143,6 @@ namespace GK3D.Graphics
 
         private void LoadLights(ShaderProgram shader, List<Light> lights)
         {
-            //test
-            if (shader.GetUniform("light_position") != -1)
-            {
-                GL.Uniform3(shader.GetUniform("light_position"), lights[0].Position);
-            }
-
-            if (shader.GetUniform("light_color") != -1)
-            {
-                GL.Uniform3(shader.GetUniform("light_color"), lights[0].Color);
-            }
-
-            //test
             for (int i = 0; i < Math.Min(lights.Count, MaxLight); i++)
             {
                 if (shader.GetUniform("lights[" + i + "].position") != -1)

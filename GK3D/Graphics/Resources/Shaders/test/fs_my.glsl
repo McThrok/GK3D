@@ -1,14 +1,9 @@
 ﻿#version 330
 
- struct Light {
- vec3 position;
- vec3 color;
- float ambientIntensity;
- float diffuseIntensity;
-
- int type;
- vec3 direction;
- float coneAngle;
+struct DirLight {
+    vec3 direction;
+	
+    vec3 diffuse;
 };
 
 in vec4 color;
@@ -17,14 +12,19 @@ in vec3 v_norm;
 
 out vec4 outputColor;
 
-uniform vec3 light_position;
-uniform vec3 light_color;
+//uniform vec3 light_position;
+//uniform vec3 light_color;
+//uniform Light lights[30];
+uniform DirLight test[30];
  
 uniform vec3 viewPos; 
 void
 main()
 {
+vec3 a = test[0].direction;
 
+vec3 light_position =  vec3(1.0,1.0,1.0);
+vec3 light_color  =  vec3(1.0,1.0,1.0);
 	// ambient
     float ambientStrength = 0.2f;
     vec3 ambient = ambientStrength * light_color;
