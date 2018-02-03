@@ -75,6 +75,7 @@
     <Compile Include="Graphics\Game.cs" />
     <Compile Include="Graphics\Light.cs" />
     <Compile Include="Graphics\Material.cs" />
+    <Compile Include="Graphics\Objects\Icosphere.cs" />
     <Compile Include="Graphics\Objects\Capsule2D.cs" />
     <Compile Include="Graphics\Objects\ComplexObject.cs" />
     <Compile Include="Graphics\Objects\ColoredCube.cs" />
@@ -162,12 +163,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Shaders\test\fs_color.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Graphics\Resources\Shaders\test\fs_my.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Graphics\Resources\Shaders\test\vs_my.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Shaders\vs_texture.glsl">

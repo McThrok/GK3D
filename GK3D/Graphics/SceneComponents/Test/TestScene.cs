@@ -21,21 +21,32 @@ namespace GK3D.Graphics.SceneComponents.Test
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
             collection.SceneObjects.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
-            Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1)
-            {
-                Type = LightType.Spot,
-                Rotation = new Vector3(0, 1.0f, 0).Normalized(),
-                ConeAngle = 10f
-            };
-            collection.SceneObjects.Lights.Add("spotLight2", spotLight2);
+            collection.SceneObjects.Lights.Add("secondLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
+            // collection.SceneObjects.Lights.Add("thirdLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
+
+            //Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1)
+            //{
+            //    Type = LightType.Spot,
+            //    Rotation = new Vector3(0, 1.0f, 0).Normalized(),
+            //    ConeAngle = 10f
+            //};
+            //collection.SceneObjects.Lights.Add("spotLight2", spotLight2);
+
+            //for (int i = 0; i < 50; i++)
+            //{
+
+            //    Light spotLight3 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1)
+            //    {
+            //        Position = new Vector3(2 * i % 5, 2 * i / 5, -5),
+            //        Rotation = new Vector3(0, 0, 0)
+            //    };
+            //    collection.SceneObjects.Lights.Add("spotLight3" + i.ToString(), spotLight3);
+            //}
 
 
             // Load shaders from file
-            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\fs_color.glsl", true));
-            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\test\\vs_my.glsl", "Graphics\\Resources\\Shaders\\test\\fs_my.glsl", true));
-            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs_lit_color.glsl", "Graphics\\Resources\\Shaders\\old\\fs_lit_color.glsl", true));
-            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs_my.glsl", "Graphics\\Resources\\Shaders\\old\\fs_my.glsl", true));
-            // collection.Shaders.Add("textured", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_texture.glsl", "Graphics\\Resources\\Shaders\\fs_texture.glsl", true));
+            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\fs_color.glsl", true));
+            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_color.glsl", true));
 
             //var car = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
             //car.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
