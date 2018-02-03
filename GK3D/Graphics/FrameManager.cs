@@ -193,7 +193,7 @@ namespace GK3D.Graphics
         }
         private void LoadLightsTemp(ShaderProgram shader, List<Light> lights)
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 if (shader.GetUniform("light" + i + ".position") != -1)
                 {

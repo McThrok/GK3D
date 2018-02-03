@@ -75,7 +75,6 @@
     <Compile Include="Graphics\Game.cs" />
     <Compile Include="Graphics\Light.cs" />
     <Compile Include="Graphics\Material.cs" />
-    <Compile Include="Graphics\Objects\Icosphere.cs" />
     <Compile Include="Graphics\Objects\Capsule2D.cs" />
     <Compile Include="Graphics\Objects\ComplexObject.cs" />
     <Compile Include="Graphics\Objects\ColoredCube.cs" />
@@ -117,10 +116,7 @@
     <None Include="Graphics\Resources\Materials\opentk.mtl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Models\_test_cow.obj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Graphics\Resources\Models\_test_earth.obj">
+    <None Include="Graphics\Resources\Models\ball.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Models\racing_car.obj">
@@ -130,12 +126,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Models\street_lamp.obj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Graphics\Resources\Models\_test_teapot.obj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Graphics\Resources\Models\_test_test.obj">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Shaders\old\fs_my.glsl">

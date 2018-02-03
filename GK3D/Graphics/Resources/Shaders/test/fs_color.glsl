@@ -24,6 +24,7 @@ uniform float material_specExponent;
 // Array of lights used in the shader
 uniform Light light0;
 uniform Light light1;
+uniform Light light2;
 
 
 vec4 getColor(Light light){
@@ -62,4 +63,5 @@ void main()
  outputColor = vec4(0,0,0,1);
  outputColor +=getColor(light0);
  outputColor +=getColor(light1);
+ outputColor +=getColor(light2);
 }

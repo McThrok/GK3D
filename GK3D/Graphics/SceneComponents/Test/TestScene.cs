@@ -22,7 +22,7 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             collection.SceneObjects.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
             collection.SceneObjects.Lights.Add("secondLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
-            // collection.SceneObjects.Lights.Add("thirdLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
+            collection.SceneObjects.Lights.Add("thirdLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
 
             //Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1)
             //{
@@ -46,7 +46,8 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             // Load shaders from file
             //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\fs_color.glsl", true));
-            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_color.glsl", true));
+            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_color.glsl", true));
+            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs.glsl", "Graphics\\Resources\\Shaders\\old\\fs.glsl", true));
 
             //var car = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
             //car.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
@@ -65,26 +66,19 @@ namespace GK3D.Graphics.SceneComponents.Test
             //collection.SceneObjects.Primitives.Add(nameof(mario), mario);
 
 
-            //Capsule2D capsule = new Capsule2D(1, new Vector3(1, 1, 0), 1);
-            //capsule.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
-            //capsule.Position = new Vector3(0, 0, -3f);
-            //capsule.CalculateNormals();
-            //collection.Objects.Add("cap", capsule);
 
+            //for (int i = 0; i < 50; i++)
+            //{
 
-
-            for (int i = 0; i < 50; i++)
-            {
-
-                Cube center = new ColoredCube(new Vector3(1, 0, 0))
-                {
-                    Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                    Position = new Vector3(2 * i % 5, 2 * i / 5, 0),
-                    Rotation = new Vector3(0, 0, 0)
-                };
-                center.CalculateNormals();
-                collection.SceneObjects.Primitives.Add("center" + i.ToString(), center);
-            }
+            //    Cube center = new ColoredCube(new Vector3(1, 0, 0))
+            //    {
+            //        Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+            //        Position = new Vector3(2 * i % 5, 2 * i / 5, 0),
+            //        Rotation = new Vector3(0, 0, 0)
+            //    };
+            //    center.CalculateNormals();
+            //    collection.SceneObjects.Primitives.Add("center" + i.ToString(), center);
+            //}
 
             //Cube center = new ColoredCube(new Vector3(1, 0, 0))
             //{
@@ -154,7 +148,41 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             collection.ActiveCamera = collection.SceneObjects.Cameras.Values.FirstOrDefault();
 
+            LoadMap(collection);
             return collection;
+        }
+        public void LoadMap(SceneCollection collection)
+        {
+            ComplexObject map = new ComplexObject();
+            collection.SceneObjects.ComplexObjects.Add(nameof(map), map);
+
+
+            float layerOffset = 0.001f;
+            Capsule2D plain = new Capsule2D(1, new Vector3(0, 1, 0), 1);
+            plain.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            plain.Scale = new Vector3(2f, 2f, 2f);
+            plain.Position = new Vector3(0, 0,-layerOffset);
+            plain.CalculateNormals();
+            map.Primitives.Add(nameof(plain), plain);
+
+            Capsule2D roadOut = new Capsule2D(1, new Vector3(0, 0, 0), 100);
+            roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            roadOut.Position = new Vector3(0, 0, 0);
+            roadOut.CalculateNormals();
+            map.Primitives.Add(nameof(roadOut), roadOut);
+
+            Capsule2D roadIn = new Capsule2D(1, new Vector3(1, 0, 0), 100);
+            roadIn.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            roadIn.Position = new Vector3(0, 0, layerOffset);
+            roadIn.Scale = new Vector3(0.7f, 0.8f, 0.7f);
+            roadIn.CalculateNormals();
+            map.Primitives.Add(nameof(roadIn), roadIn);
+
+
+            var ball = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\ball.obj");
+            ball.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            map.Primitives.Add(nameof(ball), ball);
+
         }
     }
 }
