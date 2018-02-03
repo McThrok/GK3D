@@ -165,17 +165,55 @@ namespace GK3D.Graphics.SceneComponents.Test
             var c = carModel.faces.Min(x => x.Item3.Position.Y);
             carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             carModel.Position = new Vector3(0, -0.125f, 8);
-            carModel.Rotation = new Vector3(0,0.415f, 0);
-            carModel.Color = new Vector3(1, 0, 0);
+            carModel.Rotation = new Vector3(0, 0.415f, 0);
+            carModel.Rotation += new Vector3(0, (float)Math.PI / 2, 0);
+            var colorData = new List<Vector3>();
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 320 * 3));
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 0, 0), 88 * 6));
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1,1,1), 182 * 6));
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1,0,0), 161 * 6));
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0,1), 10 * 6));//glass
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1,1,1), 4 * 6));//light
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1,1,1), 168 * 6));//wheel out
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0,0), 588));//wheel in
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0,0), 28 * 3));//wheel in
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1,1,1), 168 * 6));//wheel out
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0,0), 588));//wheel in
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0, 0), 28 * 3));//wheel in
+
+            //colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), carModel.ColorDataCount ));
+            carModel.ColorData = colorData.ToArray();
             carModel.Scale = new Vector3(0.005f, 0.005f, 0.005f);
             car.Primitives.Add(nameof(carModel), carModel);
+
+
+            Cube qwe = new Cube()
+            {
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+                Position = new Vector3(-0.62f, 0.13f, 8.25f),
+                Rotation = new Vector3(0, 0, 0),
+                Scale = new Vector3(0.1f, 0.1f, 0.1f)
+            };
+            qwe.CalculateNormals();
+           // car.Primitives.Add(nameof(qwe), qwe);
+
+
+            Cube qwe2 = new Cube()
+            {
+                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
+                Position = new Vector3(-0.62f, 0.135f, 7.75f),
+                Rotation = new Vector3(0, 0, 0),
+                Scale = new Vector3(0.1f, 0.1f, 0.1f)
+            };
+            qwe2.CalculateNormals();
+           // car.Primitives.Add(nameof(qwe2), qwe2);
         }
 
         public void LoadMap(SceneCollection collection)
         {
             ComplexObject map = new ComplexObject();
             map.Scale = new Vector3(10, 10, 10);
-            map.Rotation = new Vector3(-(float)Math.PI/2, 0, 0);
+            map.Rotation = new Vector3(-(float)Math.PI / 2, 0, 0);
             collection.SceneObjects.ComplexObjects.Add(nameof(map), map);
 
 
@@ -202,16 +240,15 @@ namespace GK3D.Graphics.SceneComponents.Test
             roadIn.CalculateNormals();
             map.Primitives.Add(nameof(roadIn), roadIn);
 
-
             var ball = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\ball.obj");
             ball.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             ball.Position = new Vector3(0, 0, -0.015f);
-            ball.Color = new Vector3(0.55f, 0.43f, 0.33f);
+            ball.ColorData = Enumerable.Repeat(new Vector3(0.55f, 0.43f, 0.33f), ball.ColorDataCount).ToArray();
             ball.Scale = new Vector3(0.15f, 0.15f, 0.15f);
             map.Primitives.Add(nameof(ball), ball);
 
             var ball2 = ball.Clone();
-            ball2.Position += new Vector3(0,0.6f,0);
+            ball2.Position += new Vector3(0, 0.6f, 0);
             map.Primitives.Add(nameof(ball2), ball2);
 
             var ball3 = ball.Clone();

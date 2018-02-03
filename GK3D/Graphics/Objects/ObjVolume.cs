@@ -25,7 +25,7 @@ namespace GK3D.Graphics.Objects
             return Enumerable.Range(offset, IndiceCount).ToArray();
         }
 
-        public Vector3 Color { get; set; }
+        public Vector3[] ColorData { get; set; }
 
         public override Vector3[] GetVerts()
         {
@@ -67,7 +67,7 @@ namespace GK3D.Graphics.Objects
         }
         public override Vector3[] GetColorData()
         {
-            return Enumerable.Repeat(Color, ColorDataCount).ToArray();
+            return ColorData ?? new Vector3[ColorDataCount];
         }
 
         public static ObjVolume LoadFromFile(string filename)
@@ -277,7 +277,8 @@ namespace GK3D.Graphics.Objects
             clone.IsTextured = IsTextured;
             clone.TextureID = TextureID;
             clone.Normals = Normals;
-            clone.Color = Color;
+            clone.ColorData = ColorData.ToArray();
+
             return clone;
         }
     }
