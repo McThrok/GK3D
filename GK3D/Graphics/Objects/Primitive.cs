@@ -16,7 +16,7 @@ namespace GK3D.Graphics.Objects
         public int TextureID;
         public abstract Vector2[] GetTextureCoords();
 
-        Vector3[] Normals = new Vector3[0];
+        protected Vector3[] Normals = new Vector3[0];
 
         public virtual int VertCount { get; set; }
         public virtual int IndiceCount { get; set; }

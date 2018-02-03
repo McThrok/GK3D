@@ -134,8 +134,10 @@ namespace GK3D.Graphics.SceneComponents.Test
             //Move camera away from origin
             Camera cam = new Camera();
 
-            cam.Position += new Vector3(0, 0f, 7f);
-            cam.Rotation = new Vector3(0f, (float)Math.PI, 0f);
+            cam.Position += new Vector3(0, 5f, 5f);
+            cam.Position = new Vector3(0, 0.1f, 10);
+            cam.Rotation = new Vector3(-(float)Math.PI / 3, (float)Math.PI, 0f);
+            cam.Rotation = new Vector3(0, (float)Math.PI, 0f);
             collection.SceneObjects.Cameras.Add("mainCamera", cam);
 
 
@@ -149,29 +151,51 @@ namespace GK3D.Graphics.SceneComponents.Test
             collection.ActiveCamera = collection.SceneObjects.Cameras.Values.FirstOrDefault();
 
             LoadMap(collection);
+            LoadCar(collection);
             return collection;
         }
+
+        public void LoadCar(SceneCollection collection)
+        {
+
+            ComplexObject car = new ComplexObject();
+            collection.SceneObjects.ComplexObjects.Add(nameof(car), car);
+
+            var carModel = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
+            var c = carModel.faces.Min(x => x.Item3.Position.Y);
+            carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            carModel.Position = new Vector3(0, -0.125f, 8);
+            carModel.Rotation = new Vector3(0,0.415f, 0);
+            carModel.Color = new Vector3(1, 0, 0);
+            carModel.Scale = new Vector3(0.005f, 0.005f, 0.005f);
+            car.Primitives.Add(nameof(carModel), carModel);
+        }
+
         public void LoadMap(SceneCollection collection)
         {
             ComplexObject map = new ComplexObject();
+            map.Scale = new Vector3(10, 10, 10);
+            map.Rotation = new Vector3(-(float)Math.PI/2, 0, 0);
             collection.SceneObjects.ComplexObjects.Add(nameof(map), map);
 
 
             float layerOffset = 0.001f;
-            Capsule2D plain = new Capsule2D(1, new Vector3(0, 1, 0), 1);
+            Vector3 grassColor = new Vector3(0.12f, 0.35f, 0.12f);
+
+            Capsule2D plain = new Capsule2D(1, grassColor, 1);
             plain.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
-            plain.Scale = new Vector3(2f, 2f, 2f);
-            plain.Position = new Vector3(0, 0,-layerOffset);
+            plain.Scale = new Vector3(5f, 5f, 5f);
+            plain.Position = new Vector3(0, 0, -layerOffset);
             plain.CalculateNormals();
             map.Primitives.Add(nameof(plain), plain);
 
-            Capsule2D roadOut = new Capsule2D(1, new Vector3(0, 0, 0), 100);
+            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.15f, 0.15f, 0.15f), 100);
             roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadOut.Position = new Vector3(0, 0, 0);
             roadOut.CalculateNormals();
             map.Primitives.Add(nameof(roadOut), roadOut);
 
-            Capsule2D roadIn = new Capsule2D(1, new Vector3(1, 0, 0), 100);
+            Capsule2D roadIn = new Capsule2D(1, grassColor, 100);
             roadIn.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadIn.Position = new Vector3(0, 0, layerOffset);
             roadIn.Scale = new Vector3(0.7f, 0.8f, 0.7f);
@@ -181,8 +205,18 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             var ball = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\ball.obj");
             ball.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            ball.Position = new Vector3(0, 0, -0.015f);
+            ball.Color = new Vector3(0.55f, 0.43f, 0.33f);
+            ball.Scale = new Vector3(0.15f, 0.15f, 0.15f);
             map.Primitives.Add(nameof(ball), ball);
 
+            var ball2 = ball.Clone();
+            ball2.Position += new Vector3(0,0.6f,0);
+            map.Primitives.Add(nameof(ball2), ball2);
+
+            var ball3 = ball.Clone();
+            ball3.Position += new Vector3(0, -0.6f, 0);
+            map.Primitives.Add(nameof(ball3), ball3);
         }
     }
 }

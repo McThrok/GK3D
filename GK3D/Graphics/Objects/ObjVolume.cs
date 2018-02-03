@@ -15,7 +15,7 @@ namespace GK3D.Graphics.Objects
 
         public List<Tuple<FaceVertex, FaceVertex, FaceVertex>> faces = new List<Tuple<FaceVertex, FaceVertex, FaceVertex>>();
 
-        public override int VertCount { get => faces.Count*3; }
+        public override int VertCount { get => faces.Count * 3; }
         public override int IndiceCount { get => VertCount; }
         public override int ColorDataCount { get => VertCount; }
         public override int TextureCoordsCount { get => VertCount; }
@@ -24,6 +24,8 @@ namespace GK3D.Graphics.Objects
         {
             return Enumerable.Range(offset, IndiceCount).ToArray();
         }
+
+        public Vector3 Color { get; set; }
 
         public override Vector3[] GetVerts()
         {
@@ -65,7 +67,7 @@ namespace GK3D.Graphics.Objects
         }
         public override Vector3[] GetColorData()
         {
-            return new Vector3[ColorDataCount];
+            return Enumerable.Repeat(Color, ColorDataCount).ToArray();
         }
 
         public static ObjVolume LoadFromFile(string filename)
@@ -104,8 +106,6 @@ namespace GK3D.Graphics.Objects
             verts.Add(new Vector3());
             texs.Add(new Vector2());
             normals.Add(new Vector3());
-
-            int currentindice = 0;
 
             // Read file line by line
             foreach (String line in lines)
@@ -255,7 +255,7 @@ namespace GK3D.Graphics.Objects
                     foreach (var faceVertexInd in faceInd.Vertices.Skip(2))
                     {
                         var current = new FaceVertex(verts[faceVertexInd.Vertex], normals[faceVertexInd.Normal], texs[faceVertexInd.Texcoord]);
-                        vol.faces.Add(new Tuple<FaceVertex, FaceVertex, FaceVertex>(start,prev,current));
+                        vol.faces.Add(new Tuple<FaceVertex, FaceVertex, FaceVertex>(start, prev, current));
                         prev = current;
 
                     }
@@ -266,9 +266,19 @@ namespace GK3D.Graphics.Objects
             return vol;
         }
 
-
-       
-
-     
+        public ObjVolume Clone()
+        {
+            ObjVolume clone = new ObjVolume();
+            clone.faces =  faces.Select(x => new Tuple<FaceVertex, FaceVertex, FaceVertex>(x.Item1, x.Item2, x.Item3)).ToList();
+            clone.Position = Position;
+            clone.Scale = Scale;
+            clone.Rotation = Rotation;
+            clone.Material = Material;
+            clone.IsTextured = IsTextured;
+            clone.TextureID = TextureID;
+            clone.Normals = Normals;
+            clone.Color = Color;
+            return clone;
+        }
     }
 }
