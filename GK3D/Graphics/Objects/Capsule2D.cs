@@ -43,7 +43,7 @@ namespace GK3D.Graphics.Objects
 
             for (int i = 0; i < Lod; i++)
             {
-                var rotation = Matrix4.CreateRotationZ(-(i + 1) * (float)Math.PI / Lod); // '-' !!
+                var rotation = MatrixHelper.CreateRotationZ(-(i + 1) * (float)Math.PI / Lod); // '-' !!
                 var current = centerUp + (rotation * startVectorUp).Xyz;
                 verticiesWheelUp.Add(current);
                 indicesWheelUp.Add(0);
@@ -62,7 +62,7 @@ namespace GK3D.Graphics.Objects
 
             for (int i = 0; i < Lod; i++)
             {
-                var rotation = Matrix4.CreateRotationZ(-(i + 1) * (float)Math.PI / Lod); // '-' !!
+                var rotation = MatrixHelper.CreateRotationZ(-(i + 1) * (float)Math.PI / Lod); // '-' !!
                 var current = centerDown + (rotation * startVectorDown).Xyz;
                 verticiesWheelDown.Add(current);
                 indicesWheelDown.Add(0);

@@ -38,7 +38,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             //collection.SceneObjects.Cameras.Add(cam);
 
 
-           // LoadMap(collection);
+            LoadMap(collection);
             LoadCar(collection);
 
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "CarCamera");

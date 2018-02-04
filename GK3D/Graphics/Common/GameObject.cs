@@ -16,7 +16,7 @@ namespace GK3D.Graphics.Common
 
         public virtual Matrix4 CalculateModelMatrix()
         {
-            return Matrix4.CreateScale(Scale) * Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationZ(Rotation.Z) * Matrix4.CreateTranslation(Position);
+            return MatrixHelper.CreateScale(Scale) * MatrixHelper.CreateRotationX(Rotation.X) * MatrixHelper.CreateRotationY(Rotation.Y) * MatrixHelper.CreateRotationZ(Rotation.Z) * MatrixHelper.CreateTranslation(Position);
         }
     }
 }

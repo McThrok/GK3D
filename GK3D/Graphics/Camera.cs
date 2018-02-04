@@ -20,19 +20,19 @@ namespace GK3D.Graphics
             Vector4 up = new Vector4(Vector3.UnitY, 1);
 
             //X*Y does not work
-            //lookat = Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * lookat;
+            //lookat = MatrixHelper.CreateRotationX(Rotation.X) * MatrixHelper.CreateRotationY(Rotation.Y) * lookat;
             var a = globalModelMatrix*( new Vector4(1,0,0, 1));
-            lookat = Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationX(Rotation.X) * lookat;
-            up = Matrix4.CreateRotationZ(Rotation.Z) * up;
+            lookat = MatrixHelper.CreateRotationY(Rotation.Y) * MatrixHelper.CreateRotationX(Rotation.X) * lookat;
+            up = MatrixHelper.CreateRotationZ(Rotation.Z) * up;
 
             var position = new Vector3(globalModelMatrix * new Vector4(Position, 1));
              position =Position;
-            return Matrix4.LookAt(position, position + lookat.Xyz, up.Xyz);
+            return MatrixHelper.LookAt(position, position + lookat.Xyz, up.Xyz);
         }
         public void Move(float x, float y, float z)
         {
             Vector4 offset4 = new Vector4(x, y, z, 1);
-            offset4 = Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationZ(Rotation.Z) * offset4;
+            offset4 = MatrixHelper.CreateRotationX(Rotation.X) * MatrixHelper.CreateRotationY(Rotation.Y) * MatrixHelper.CreateRotationZ(Rotation.Z) * offset4;
 
             var offset = offset4.Xyz;
             offset.NormalizeFast();
@@ -42,7 +42,7 @@ namespace GK3D.Graphics
         }
         public void MoveWithSeparatedY(float x, float y, float z)
         {
-            var direction = Matrix4.CreateRotationY(Rotation.Y) * new Vector4(x, 0, z, 1);
+            var direction = MatrixHelper.CreateRotationY(Rotation.Y) * new Vector4(x, 0, z, 1);
 
             var offset = new Vector3(direction.X, y, direction.Z);
             offset.NormalizeFast();

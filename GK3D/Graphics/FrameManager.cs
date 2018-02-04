@@ -31,7 +31,7 @@ namespace GK3D.Graphics
             GL.Enable(EnableCap.DepthTest);
 
             var view = Collection.ActiveCamera.Object.GetViewMatrix(Collection.ActiveCamera.GlobalModelMatrix);
-            var projection = Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 80.0f);
+            var projection = MatrixHelper.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 80.0f);
 
             foreach (var primitive in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
