@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GK3D.Graphics.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace GK3D.Graphics.SceneComponents.Base
 {
     public abstract class SceneScenario
     {
-        public abstract void Process(float deltaTime);
+        public abstract void Process(ComplexObject sceneObjects, float deltaTime);
     }
    
 }

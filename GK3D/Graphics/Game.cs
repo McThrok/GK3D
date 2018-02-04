@@ -61,7 +61,7 @@ namespace GK3D.Graphics
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            SceneController.Scenario.Process((float)e.Time);
+            SceneController.Scenario.Process(SceneController.Collection.SceneObjects, (float)e.Time);
             UpdateActiveCamera();
         }
         private void UpdateActiveCamera()

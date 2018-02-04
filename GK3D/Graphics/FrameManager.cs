@@ -164,17 +164,19 @@ namespace GK3D.Graphics
         }
         private void LoadLightsTemp(ShaderProgram shader, List<CollectionItem<Light>> lights)
         {
-            for (int i = 0; i < 1; i++)
+            for (int i = 0; i < 2; i++)
             {
                 if (shader.GetUniform("light_position_" + i) != -1)
                 {
-                    GL.Uniform3(shader.GetUniform("light_position_" + i), lights[i].Object.Position);
+                    var position = lights[i].Object.Position.ApplyOnPoint(lights[i].GlobalModelMatrix);
+                    GL.Uniform3(shader.GetUniform("light_position_" + i), position);
                 }
                 if (shader.GetUniform("light_direction_" + i) != -1)
                 {
                     var matrix = MatrixHelper.CreateRotationX(lights[i].Object.Rotation.X) * MatrixHelper.CreateRotationY(lights[i].Object.Rotation.Y) * MatrixHelper.CreateRotationZ(lights[i].Object.Rotation.Z);
-                    var a = (Vector3.UnitZ).ApplyOnVector(matrix);
-                    GL.Uniform3(shader.GetUniform("light_direction_" + i), (-Vector3.UnitZ).ApplyOnVector(matrix));
+                    var a = (-Vector3.UnitZ).ApplyOnVector(matrix);
+                    var b =a.ApplyOnVector(lights[i].GlobalModelMatrix);
+                    GL.Uniform3(shader.GetUniform("light_direction_" + i), b);
                 }
 
                 if (shader.GetUniform("light_color_" + i) != -1)

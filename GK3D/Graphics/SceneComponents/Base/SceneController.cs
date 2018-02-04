@@ -21,6 +21,7 @@ namespace GK3D.Graphics.SceneComponents.Base
             Scenario = scenario;
             Collection = Loader.Load();
         }
+
     }
    
 }

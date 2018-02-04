@@ -20,26 +20,22 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
-            collection.SceneObjects.Lights.Add(new Light(new Vector3(3,1,0), new Vector3(0.8f, 0.8f, 0.8f), 0.3f) { Rotation = new Vector3(0, -(float)Math.PI/2, 0) });
+           // collection.SceneObjects.Lights.Add(new Light(new Vector3(3, 1, 0), new Vector3(0.8f, 0.8f, 0.8f), 0.3f) { Rotation = new Vector3(0, -(float)Math.PI / 2, 0) });
 
             // Load shaders from file
-            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\fs_color.glsl", true));
-            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_color.glsl", true));
             collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_primitive_color.c", true));
-            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs.glsl", "Graphics\\Resources\\Shaders\\old\\fs.glsl", true));
 
             //Move camera away from origin
             Camera cam = new Camera();
             cam.Name = "MainCamera";
-            cam.Position = new Vector3(5f, 5f,0);
-            cam.Rotation = new Vector3(0, (float)Math.PI,0);
+            cam.Position = new Vector3(0, 2f, 3);
+            cam.Rotation = new Vector3(0, (float)Math.PI, 0);
             collection.SceneObjects.Cameras.Add(cam);
-
 
             LoadMap(collection);
             LoadCar(collection);
 
-           // collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "CarCamera");
+            // collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "CarCamera");
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "MainCamera");
             return collection;
         }
@@ -48,16 +44,17 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
 
             ComplexObject car = new ComplexObject();
-            car.Position = new Vector3(5, 0, 5);
-            car.Rotation = new Vector3(0, (float)Math.PI / 8, 0);
+            car.Name = "Car";
+            car.Position = new Vector3(0,0 , 3);
+           // car.Rotation = new Vector3(0, (float)Math.PI / 8, 0);
             collection.SceneObjects.ComplexObjects.Add(car);
 
             Camera carCamera = new Camera()
             {
                 Name = "CarCamera",
                 // Position = new Vector3(0, 1, 0),
-                Rotation = new Vector3(0, (float)Math.PI , 0),
-        };
+                Rotation = new Vector3(0, (float)Math.PI, 0),
+            };
             car.Cameras.Add(carCamera);
 
 
@@ -83,26 +80,20 @@ namespace GK3D.Graphics.SceneComponents.Test
             car.Primitives.Add(carModel);
 
 
-            Cube qwe = new Cube()
+            Light light1 = new Light(new Vector3(0.15f, 0.23f, 0.32f),new Vector3(1,1,1))
             {
-                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(0.25f, 0.13f, -0.62f),
-                Rotation = new Vector3(0, 0, 0),
-                Scale = new Vector3(0.1f, 0.1f, 0.1f)
+                Rotation = new Vector3(0, 0, -(float)Math.PI / 8),
+                Scale = new Vector3(1, 1, 1),
             };
-            qwe.CalculateNormals();
-            // car.Primitives.Add(nameof(qwe), qwe);
+            car.Lights.Add(light1);
 
 
-            Cube qwe2 = new Cube()
+            Light light2 = new Light(new Vector3(-0.15f, 0.23f, 0.32f), new Vector3(1, 1, 1))
             {
-                Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(-0.25f, 0.135f, -0.62f),
-                Rotation = new Vector3(0, 0, 0),
-                Scale = new Vector3(0.1f, 0.1f, 0.1f)
+                Rotation = new Vector3(0, 0, -(float)Math.PI/8),
+                Scale = new Vector3(1, 1, 1),
             };
-            qwe2.CalculateNormals();
-            // car.Primitives.Add(nameof(qwe2), qwe2);
+            car.Lights.Add(light2);
         }
 
         public void LoadMap(SceneCollection collection)
