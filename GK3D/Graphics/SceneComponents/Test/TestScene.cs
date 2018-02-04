@@ -20,9 +20,9 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
-            collection.SceneObjects.Lights.Add("mainLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
-            collection.SceneObjects.Lights.Add("secondLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
-            collection.SceneObjects.Lights.Add("thirdLight", new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
+            collection.SceneObjects.Lights.Add(new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
+            collection.SceneObjects.Lights.Add(new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
+            collection.SceneObjects.Lights.Add(new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
 
             //Light spotLight2 = new Light(new Vector3(0, 3f, 0), new Vector3(1f, 1f, 1f), 1, 1)
             //{
@@ -138,7 +138,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             cam.Position = new Vector3(0, 0.1f, 10);
             cam.Rotation = new Vector3(-(float)Math.PI / 3, (float)Math.PI, 0f);
             cam.Rotation = new Vector3(0, (float)Math.PI, 0f);
-            collection.SceneObjects.Cameras.Add("mainCamera", cam);
+            collection.SceneObjects.Cameras.Add( cam);
 
 
             Camera secondCamera = new Camera
@@ -146,9 +146,9 @@ namespace GK3D.Graphics.SceneComponents.Test
                 Position = new Vector3(0f, 8f, 0),
                 Rotation = new Vector3(-(float)Math.PI / 2 + 0.1f, (float)Math.PI, 0f)
             };
-            collection.SceneObjects.Cameras.Add("secondCamera", secondCamera);
+            collection.SceneObjects.Cameras.Add( secondCamera);
 
-            collection.ActiveCamera = collection.SceneObjects.Cameras.Values.FirstOrDefault();
+            collection.ActiveCamera = collection.SceneObjects.Cameras.FirstOrDefault();
 
             LoadMap(collection);
             LoadCar(collection);
@@ -159,7 +159,7 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
 
             ComplexObject car = new ComplexObject();
-            collection.SceneObjects.ComplexObjects.Add(nameof(car), car);
+            collection.SceneObjects.ComplexObjects.Add( car);
 
             var carModel = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
             var c = carModel.faces.Min(x => x.Item3.Position.Y);
@@ -170,21 +170,21 @@ namespace GK3D.Graphics.SceneComponents.Test
             var colorData = new List<Vector3>();
             colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 320 * 3));
             colorData.AddRange(Enumerable.Repeat(new Vector3(1, 0, 0), 88 * 6));
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1,1,1), 182 * 6));
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1,0,0), 161 * 6));
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0,1), 10 * 6));//glass
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1,1,1), 4 * 6));//light
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1,1,1), 168 * 6));//wheel out
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0,0), 588));//wheel in
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0,0), 28 * 3));//wheel in
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1,1,1), 168 * 6));//wheel out
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0,0), 588));//wheel in
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0,0, 0), 28 * 3));//wheel in
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 182 * 6));
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 0, 0), 161 * 6));
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 1), 10 * 6));//glass
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 4 * 6));//light
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 168 * 6));//wheel out
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 588));//wheel in
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 28 * 3));//wheel in
+            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 168 * 6));//wheel out
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 588));//wheel in
+            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 28 * 3));//wheel in
 
             //colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), carModel.ColorDataCount ));
             carModel.ColorData = colorData.ToArray();
             carModel.Scale = new Vector3(0.005f, 0.005f, 0.005f);
-            car.Primitives.Add(nameof(carModel), carModel);
+            car.Primitives.Add( carModel);
 
 
             Cube qwe = new Cube()
@@ -195,7 +195,7 @@ namespace GK3D.Graphics.SceneComponents.Test
                 Scale = new Vector3(0.1f, 0.1f, 0.1f)
             };
             qwe.CalculateNormals();
-           // car.Primitives.Add(nameof(qwe), qwe);
+            // car.Primitives.Add(nameof(qwe), qwe);
 
 
             Cube qwe2 = new Cube()
@@ -206,7 +206,7 @@ namespace GK3D.Graphics.SceneComponents.Test
                 Scale = new Vector3(0.1f, 0.1f, 0.1f)
             };
             qwe2.CalculateNormals();
-           // car.Primitives.Add(nameof(qwe2), qwe2);
+            // car.Primitives.Add(nameof(qwe2), qwe2);
         }
 
         public void LoadMap(SceneCollection collection)
@@ -214,7 +214,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             ComplexObject map = new ComplexObject();
             map.Scale = new Vector3(10, 10, 10);
             map.Rotation = new Vector3(-(float)Math.PI / 2, 0, 0);
-            collection.SceneObjects.ComplexObjects.Add(nameof(map), map);
+            collection.SceneObjects.ComplexObjects.Add( map);
 
 
             float layerOffset = 0.001f;
@@ -225,35 +225,35 @@ namespace GK3D.Graphics.SceneComponents.Test
             plain.Scale = new Vector3(5f, 5f, 5f);
             plain.Position = new Vector3(0, 0, -layerOffset);
             plain.CalculateNormals();
-            map.Primitives.Add(nameof(plain), plain);
+            map.Primitives.Add(plain);
 
             Capsule2D roadOut = new Capsule2D(1, new Vector3(0.15f, 0.15f, 0.15f), 100);
             roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadOut.Position = new Vector3(0, 0, 0);
             roadOut.CalculateNormals();
-            map.Primitives.Add(nameof(roadOut), roadOut);
+            map.Primitives.Add(roadOut);
 
             Capsule2D roadIn = new Capsule2D(1, grassColor, 100);
             roadIn.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadIn.Position = new Vector3(0, 0, layerOffset);
             roadIn.Scale = new Vector3(0.7f, 0.8f, 0.7f);
             roadIn.CalculateNormals();
-            map.Primitives.Add(nameof(roadIn), roadIn);
+            map.Primitives.Add( roadIn);
 
             var ball = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\ball.obj");
             ball.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             ball.Position = new Vector3(0, 0, -0.015f);
             ball.ColorData = Enumerable.Repeat(new Vector3(0.55f, 0.43f, 0.33f), ball.ColorDataCount).ToArray();
             ball.Scale = new Vector3(0.15f, 0.15f, 0.15f);
-            map.Primitives.Add(nameof(ball), ball);
+            map.Primitives.Add( ball);
 
             var ball2 = ball.Clone();
             ball2.Position += new Vector3(0, 0.6f, 0);
-            map.Primitives.Add(nameof(ball2), ball2);
+            map.Primitives.Add( ball2);
 
             var ball3 = ball.Clone();
             ball3.Position += new Vector3(0, -0.6f, 0);
-            map.Primitives.Add(nameof(ball3), ball3);
+            map.Primitives.Add( ball3);
         }
     }
 }

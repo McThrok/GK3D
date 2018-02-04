@@ -9,6 +9,7 @@ namespace GK3D.Graphics.Common
 {
     public abstract class GameObject
     {
+        public string Name { get; set; }
         public Vector3 Position = Vector3.Zero;
         public Vector3 Rotation = Vector3.Zero;
         public Vector3 Scale = Vector3.One;

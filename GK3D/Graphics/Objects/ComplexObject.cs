@@ -11,46 +11,72 @@ namespace GK3D.Graphics.Objects
 {
     public class ComplexObject : GameObject
     {
-        public Dictionary<string, Light> Lights { get; set; } = new Dictionary<string, Light>();
-        public Dictionary<string, Primitive> Primitives { get; set; } = new Dictionary<string, Primitive>();
-        public Dictionary<string, Camera> Cameras { get; set; } = new Dictionary<string, Camera>();
-        public Dictionary<string, ComplexObject> ComplexObjects { get; set; } = new Dictionary<string, ComplexObject>();
+        public List<Light> Lights { get; set; } = new List<Light>();
+        public List<Primitive> Primitives { get; set; } = new List<Primitive>();
+        public List<Camera> Cameras { get; set; } = new List<Camera>();
+        public List<ComplexObject> ComplexObjects { get; set; } = new List<ComplexObject>();
 
-        public List<Light> GetAllLights()
-        {
-            var lights = new List<Light>(Lights.Values);
-            foreach (var obj in ComplexObjects.Values)
-                lights.AddRange(obj.GetAllLights());
 
-            return lights;
-        }
-        public List<Camera> GetAllCameras()
+        public List<CollectionItem<Camera>> GetCamerasWiThGlobalModelMatrices()
         {
-            var cameras = new List<Camera>(Cameras.Values);
-            foreach (var obj in ComplexObjects.Values)
-                cameras.AddRange(obj.GetAllCameras());
+            var matrix = CalculateModelMatrix();
+            var cameras = new List<CollectionItem<Camera>>();
+
+            foreach (var obj in ComplexObjects)
+                cameras.AddRange(obj.GetCamerasWiThGlobalModelMatrices());
+
+            cameras.AddRange(Cameras.Select(x => new CollectionItem<Camera>()
+            {
+                Object = x,
+                GlobalModelMatrix = x.CalculateModelMatrix(),
+            }));
+
+            foreach (var camera in cameras)
+                camera.GlobalModelMatrix *= matrix;
 
             return cameras;
         }
-        public List<Primitive> GetAllPrimitiveObjects()
-        {
-            var objs = new List<Primitive>(Primitives.Values);
-            foreach (var obj in ComplexObjects.Values)
-                objs.AddRange(obj.GetAllPrimitiveObjects());
 
-            return objs;
-        }
-
-        public IEnumerable<KeyValuePair<Primitive, Matrix4>> GetPrimitivesWiThGlobalModelMatrices()
+        public List<CollectionItem<Light>> GetLightsWiThGlobalModelMatrices()
         {
             var matrix = CalculateModelMatrix();
-            var tuples = new List<KeyValuePair<Primitive, Matrix4>>();
-            foreach (var obj in ComplexObjects.Values)
-                tuples.AddRange(obj.GetPrimitivesWiThGlobalModelMatrices());
-            tuples.AddRange(Primitives.Values.Select(x => new KeyValuePair<Primitive, Matrix4>(x, x.CalculateModelMatrix())));
+            var lights = new List<CollectionItem<Light>>();
 
-            var updatedTuples = tuples.Select(x => new KeyValuePair<Primitive, Matrix4>(x.Key, x.Value* matrix ));
-            return updatedTuples;
+            foreach (var obj in ComplexObjects)
+                lights.AddRange(obj.GetLightsWiThGlobalModelMatrices());
+
+            lights.AddRange(Lights.Select(x => new CollectionItem<Light>()
+            {
+                Object = x,
+                GlobalModelMatrix = x.CalculateModelMatrix(),
+            }));
+
+            foreach (var light in lights)
+                light.GlobalModelMatrix *= matrix;
+
+            return lights;
         }
+
+        public List<CollectionItem<Primitive>> GetPrimitivesWiThGlobalModelMatrices()
+        {
+            var matrix = CalculateModelMatrix();
+            var primitives = new List<CollectionItem<Primitive>>();
+
+            foreach (var obj in ComplexObjects)
+                primitives.AddRange(obj.GetPrimitivesWiThGlobalModelMatrices());
+
+            primitives.AddRange(Primitives.Select(x => new CollectionItem<Primitive>()
+            {
+                Object = x,
+                GlobalModelMatrix = x.CalculateModelMatrix(),
+            }));
+
+            foreach (var primitive in primitives)
+                primitive.GlobalModelMatrix *= matrix;
+
+            return primitives;
+        }
+
+
     }
 }
