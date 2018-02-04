@@ -26,7 +26,7 @@ namespace GK3D.Graphics
             up =  MatrixHelper.CreateRotationZ(Rotation.Z) * up;
             up = up.ApplyOnVector(globalModelMatrix);
 
-            var position = Position.ApplyOnPoint(globalModelMatrix);
+            var position = Vector3.Zero.ApplyOnPoint(globalModelMatrix);
             return MatrixHelper.LookAt(position, position + lookat.Xyz, up.Xyz);
         }
 
@@ -57,6 +57,7 @@ namespace GK3D.Graphics
             y *= MouseSensitivity;
             Rotation.Y = (Rotation.Y + x) % ((float)Math.PI * 2.0f);
             Rotation.X = Math.Max(Math.Min(Rotation.X - y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
+
         }
     }
 }

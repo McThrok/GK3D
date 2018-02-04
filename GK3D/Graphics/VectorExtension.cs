@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GK3D.Graphics.SceneComponents
+namespace GK3D.Graphics
 {
     public static class VectorExtension
     {
@@ -32,5 +32,6 @@ namespace GK3D.Graphics.SceneComponents
         {
             return (new Vector4(vector, 1).ApplyOnPoint(matrix)).Xyz;
         }
+       
     }
 }

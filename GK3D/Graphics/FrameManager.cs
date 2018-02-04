@@ -61,7 +61,8 @@ namespace GK3D.Graphics
                 }
 
                 LoadPrimitiveData(shader, primitive.Object);
-                LoadCamera(shader, view, Collection.ActiveCamera.Object.Position.ApplyOnPoint(Collection.ActiveCamera.GlobalModelMatrix));
+                var a = Collection.ActiveCamera.Object.Position.ApplyOnPoint(Collection.ActiveCamera.GlobalModelMatrix);
+                LoadCamera(shader, view, a);
                 LoadLights(shader, Collection.SceneObjects.GetLightsWiThGlobalModelMatrices());
 
                 GL.DrawElements(BeginMode.Triangles, primitive.Object.IndiceCount, DrawElementsType.UnsignedInt, 0);
@@ -171,12 +172,11 @@ namespace GK3D.Graphics
                     var position = lights[i].Object.Position.ApplyOnPoint(lights[i].GlobalModelMatrix);
                     GL.Uniform3(shader.GetUniform("light_position_" + i), position);
                 }
+
                 if (shader.GetUniform("light_direction_" + i) != -1)
                 {
-                    var matrix = MatrixHelper.CreateRotationX(lights[i].Object.Rotation.X) * MatrixHelper.CreateRotationY(lights[i].Object.Rotation.Y) * MatrixHelper.CreateRotationZ(lights[i].Object.Rotation.Z);
-                    var a = (-Vector3.UnitZ).ApplyOnVector(matrix);
-                    var b =a.ApplyOnVector(lights[i].GlobalModelMatrix);
-                    GL.Uniform3(shader.GetUniform("light_direction_" + i), b);
+                    var direction = (-Vector3.UnitZ).ApplyOnVector(lights[i].GlobalModelMatrix);
+                    GL.Uniform3(shader.GetUniform("light_direction_" + i), direction);
                 }
 
                 if (shader.GetUniform("light_color_" + i) != -1)

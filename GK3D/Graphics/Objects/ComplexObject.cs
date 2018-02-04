@@ -37,6 +37,26 @@ namespace GK3D.Graphics.Objects
             return cameras;
         }
 
+        public List<CollectionItem<ComplexObject>> GetComplexObjectsWiThGlobalModelMatrices()
+        {
+            var matrix = CalculateModelMatrix();
+            var objects = new List<CollectionItem<ComplexObject>>();
+
+            foreach (var obj in ComplexObjects)
+                objects.AddRange(obj.GetComplexObjectsWiThGlobalModelMatrices());
+
+            foreach (var camera in objects)
+                camera.GlobalModelMatrix *= matrix;
+
+            objects.Add(new CollectionItem<ComplexObject>()
+            {
+                Object = this,
+                GlobalModelMatrix = matrix
+            });
+
+            return objects;
+        }
+
         public List<CollectionItem<Light>> GetLightsWiThGlobalModelMatrices()
         {
             var matrix = CalculateModelMatrix();

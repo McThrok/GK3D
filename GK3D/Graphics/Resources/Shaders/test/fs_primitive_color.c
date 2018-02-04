@@ -24,7 +24,7 @@ vec4 getColor(vec3 light_position, vec3 light_color,vec3 light_direction) {
 	vec3 FragPos = v_pos;
 
 	// ambient
-	float ambientStrength = 0.05f;
+	float ambientStrength = 0.2f;
 	vec3 ambient = ambientStrength * lightColor;
 
 	// diffuse 
@@ -41,7 +41,7 @@ vec4 getColor(vec3 light_position, vec3 light_color,vec3 light_direction) {
     vec3 viewDir = normalize(lightPos - v_pos);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = specularStrength * spec * lightColor;  
+    vec3 specular = specularStrength * spec * lightColor * spotlight;
 
 	vec4 colorToAdd = vec4((ambient + diffuse + specular), 1)* color ;
 

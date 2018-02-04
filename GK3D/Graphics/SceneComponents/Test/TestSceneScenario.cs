@@ -13,9 +13,37 @@ namespace GK3D.Graphics.SceneComponents.Test
     {
         public override void Process(ComplexObject sceneObjects, float deltaTime)
         {
-            var car = sceneObjects.ComplexObjects.FirstOrDefault(x => x.Name == "Car");
+            var complexObjects = sceneObjects.GetComplexObjectsWiThGlobalModelMatrices();
+            var cameras = sceneObjects.GetCamerasWiThGlobalModelMatrices();
+
+            var test = complexObjects.FirstOrDefault(x => x.Object.Name == "Test");
+            if (test != null)
+                test.Object.Rotation += new Vector3(0, deltaTime * 0.1f, 0);
+
+            var car = complexObjects.FirstOrDefault(x => x.Object.Name == "Car");
             if (car != null)
-                car.Rotation += new Vector3(0, deltaTime * 1f, 0);
+            {
+                car.Object.Rotation += new Vector3(0, deltaTime * 1f, 0);
+
+                var dynamicCamera = cameras.FirstOrDefault(x => x.Object.Name == "DynamicCam");
+                if (dynamicCamera != null)
+                {
+                    var ball = sceneObjects.GetPrimitivesWiThGlobalModelMatrices().First(x => x.Object.Name == "ball");
+                    var direction = dynamicCamera.Object.Position - ball.Object.Position.ApplyOnPoint(ball.GlobalModelMatrix);
+                    //var direction = dynamicCamera.Object.Position - car.Object.Position;
+                    var vectorY = new Vector3(direction.X, 0, direction.Z);
+                    var defaultDirection = -Vector3.UnitZ;
+
+                    var angleX = Vector3.CalculateAngle(direction, vectorY);
+
+                    //var angleY = 0;
+                    var angleY = Vector3.CalculateAngle(vectorY, defaultDirection);
+                    if (vectorY.X * defaultDirection.X < 0)
+                        angleY = 2 * (float)Math.PI - angleY;
+
+                    //dynamicCamera.Object.Rotation += new Vector3(angleX, -angleY,0);
+                }
+            }
         }
     }
 }
