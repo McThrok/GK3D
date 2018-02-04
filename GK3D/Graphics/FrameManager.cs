@@ -194,26 +194,26 @@ namespace GK3D.Graphics
         }
         private void LoadLightsTemp(ShaderProgram shader, List<CollectionItem<Light>> lights)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 1; i++)
             {
-                if (shader.GetUniform("light" + i + ".position") != -1)
+                if (shader.GetUniform("light_position_"+ i) != -1)
                 {
-                    GL.Uniform3(shader.GetUniform("light" + i + ".position"), lights[i].Object.Position);
+                    GL.Uniform3(shader.GetUniform("light_position_" + i), lights[i].Object.Position);
                 }
 
-                if (shader.GetUniform("light" + i + ".color") != -1)
+                if (shader.GetUniform("light_color_" + i) != -1)
                 {
-                    GL.Uniform3(shader.GetUniform("light" + i + ".color"), lights[i].Object.Color);
+                    GL.Uniform3(shader.GetUniform("light_color_" + i), lights[i].Object.Color);
                 }
 
-                if (shader.GetUniform("light" + i + ".diffuseIntensity") != -1)
+                if (shader.GetUniform("light_diffuseIntensity_" + i) != -1)
                 {
-                    GL.Uniform1(shader.GetUniform("light" + i + ".diffuseIntensity"), lights[i].Object.DiffuseIntensity);
+                    GL.Uniform1(shader.GetUniform("light_diffuseIntensity_" + i), lights[i].Object.DiffuseIntensity);
                 }
 
-                if (shader.GetUniform("light" + i + ".ambientIntensity") != -1)
+                if (shader.GetUniform("light_ambientIntensity_" + i) != -1)
                 {
-                    GL.Uniform1(shader.GetUniform("light" + i + ".ambientIntensity"), lights[i].Object.AmbientIntensity);
+                    GL.Uniform1(shader.GetUniform("light_ambientIntensity_" + i), lights[i].Object.AmbientIntensity);
                 }
             }
         }

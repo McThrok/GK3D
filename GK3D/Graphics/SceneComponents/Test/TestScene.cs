@@ -21,13 +21,12 @@ namespace GK3D.Graphics.SceneComponents.Test
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
             collection.SceneObjects.Lights.Add(new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
-            collection.SceneObjects.Lights.Add(new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
-            collection.SceneObjects.Lights.Add(new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
 
             // Load shaders from file
             //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\fs_color.glsl", true));
             //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_color.glsl", true));
-            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs.glsl", "Graphics\\Resources\\Shaders\\old\\fs.glsl", true));
+            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_primitive_color.c", true));
+            //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\old\\vs.glsl", "Graphics\\Resources\\Shaders\\old\\fs.glsl", true));
 
             //Move camera away from origin
             Camera cam = new Camera();
