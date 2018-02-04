@@ -20,7 +20,7 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
-            collection.SceneObjects.Lights.Add(new Light(new Vector3(), new Vector3(0.8f, 0.8f, 0.8f), 0.3f));
+            collection.SceneObjects.Lights.Add(new Light(new Vector3(3,1,0), new Vector3(0.8f, 0.8f, 0.8f), 0.3f) { Rotation = new Vector3(0, -(float)Math.PI/2, 0) });
 
             // Load shaders from file
             //collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\fs_color.glsl", true));
@@ -31,17 +31,16 @@ namespace GK3D.Graphics.SceneComponents.Test
             //Move camera away from origin
             Camera cam = new Camera();
             cam.Name = "MainCamera";
-            cam.Position += new Vector3(0, 5f, 5f);
-            cam.Position = new Vector3(0, 0.1f, 10);
-            cam.Rotation = new Vector3(0, (float)Math.PI, 0f);
-            //collection.SceneObjects.Cameras.Add(cam);
+            cam.Position = new Vector3(5f, 5f,0);
+            cam.Rotation = new Vector3(0, (float)Math.PI,0);
+            collection.SceneObjects.Cameras.Add(cam);
 
 
             LoadMap(collection);
             LoadCar(collection);
 
-            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "CarCamera");
-           // collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "MainCamera");
+           // collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "CarCamera");
+            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "MainCamera");
             return collection;
         }
 

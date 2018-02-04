@@ -7,11 +7,12 @@ out vec4 outputColor;
 
 //light1
 uniform vec3 light_position_0;
+uniform vec3 light_direction_0;
 uniform vec3 light_color_0;
 
 uniform mat4 view;
 
-vec4 getColor(vec3 light_position, vec3 light_color) {
+vec4 getColor(vec3 light_position, vec3 light_color,vec3 light_direction) {
 
 
 	vec3 lightColor = light_color;
@@ -26,7 +27,10 @@ vec4 getColor(vec3 light_position, vec3 light_color) {
 	vec3 norm = normalize(v_norm);
 	vec3 lightDir = normalize(lightPos - FragPos);
 	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 diffuse = diff * lightColor;
+	light_direction = normalize(light_direction);
+	float spotlight = pow(max(dot(lightDir, light_direction), 0.0),100);
+
+	vec3 diffuse = diff * lightColor * spotlight;
 
 	// specular
     float specularStrength = 0.2f;
@@ -43,5 +47,5 @@ vec4 getColor(vec3 light_position, vec3 light_color) {
 void main()
 {
 	outputColor = vec4(0, 0, 0, 1);
-	outputColor += getColor(light_position_0, light_color_0);
+	outputColor += getColor(light_position_0, light_color_0, light_direction_0);
 }
