@@ -51,14 +51,15 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             ComplexObject car = new ComplexObject();
             car.Position = new Vector3(5, 0, 5);
+            car.Rotation = new Vector3(0, (float)Math.PI / 8, 0);
             collection.SceneObjects.ComplexObjects.Add(car);
 
             Camera carCamera = new Camera()
             {
                 Name = "CarCamera",
-               // Position = new Vector3(0, 1, 0),
-                //Rotation = new Vector3(0, (float)Math.PI, 0f),
-            };
+                // Position = new Vector3(0, 1, 0),
+                Rotation = new Vector3(0, (float)Math.PI , 0),
+        };
             car.Cameras.Add(carCamera);
 
 
@@ -67,7 +68,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             carModel.Position = new Vector3(0, -0.12f, 0);
             carModel.Rotation = new Vector3(0, 0.415f, 0);
-            //carModel.Rotation += new Vector3(0, (float)Math.PI / 2, 0);
+            carModel.Rotation += new Vector3(0, (float)Math.PI, 0);
             var colorData = new List<Vector3>();
             colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 320 * 3));
             colorData.AddRange(Enumerable.Repeat(new Vector3(1, 0, 0), 88 * 6));

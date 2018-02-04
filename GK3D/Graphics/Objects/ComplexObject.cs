@@ -11,8 +11,8 @@ namespace GK3D.Graphics.Objects
 {
     public class ComplexObject : GameObject
     {
-        public List<Light> Lights { get; set; } = new List<Light>();
         public List<Primitive> Primitives { get; set; } = new List<Primitive>();
+        public List<Light> Lights { get; set; } = new List<Light>();
         public List<Camera> Cameras { get; set; } = new List<Camera>();
         public List<ComplexObject> ComplexObjects { get; set; } = new List<ComplexObject>();
 

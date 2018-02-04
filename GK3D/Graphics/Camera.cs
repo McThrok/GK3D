@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GK3D.Graphics.SceneComponents;
 
 namespace GK3D.Graphics
 {
@@ -19,16 +20,16 @@ namespace GK3D.Graphics
             Vector4 lookat = new Vector4(Vector3.UnitZ, 1);
             Vector4 up = new Vector4(Vector3.UnitY, 1);
 
-            //X*Y does not work
-            //lookat = MatrixHelper.CreateRotationX(Rotation.X) * MatrixHelper.CreateRotationY(Rotation.Y) * lookat;
-            var a = globalModelMatrix*( new Vector4(1,0,0, 1));
-            lookat = MatrixHelper.CreateRotationY(Rotation.Y) * MatrixHelper.CreateRotationX(Rotation.X) * lookat;
-            up = MatrixHelper.CreateRotationZ(Rotation.Z) * up;
+            lookat =  MatrixHelper.CreateRotationY(Rotation.Y) * MatrixHelper.CreateRotationX(Rotation.X) * lookat;
+            lookat = lookat.ApplyOnVector(globalModelMatrix);
 
-            var position = new Vector3(globalModelMatrix * new Vector4(Position, 1));
-             position =Position;
+            up =  MatrixHelper.CreateRotationZ(Rotation.Z) * up;
+            up = up.ApplyOnVector(globalModelMatrix);
+
+            var position = Position.ApplyOnPoint(globalModelMatrix);
             return MatrixHelper.LookAt(position, position + lookat.Xyz, up.Xyz);
         }
+
         public void Move(float x, float y, float z)
         {
             Vector4 offset4 = new Vector4(x, y, z, 1);
