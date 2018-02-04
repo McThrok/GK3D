@@ -14,17 +14,20 @@ namespace GK3D.Graphics
         public float MoveSpeed = 0.2f;
         public float MouseSensitivity = 0.003f;
 
-        public Matrix4 GetViewMatrix()
+        public Matrix4 GetViewMatrix(Matrix4 globalModelMatrix)
         {
             Vector4 lookat = new Vector4(Vector3.UnitZ, 1);
             Vector4 up = new Vector4(Vector3.UnitY, 1);
 
             //X*Y does not work
             //lookat = Matrix4.CreateRotationX(Rotation.X) * Matrix4.CreateRotationY(Rotation.Y) * lookat;
+            var a = globalModelMatrix*( new Vector4(1,0,0, 1));
             lookat = Matrix4.CreateRotationY(Rotation.Y) * Matrix4.CreateRotationX(Rotation.X) * lookat;
             up = Matrix4.CreateRotationZ(Rotation.Z) * up;
 
-            return Matrix4.LookAt(Position, Position + lookat.Xyz, up.Xyz);
+            var position = new Vector3(globalModelMatrix * new Vector4(Position, 1));
+             position =Position;
+            return Matrix4.LookAt(position, position + lookat.Xyz, up.Xyz);
         }
         public void Move(float x, float y, float z)
         {

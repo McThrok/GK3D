@@ -31,19 +31,18 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             //Move camera away from origin
             Camera cam = new Camera();
-
+            cam.Name = "MainCamera";
             cam.Position += new Vector3(0, 5f, 5f);
             cam.Position = new Vector3(0, 0.1f, 10);
-            cam.Rotation = new Vector3(-(float)Math.PI / 3, (float)Math.PI, 0f);
             cam.Rotation = new Vector3(0, (float)Math.PI, 0f);
-            collection.SceneObjects.Cameras.Add(cam);
+            //collection.SceneObjects.Cameras.Add(cam);
 
-            //collection.ActiveCamera = collection.SceneObjects.Cameras.FirstOrDefault();
 
-            LoadMap(collection);
+           // LoadMap(collection);
             LoadCar(collection);
 
-            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x=>x.Object.Name == "CarCamera");
+            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "CarCamera");
+           // collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "MainCamera");
             return collection;
         }
 
@@ -51,13 +50,14 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
 
             ComplexObject car = new ComplexObject();
+            car.Position = new Vector3(5, 0, 5);
             collection.SceneObjects.ComplexObjects.Add(car);
 
             Camera carCamera = new Camera()
             {
                 Name = "CarCamera",
-                Position = new Vector3(0, 1, 0),
-                Rotation = new Vector3(-(float)Math.PI / 3, (float)Math.PI, 0f),
+               // Position = new Vector3(0, 1, 0),
+                //Rotation = new Vector3(0, (float)Math.PI, 0f),
             };
             car.Cameras.Add(carCamera);
 
@@ -87,7 +87,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             Cube qwe = new Cube()
             {
                 Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(0.25f, 0.13f,  - 0.62f),
+                Position = new Vector3(0.25f, 0.13f, -0.62f),
                 Rotation = new Vector3(0, 0, 0),
                 Scale = new Vector3(0.1f, 0.1f, 0.1f)
             };
@@ -98,7 +98,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             Cube qwe2 = new Cube()
             {
                 Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5),
-                Position = new Vector3(-0.25f  , 0.135f, -0.62f),
+                Position = new Vector3(-0.25f, 0.135f, -0.62f),
                 Rotation = new Vector3(0, 0, 0),
                 Scale = new Vector3(0.1f, 0.1f, 0.1f)
             };
