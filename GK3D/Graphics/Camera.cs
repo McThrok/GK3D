@@ -20,10 +20,10 @@ namespace GK3D.Graphics
             Vector4 lookat = new Vector4(Vector3.UnitZ, 1);
             Vector4 up = new Vector4(Vector3.UnitY, 1);
 
-            lookat =  MatrixHelper.CreateRotationY(Rotation.Y) * MatrixHelper.CreateRotationX(Rotation.X) * lookat;
+            //lookat =  MatrixHelper.CreateRotationY(Rotation.Y) * MatrixHelper.CreateRotationX(Rotation.X) * lookat;
             lookat = lookat.ApplyOnVector(globalModelMatrix);
 
-            up =  MatrixHelper.CreateRotationZ(Rotation.Z) * up;
+            //up =  MatrixHelper.CreateRotationZ(Rotation.Z) * up;
             up = up.ApplyOnVector(globalModelMatrix);
 
             var position = Vector3.Zero.ApplyOnPoint(globalModelMatrix);
@@ -43,7 +43,7 @@ namespace GK3D.Graphics
         }
         public void MoveWithSeparatedY(float x, float y, float z)
         {
-            var direction = MatrixHelper.CreateRotationY(Rotation.Y) * new Vector4(x, 0, z, 1);
+            var direction = MatrixHelper.CreateRotationY(-Rotation.Y) * new Vector4(x, 0, z, 1);
 
             var offset = new Vector3(direction.X, y, direction.Z);
             offset.NormalizeFast();

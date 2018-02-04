@@ -30,13 +30,14 @@ namespace GK3D.Graphics.SceneComponents.Test
             staticCam.Name = "StaticCamera";
             staticCam.Position = new Vector3(0, 7f, 0);
             staticCam.Rotation = new Vector3(-(float)Math.PI / 4, (float)Math.PI, 0);
-            staticCam.Rotation +=new Vector3((float)Math.PI / 4, 0, 0);
+            staticCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
             collection.SceneObjects.Cameras.Add(staticCam);
 
             Camera dynamicCam = new Camera();
             dynamicCam.Name = "DynamicCam";
             dynamicCam.Position = new Vector3(0, 5f, 0);
             dynamicCam.Rotation = new Vector3(-(float)Math.PI / 4, (float)Math.PI, 0);
+            dynamicCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
             collection.SceneObjects.Cameras.Add(dynamicCam);
 
 
@@ -47,17 +48,16 @@ namespace GK3D.Graphics.SceneComponents.Test
             var ball = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\ball.obj");
             ball.Name = "ball";
             ball.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
-            ball.Position = new Vector3(3,3,3);
+            ball.Position = new Vector3(3, 3, 3);
             ball.ColorData = Enumerable.Repeat(new Vector3(0.55f, 0.43f, 0.33f), ball.ColorDataCount).ToArray();
             ball.Scale = new Vector3(0.15f, 0.15f, 0.15f);
             complex.Primitives.Add(ball);
 
-             LoadMap(collection);
+            LoadMap(collection);
             LoadCar(collection);
 
+            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "DynamicCam");
 
-            // collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "CarCamera");
-            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
             Test(collection);
             return collection;
         }
@@ -66,18 +66,18 @@ namespace GK3D.Graphics.SceneComponents.Test
             var cam = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
             var a = cam.GlobalModelMatrix;
             a.Transpose();
-            Vector4 vector = new Vector4(0,5,0, 1);
+            Vector4 vector = new Vector4(0, 5, 0, 1);
             Vector3 scale = new Vector3(2, 2, 2);
             Vector3 rotation = new Vector3((float)Math.PI / 2, 0, 0);
             Vector3 translation = new Vector3(10, 20, 30);
 
             var scaleMatrix = Matrix4.CreateScale(scale);
-            var rotationMatrix = Matrix4.CreateRotationX(rotation.X)* Matrix4.CreateRotationY(rotation.Y)* Matrix4.CreateRotationZ(rotation.Z);
+            var rotationMatrix = Matrix4.CreateRotationX(rotation.X) * Matrix4.CreateRotationY(rotation.Y) * Matrix4.CreateRotationZ(rotation.Z);
             var translationMatrix = Matrix4.CreateTranslation(translation);
 
-            var aaa = (scaleMatrix* rotationMatrix * translationMatrix)*vector;
-            
-            var aa = scaleMatrix* rotationMatrix * translationMatrix*vector;
+            var aaa = (scaleMatrix * rotationMatrix * translationMatrix) * vector;
+
+            var aa = scaleMatrix * rotationMatrix * translationMatrix * vector;
 
         }
         public void LoadCar(SceneCollection collection)
