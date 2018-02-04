@@ -1,4 +1,5 @@
-﻿using GK3D.Graphics.Objects;
+﻿using GK3D.Graphics.Common;
+using GK3D.Graphics.Objects;
 using OpenTK;
 using System;
 using System.Collections.Generic;
@@ -15,6 +16,6 @@ namespace GK3D.Graphics.SceneComponents.Base
         public Dictionary<string, ShaderProgram> Shaders { get; set; } = new Dictionary<string, ShaderProgram>();
         public ComplexObject SceneObjects { get; set; } = new ComplexObject();
 
-        public Camera ActiveCamera { get; set; }
+        public CollectionItem<Camera> ActiveCamera { get; set; }
     }
 }

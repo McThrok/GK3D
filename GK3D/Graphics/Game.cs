@@ -71,14 +71,14 @@ namespace GK3D.Graphics
                 Vector2 delta = _lastMousePos - new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
                 _lastMousePos += delta;
 
-                SceneController.Collection.ActiveCamera.AddRotation(delta.X, delta.Y);
+                SceneController.Collection.ActiveCamera.Object.AddRotation(delta.X, delta.Y);
                 ResetCursor();
             }
         }
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
-            var camm = SceneController.Collection.ActiveCamera;
+            var camm = SceneController.Collection.ActiveCamera.Object;
             base.OnKeyPress(e);
             switch (e.KeyChar)
             {

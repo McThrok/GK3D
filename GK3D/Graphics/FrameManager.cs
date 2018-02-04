@@ -30,7 +30,7 @@ namespace GK3D.Graphics
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
 
-            var view = Collection.ActiveCamera.GetViewMatrix();
+            var view = Collection.ActiveCamera.Object.GetViewMatrix();
             var projection = Matrix4.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 80.0f);
 
             foreach (var primitive in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
@@ -61,7 +61,7 @@ namespace GK3D.Graphics
                 }
 
                 LoadPrimitiveData(shader, primitive.Object);
-                LoadCamera(shader, view, Collection.ActiveCamera.Position);
+                LoadCamera(shader, view, new Vector3(Collection.ActiveCamera.GlobalModelMatrix * new Vector4(Collection.ActiveCamera.Object.Position, 1)));
                 LoadLights(shader, Collection.SceneObjects.GetLightsWiThGlobalModelMatrices());
 
                 GL.DrawElements(BeginMode.Triangles, primitive.Object.IndiceCount, DrawElementsType.UnsignedInt, 0);
@@ -70,7 +70,7 @@ namespace GK3D.Graphics
 
             GL.Flush();
         }
-        private void LoadPrimitiveData(ShaderProgram shader,  Primitive primitive)
+        private void LoadPrimitiveData(ShaderProgram shader, Primitive primitive)
         {
             LoadPrimitiveArrayData(shader, primitive);
             LoadMaterial(shader, primitive.Material);
