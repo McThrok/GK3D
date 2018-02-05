@@ -18,7 +18,8 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
             var collection = new SceneCollection();
 
-            collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_primitive_color.c", true));
+            collection.Shaders.Add("phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong.c", true));
+            collection.Shaders.Add("gouraud", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
 
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
@@ -34,6 +35,16 @@ namespace GK3D.Graphics.SceneComponents.Test
             dynamicCam.Rotation = new Vector3(-(float)Math.PI / 4, (float)Math.PI, 0);
             dynamicCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
             collection.SceneObjects.Cameras.Add(dynamicCam);
+
+
+
+            var ball = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\ball.obj");
+            ball.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            ball.Position = new Vector3(0, 2, 0);
+            ball.ColorData = Enumerable.Repeat(new Vector3(0.55f, 1.43f, 0.33f), ball.ColorDataCount).ToArray();
+            ball.Scale = new Vector3(1f, 1f, 1f);
+            collection.SceneObjects.Primitives.Add(ball);
+
 
             LoadMap(collection);
             LoadCar(collection);

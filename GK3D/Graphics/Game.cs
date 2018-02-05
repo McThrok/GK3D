@@ -86,10 +86,10 @@ namespace GK3D.Graphics
                 }
 
                 if (keyboardState.IsKeyDown(Key.D))
-                    car.Object.Rotation += new Vector3(0, -0.03f * moved, 0);
+                    car.Object.Rotation += new Vector3(0, -0.05f * moved, 0);
 
                 if (keyboardState.IsKeyDown(Key.A))
-                    car.Object.Rotation += new Vector3(0, 0.03f * moved, 0);
+                    car.Object.Rotation += new Vector3(0, 0.05f * moved, 0);
             }
         }
 

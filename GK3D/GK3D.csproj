@@ -137,7 +137,7 @@
     <None Include="Graphics\Resources\Shaders\old\fs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\fs_color.glsl">
+    <None Include="Graphics\Resources\Shaders\test\fs_color.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Shaders\old\fs_lit_color.glsl">
@@ -152,19 +152,25 @@
     <None Include="Graphics\Resources\Shaders\old\vs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\fs_texture.glsl">
+    <None Include="Graphics\Resources\Shaders\test\fs_texture.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Graphics\Resources\Shaders\test\fs_primitive_color.c">
+    <Content Include="Graphics\Resources\Shaders\ready\fs_gouraud.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Graphics\Resources\Shaders\test\fs_color.glsl">
+    <Content Include="Graphics\Resources\Shaders\ready\vs_gouraud.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Graphics\Resources\Shaders\ready\vs_phong.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Graphics\Resources\Shaders\ready\fs_phong.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Graphics\Resources\Shaders\test\vs_texture.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\vs_texture.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Graphics\Resources\Shaders\vs_color.glsl">
+    <None Include="Graphics\Resources\Shaders\test\vs_color.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Graphics\Resources\Shaders\old\vs_lit_color.glsl">
