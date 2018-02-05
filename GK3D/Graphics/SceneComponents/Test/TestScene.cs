@@ -119,17 +119,17 @@ namespace GK3D.Graphics.SceneComponents.Test
             car.Primitives.Add(carModel);
 
 
-            Light light1 = new Light(new Vector3(0.15f, 0.23f, 0.32f), new Vector3(1, 1, 1))
+            Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1,1))
             {
-                Rotation = new Vector3(0, 0, -(float)Math.PI / 8),
+                Rotation = new Vector3(-(float)Math.PI / 8, (float)Math.PI * 7 / 8, 0),
                 Scale = new Vector3(1, 1, 1),
             };
             car.Lights.Add(light1);
 
 
-            Light light2 = new Light(new Vector3(-0.15f, 0.23f, 0.32f), new Vector3(1, 1, 1))
+            Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1))
             {
-                Rotation = new Vector3(0, 0, -(float)Math.PI / 8),
+                Rotation = new Vector3(-(float)Math.PI / 8, (float)Math.PI * 9/8, 0),
                 Scale = new Vector3(1, 1, 1),
             };
             car.Lights.Add(light2);
