@@ -30,7 +30,8 @@ namespace GK3D.Graphics
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
 
-            Collection.ActiveCamera.GlobalModelMatrix = Collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "DynamicCam").GlobalModelMatrix;
+
+            Collection.ActiveCamera.GlobalModelMatrix = Collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == Collection.ActiveCamera.Object.Name).GlobalModelMatrix;
 
             var view = Collection.ActiveCamera.Object.GetViewMatrix(Collection.ActiveCamera.GlobalModelMatrix);
             var projection = MatrixHelper.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 80.0f);

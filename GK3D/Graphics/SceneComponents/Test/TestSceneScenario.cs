@@ -36,7 +36,6 @@ namespace GK3D.Graphics.SceneComponents.Test
 
                     var angleX = Vector3.CalculateAngle(direction, vectorY);
 
-                    //var angleY = 0;
                     var angleY = Vector3.CalculateAngle(vectorY, defaultDirection);
                     if (vectorY.X >0)
                         angleY = 2 * (float)Math.PI - angleY;

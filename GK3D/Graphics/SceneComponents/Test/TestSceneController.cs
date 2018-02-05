@@ -17,7 +17,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             if (Collection.ActiveCamera != null)
             {
                 var cameraList = Collection.SceneObjects.GetCamerasWiThGlobalModelMatrices();
-                var activeCam = cameraList.SingleOrDefault(x => x == Collection.ActiveCamera);
+                var activeCam = cameraList.SingleOrDefault(x => x.Object == Collection.ActiveCamera.Object);
                 if (activeCam != null)
                 {
                     Collection.ActiveCamera = cameraList[(cameraList.IndexOf(activeCam) + 1) % cameraList.Count];

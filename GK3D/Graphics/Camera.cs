@@ -53,8 +53,8 @@ namespace GK3D.Graphics
         }
         public void AddRotation(float x, float y)
         {
-            x *= MouseSensitivity;
-            y *= MouseSensitivity;
+            x *= -MouseSensitivity;
+            y *= -MouseSensitivity;
             Rotation.Y = (Rotation.Y + x) % ((float)Math.PI * 2.0f);
             Rotation.X = Math.Max(Math.Min(Rotation.X - y, (float)Math.PI / 2.0f - 0.1f), (float)-Math.PI / 2.0f + 0.1f);
 

@@ -33,11 +33,11 @@ namespace GK3D.Graphics
             base.OnLoad(e);
             //_scene = new MainScene();
             SceneController = new TestSceneController(new TestSceneLoader(), new TestSceneScenario());
-             _frameManeger = new FrameManager();
-             _frameManeger.Collection = SceneController.Collection;
+            _frameManeger = new FrameManager();
+            _frameManeger.Collection = SceneController.Collection;
             _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
 
-                Mouse.ButtonUp += (s, ee) => isMouseDown = false;
+            Mouse.ButtonUp += (s, ee) => isMouseDown = false;
 
             Mouse.ButtonDown += (s, ee) =>
             {
@@ -71,7 +71,9 @@ namespace GK3D.Graphics
                 Vector2 delta = _lastMousePos - new Vector2(OpenTK.Input.Mouse.GetState().X, OpenTK.Input.Mouse.GetState().Y);
                 _lastMousePos += delta;
 
-                SceneController.Collection.ActiveCamera.Object.AddRotation(delta.X, delta.Y);
+                var camm = SceneController.Collection.ActiveCamera.Object;
+                if (camm.Name == "StaticCamera")
+                    camm.AddRotation(delta.X, delta.Y);
                 ResetCursor();
             }
         }
@@ -80,15 +82,16 @@ namespace GK3D.Graphics
         {
             var camm = SceneController.Collection.ActiveCamera.Object;
             base.OnKeyPress(e);
-            switch (e.KeyChar)
-            {
-                case 'w': camm.MoveWithSeparatedY(0f, 0f, 0.1f); break;
-                case 'a': camm.MoveWithSeparatedY(0.1f, 0f, 0f); break;
-                case 's': camm.MoveWithSeparatedY(0f, 0f, -0.1f); break;
-                case 'd': camm.MoveWithSeparatedY(-0.1f, 0f, 0f); break;
-                case 'q': camm.MoveWithSeparatedY(0f, 0.1f, 0f); break;
-                case 'e': camm.MoveWithSeparatedY(0f, -0.1f, 0f); break;
-            }
+            if (camm.Name == "StaticCamera")
+                switch (e.KeyChar)
+                {
+                    case 'w': camm.MoveWithSeparatedY(0f, 0f, 0.1f); break;
+                    case 'a': camm.MoveWithSeparatedY(0.1f, 0f, 0f); break;
+                    case 's': camm.MoveWithSeparatedY(0f, 0f, -0.1f); break;
+                    case 'd': camm.MoveWithSeparatedY(-0.1f, 0f, 0f); break;
+                    case 'q': camm.MoveWithSeparatedY(0f, 0.1f, 0f); break;
+                    case 'e': camm.MoveWithSeparatedY(0f, -0.1f, 0f); break;
+                }
         }
         void ResetCursor()
         {

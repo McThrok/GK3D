@@ -56,7 +56,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             LoadMap(collection);
             LoadCar(collection);
 
-            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "DynamicCam");
+            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
 
             Test(collection);
             return collection;
@@ -89,13 +89,13 @@ namespace GK3D.Graphics.SceneComponents.Test
             // car.Rotation = new Vector3(0, (float)Math.PI / 8, 0);
             collection.SceneObjects.ComplexObjects.Add(car);
 
-            //Camera carCamera = new Camera()
-            //{
-            //    Name = "CarCamera",
-            //    // Position = new Vector3(0, 1, 0),
-            //    Rotation = new Vector3(0, (float)Math.PI, 0),
-            //};
-            //car.Cameras.Add(carCamera);
+            Camera carCamera = new Camera()
+            {
+                Name = "CarCamera",
+                Position = new Vector3(0, 2, 0),
+                Rotation = new Vector3(0, (float)Math.PI, 0),
+            };
+            car.Cameras.Add(carCamera);
 
 
             var carModel = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
