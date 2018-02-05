@@ -69,37 +69,34 @@ namespace GK3D.Graphics
 
         private void UpdateCarPosition()
         {
-            if (SceneController.Collection.ActiveCamera.Object.Name == "CarCamera")
+            var car = SceneController.Collection.SceneObjects.GetComplexObjectsWiThGlobalModelMatrices().FirstOrDefault(x => x.Object.Name == "Car");
+            if (car != null)
             {
-                var car = SceneController.Collection.SceneObjects.GetComplexObjectsWiThGlobalModelMatrices().FirstOrDefault(x => x.Object.Name == "Car");
-                if (car != null)
+                float moved = 0;
+                var keyboardState = OpenTK.Input.Keyboard.GetState();
+                if (keyboardState.IsKeyDown(Key.W))
                 {
-                    float moved = 0;
-                    var keyboardState = OpenTK.Input.Keyboard.GetState();
-                    if (keyboardState.IsKeyDown(Key.W))
-                    {
-                        MoveCar(car, 0.1f);
-                        moved = 1;
-                    }
-                    if (keyboardState.IsKeyDown(Key.S))
-                    {
-                        MoveCar(car, -0.03f);
-                        moved = -1;
-                    }
-
-                    if (keyboardState.IsKeyDown(Key.D) )
-                        car.Object.Rotation += new Vector3(0, -0.03f * moved, 0);
-
-                    if (keyboardState.IsKeyDown(Key.A))
-                        car.Object.Rotation += new Vector3(0, 0.03f * moved, 0);
+                    MoveCar(car, 0.1f);
+                    moved = 1;
                 }
+                if (keyboardState.IsKeyDown(Key.S))
+                {
+                    MoveCar(car, -0.03f);
+                    moved = -1;
+                }
+
+                if (keyboardState.IsKeyDown(Key.D))
+                    car.Object.Rotation += new Vector3(0, -0.03f * moved, 0);
+
+                if (keyboardState.IsKeyDown(Key.A))
+                    car.Object.Rotation += new Vector3(0, 0.03f * moved, 0);
             }
         }
 
         private void MoveCar(CollectionItem<ComplexObject> car, float distance)
         {
             var direction = (-Vector3.UnitZ).ApplyOnVector(car.GlobalModelMatrix);
-           direction.NormalizeFast();
+            direction.NormalizeFast();
 
             car.Object.Position += direction * distance;
         }
@@ -118,22 +115,22 @@ namespace GK3D.Graphics
                 ResetCursor();
             }
 
-            var keyboardState = OpenTK.Input.Keyboard.GetState();
-            if (camm.Name == "StaticCamera")
-            {
-                if (keyboardState.IsKeyDown(Key.W))
-                    camm.MoveWithSeparatedY(0f, 0f, 0.1f);
-                if (keyboardState.IsKeyDown(Key.A))
-                    camm.MoveWithSeparatedY(0.1f, 0f, 0f);
-                if (keyboardState.IsKeyDown(Key.S))
-                    camm.MoveWithSeparatedY(0f, 0f, -0.1f);
-                if (keyboardState.IsKeyDown(Key.D))
-                    camm.MoveWithSeparatedY(-0.1f, 0f, 0f);
-                if (keyboardState.IsKeyDown(Key.Q))
-                    camm.MoveWithSeparatedY(0f, 0.1f, 0f);
-                if (keyboardState.IsKeyDown(Key.E))
-                    camm.MoveWithSeparatedY(0f, -0.1f, 0f);
-            }
+            // var keyboardState = OpenTK.Input.Keyboard.GetState();
+            //if (camm.Name == "StaticCamera")
+            //{
+            //    if (keyboardState.IsKeyDown(Key.W))
+            //        camm.MoveWithSeparatedY(0f, 0f, 0.1f);
+            //    if (keyboardState.IsKeyDown(Key.A))
+            //        camm.MoveWithSeparatedY(0.1f, 0f, 0f);
+            //    if (keyboardState.IsKeyDown(Key.S))
+            //        camm.MoveWithSeparatedY(0f, 0f, -0.1f);
+            //    if (keyboardState.IsKeyDown(Key.D))
+            //        camm.MoveWithSeparatedY(-0.1f, 0f, 0f);
+            //    if (keyboardState.IsKeyDown(Key.Q))
+            //        camm.MoveWithSeparatedY(0f, 0.1f, 0f);
+            //    if (keyboardState.IsKeyDown(Key.E))
+            //        camm.MoveWithSeparatedY(0f, -0.1f, 0f);
+            //}
 
         }
 

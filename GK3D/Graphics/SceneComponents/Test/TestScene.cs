@@ -18,19 +18,14 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
             var collection = new SceneCollection();
 
-            LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
-
-            // collection.SceneObjects.Lights.Add(new Light(new Vector3(3, 1, 0), new Vector3(0.8f, 0.8f, 0.8f), 0.3f) { Rotation = new Vector3(0, -(float)Math.PI / 2, 0) });
-
-            // Load shaders from file
             collection.Shaders.Add("colored", new ShaderProgram("Graphics\\Resources\\Shaders\\vs_color.glsl", "Graphics\\Resources\\Shaders\\test\\fs_primitive_color.c", true));
 
+            LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
             Camera staticCam = new Camera();
             staticCam.Name = "StaticCamera";
-            staticCam.Position = new Vector3(0, 7f, 0);
-            staticCam.Rotation = new Vector3(-(float)Math.PI / 4, (float)Math.PI, 0);
-            staticCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
+            staticCam.Position = new Vector3(0, 8f, 8);
+            staticCam.Rotation = new Vector3((float)Math.PI / 4, (float)Math.PI, 0);
             collection.SceneObjects.Cameras.Add(staticCam);
 
             Camera dynamicCam = new Camera();
@@ -40,50 +35,35 @@ namespace GK3D.Graphics.SceneComponents.Test
             dynamicCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
             collection.SceneObjects.Cameras.Add(dynamicCam);
 
-
-            ComplexObject complex = new ComplexObject();
-            complex.Name = "Test";
-            collection.SceneObjects.ComplexObjects.Add(complex);
-
-            var ball = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\ball.obj");
-            ball.Name = "ball";
-            ball.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
-            ball.Position = new Vector3(3, 3, 3);
-            ball.ColorData = Enumerable.Repeat(new Vector3(0.55f, 0.43f, 0.33f), ball.ColorDataCount).ToArray();
-            ball.Scale = new Vector3(0.15f, 0.15f, 0.15f);
-            complex.Primitives.Add(ball);
-
             LoadMap(collection);
             LoadCar(collection);
-
-            Light lampLight = new Light(new Vector3(0, 4,0), new Vector3(1, 1, 1))
-            {
-                Rotation = new Vector3((float)Math.PI /2, (float)Math.PI , 0),
-            };
-            collection.SceneObjects.Lights.Add(lampLight);
+            LoadLamp(collection);
 
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
 
-            Test(collection);
             return collection;
         }
-        public void Test(SceneCollection collection)
+        public void LoadLamp(SceneCollection collection)
         {
-            var cam = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
-            var a = cam.GlobalModelMatrix;
-            a.Transpose();
-            Vector4 vector = new Vector4(0, 5, 0, 1);
-            Vector3 scale = new Vector3(2, 2, 2);
-            Vector3 rotation = new Vector3((float)Math.PI / 2, 0, 0);
-            Vector3 translation = new Vector3(10, 20, 30);
+            ComplexObject lamp = new ComplexObject();
+            lamp.Position = new Vector3(0, 0, 3.5f);
+            lamp.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
+            collection.SceneObjects.ComplexObjects.Add(lamp);
 
-            var scaleMatrix = Matrix4.CreateScale(scale);
-            var rotationMatrix = Matrix4.CreateRotationX(rotation.X) * Matrix4.CreateRotationY(rotation.Y) * Matrix4.CreateRotationZ(rotation.Z);
-            var translationMatrix = Matrix4.CreateTranslation(translation);
+            var lampModel = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\street_lamp.obj");
+            lampModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            lampModel.Position = new Vector3(0, 0, 0);
+            lampModel.ColorData = Enumerable.Repeat(new Vector3(1, 1, 1), 320 * 3).ToArray();
+            lampModel.Scale = new Vector3(0.15f, 0.15f, 0.15f);
+            lampModel.CalculateNormals();
+            lamp.Primitives.Add(lampModel);
 
-            var aaa = (scaleMatrix * rotationMatrix * translationMatrix) * vector;
-
-            var aa = scaleMatrix * rotationMatrix * translationMatrix * vector;
+            Light lampLight = new Light(new Vector3(0, 4, 0), new Vector3(1, 1, 1))
+            {
+                Position = new Vector3(1.1f, 2, 0),
+                Rotation = new Vector3((float)Math.PI / 2, (float)Math.PI, 0),
+            };
+            lamp.Lights.Add(lampLight);
 
         }
         public void LoadCar(SceneCollection collection)
@@ -92,14 +72,13 @@ namespace GK3D.Graphics.SceneComponents.Test
             ComplexObject car = new ComplexObject();
             car.Name = "Car";
             car.Position = new Vector3(0, 0, 3.5f);
-            // car.Rotation = new Vector3(0, (float)Math.PI / 8, 0);
             collection.SceneObjects.ComplexObjects.Add(car);
 
             Camera carCamera = new Camera()
             {
                 Name = "CarCamera",
                 Position = new Vector3(0, 2, 1),
-                Rotation = new Vector3((float)Math.PI/4, (float)Math.PI, 0),
+                Rotation = new Vector3((float)Math.PI / 4, (float)Math.PI, 0),
             };
             car.Cameras.Add(carCamera);
 
@@ -126,16 +105,16 @@ namespace GK3D.Graphics.SceneComponents.Test
             car.Primitives.Add(carModel);
 
 
-            Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1,1))
+            Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1))
             {
-                Rotation = new Vector3((float)Math.PI / 8, (float)Math.PI * 7 / 8, 0),
+                Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 7 / 8, 0),
             };
             car.Lights.Add(light1);
 
 
             Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1))
             {
-                Rotation = new Vector3((float)Math.PI / 8, (float)Math.PI * 9/8, 0),
+                Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 9 / 8, 0),
             };
             car.Lights.Add(light2);
         }
@@ -161,6 +140,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             Capsule2D roadOut = new Capsule2D(1, new Vector3(0.15f, 0.15f, 0.15f), 100);
             roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadOut.Position = new Vector3(0, 0, 0);
+            roadOut.Scale = new Vector3(1.2f, 1.2f, 1.2f);
             roadOut.CalculateNormals();
             map.Primitives.Add(roadOut);
 
@@ -185,6 +165,45 @@ namespace GK3D.Graphics.SceneComponents.Test
             var ball3 = ball.Clone();
             ball3.Position += new Vector3(0, -0.6f, 0);
             map.Primitives.Add(ball3);
+
+
+            for (int i = 0; i < 4; i++)
+            {
+                int x = 1;
+                int y = 1;
+
+                if (i / 2 == 0)
+                    x = -x;
+                if (i % 2 == 0)
+                    y = -y;
+
+                var ball5 = ball.Clone();
+                ball5.Position += new Vector3(x * 0.2f, y * 1.25f, 0);
+                ball5.Scale *= new Vector3(0.5f, 0.5f, 0.5f);
+                map.Primitives.Add(ball5);
+
+                var ball4 = ball.Clone();
+                ball4.Position += new Vector3(x * 0.55f, y * 1.05f, 0);
+                ball4.Scale *= new Vector3(0.5f, 0.5f, 0.5f);
+                map.Primitives.Add(ball4);
+
+                var ball6 = ball.Clone();
+                ball6.Position += new Vector3(x * 0.7f, y * 0.15f, 0);
+                ball6.Scale *= new Vector3(0.5f, 0.5f, 0.5f);
+                map.Primitives.Add(ball6);
+
+                var ball7 = ball.Clone();
+                ball7.Position += new Vector3(x * 0.7f,y* 0.5f, 0);
+                ball7.Scale *= new Vector3(0.5f, 0.5f, 0.5f);
+                map.Primitives.Add(ball7);
+
+                var ball8 = ball.Clone();
+                ball8.Position += new Vector3(0.7f, 0.8f, 0);
+                ball8.Scale *= new Vector3(0.5f, 0.5f, 0.5f);
+                map.Primitives.Add(ball6);
+            }
+
+
         }
     }
 }
