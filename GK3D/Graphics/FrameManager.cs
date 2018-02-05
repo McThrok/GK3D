@@ -23,6 +23,7 @@ namespace GK3D.Graphics
         public FrameManager()
         {
             _iboElements = GL.GenBuffer();
+            GL.Enable(EnableCap.CullFace);
         }
 
         public void RenderFrame(float aspect)
