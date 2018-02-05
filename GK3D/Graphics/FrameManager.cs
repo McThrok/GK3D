@@ -65,8 +65,7 @@ namespace GK3D.Graphics
                 }
 
                 LoadPrimitiveData(shader, primitive.Object);
-                var a = Collection.ActiveCamera.Object.Position.ApplyOnPoint(Collection.ActiveCamera.GlobalModelMatrix);
-                LoadCamera(shader, view, a);
+                LoadCamera(shader, view, Vector3.Zero.ApplyOnPoint(Collection.ActiveCamera.GlobalModelMatrix));
                 LoadLights(shader, Collection.SceneObjects.GetLightsWiThGlobalModelMatrices());
 
                 GL.DrawElements(BeginMode.Triangles, primitive.Object.IndiceCount, DrawElementsType.UnsignedInt, 0);
@@ -169,11 +168,11 @@ namespace GK3D.Graphics
         }
         private void LoadLightsTemp(ShaderProgram shader, List<CollectionItem<Light>> lights)
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 3; i++)
             {
                 if (shader.GetUniform("light_position_" + i) != -1)
                 {
-                    var position = lights[i].Object.Position.ApplyOnPoint(lights[i].GlobalModelMatrix);
+                    var position = (Vector3.Zero).ApplyOnPoint(lights[i].GlobalModelMatrix);
                     GL.Uniform3(shader.GetUniform("light_position_" + i), position);
                 }
 

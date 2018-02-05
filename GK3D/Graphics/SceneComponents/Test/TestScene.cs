@@ -56,6 +56,12 @@ namespace GK3D.Graphics.SceneComponents.Test
             LoadMap(collection);
             LoadCar(collection);
 
+            Light lampLight = new Light(new Vector3(0, 4,0), new Vector3(1, 1, 1))
+            {
+                Rotation = new Vector3((float)Math.PI /2, (float)Math.PI , 0),
+            };
+            collection.SceneObjects.Lights.Add(lampLight);
+
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
 
             Test(collection);
@@ -116,21 +122,20 @@ namespace GK3D.Graphics.SceneComponents.Test
             colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 672));//wheel in
             carModel.ColorData = colorData.ToArray();
             carModel.Scale = new Vector3(0.003f, 0.003f, 0.003f);
+            carModel.CalculateNormals();
             car.Primitives.Add(carModel);
 
 
             Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1,1))
             {
-                Rotation = new Vector3(-(float)Math.PI / 8, (float)Math.PI * 7 / 8, 0),
-                Scale = new Vector3(1, 1, 1),
+                Rotation = new Vector3((float)Math.PI / 8, (float)Math.PI * 7 / 8, 0),
             };
             car.Lights.Add(light1);
 
 
             Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1))
             {
-                Rotation = new Vector3(-(float)Math.PI / 8, (float)Math.PI * 9/8, 0),
-                Scale = new Vector3(1, 1, 1),
+                Rotation = new Vector3((float)Math.PI / 8, (float)Math.PI * 9/8, 0),
             };
             car.Lights.Add(light2);
         }

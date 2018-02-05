@@ -14,6 +14,10 @@ uniform vec3 light_position_1;
 uniform vec3 light_direction_1;
 uniform vec3 light_color_1;
 
+uniform vec3 light_position_2;
+uniform vec3 light_direction_2;
+uniform vec3 light_color_2;
+
 uniform mat4 view;
 
 vec4 getColor(vec3 light_position, vec3 light_color,vec3 light_direction) {
@@ -24,7 +28,7 @@ vec4 getColor(vec3 light_position, vec3 light_color,vec3 light_direction) {
 	vec3 FragPos = v_pos;
 
 	// ambient
-	float ambientStrength = 0.15f;
+	float ambientStrength = 0.05f;
 	vec3 ambient = ambientStrength * lightColor;
 
 	// diffuse 
@@ -53,4 +57,6 @@ void main()
 	outputColor = vec4(0, 0, 0, 1);
 	outputColor += getColor(light_position_0, light_color_0, light_direction_0);
 	outputColor += getColor(light_position_1, light_color_1, light_direction_1);
+	outputColor += getColor(light_position_2, light_color_2, light_direction_2);
+	//outputColor = vec4(v_norm, 1);
 }
