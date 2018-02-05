@@ -27,20 +27,16 @@ vec4 getColor(vec3 light_position, vec3 light_color,vec3 light_direction) {
 	vec3 lightPos = light_position;
 	vec3 FragPos = v_pos;
 
-	// ambient
 	float ambientStrength = 0.05f;
 	vec3 ambient = ambientStrength * lightColor;
 
-	// diffuse 
 	vec3 norm = normalize(v_norm);
 	vec3 lightDir = normalize(lightPos - FragPos);
 	float diff = max(dot(norm, lightDir), 0.0);
 	light_direction = normalize(light_direction);
 	float spotlight = pow(max(dot(lightDir, light_direction), 0.0),8);
-
 	vec3 diffuse = diff * lightColor * spotlight;
 
-	// specular
     float specularStrength = 0.2f;
     vec3 viewDir = normalize(lightPos - v_pos);
     vec3 reflectDir = reflect(-lightDir, norm);  
@@ -58,5 +54,4 @@ void main()
 	outputColor += getColor(light_position_0, light_color_0, light_direction_0);
 	outputColor += getColor(light_position_1, light_color_1, light_direction_1);
 	outputColor += getColor(light_position_2, light_color_2, light_direction_2);
-	//outputColor = vec4(v_norm, 1);
 }

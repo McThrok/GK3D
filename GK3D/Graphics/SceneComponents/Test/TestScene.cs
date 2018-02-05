@@ -71,7 +71,8 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             ComplexObject car = new ComplexObject();
             car.Name = "Car";
-            car.Position = new Vector3(0, 0, 3.5f);
+            car.Position = new Vector3(0, 0, 4.5f);
+            car.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
             collection.SceneObjects.ComplexObjects.Add(car);
 
             Camera carCamera = new Camera()

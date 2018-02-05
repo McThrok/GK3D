@@ -52,19 +52,6 @@ namespace GK3D.Graphics.Objects
 
             return coords.ToArray();
         }
-        public override Vector3[] GetNormals()
-        {
-            List<Vector3> normals = new List<Vector3>();
-
-            foreach (var face in faces)
-            {
-                normals.Add(face.Item1.Normal);
-                normals.Add(face.Item2.Normal);
-                normals.Add(face.Item3.Normal);
-            }
-
-            return normals.ToArray();
-        }
         public override Vector3[] GetColorData()
         {
             return ColorData ?? new Vector3[ColorDataCount];
@@ -262,6 +249,16 @@ namespace GK3D.Graphics.Objects
 
                 }
             }
+
+            List<Vector3> readyNormals = new List<Vector3>();
+
+            foreach (var face in vol.faces)
+            {
+                readyNormals.Add(face.Item1.Normal);
+                readyNormals.Add(face.Item2.Normal);
+                readyNormals.Add(face.Item3.Normal);
+            }
+            vol.Normals = readyNormals.ToArray();
 
             return vol;
         }

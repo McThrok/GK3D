@@ -37,7 +37,7 @@ namespace GK3D
             WindowStartupLocation = WindowStartupLocation.Manual;
             Left = 100;
             Top = 100;
-            Width = 400;
+            Width = 200;
             Height = SystemParameters.PrimaryScreenHeight - 2 * Top;
         }
         private void InitGame()
