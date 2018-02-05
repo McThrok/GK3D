@@ -18,7 +18,7 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             var test = complexObjects.FirstOrDefault(x => x.Object.Name == "Test");
             if (test != null)
-                test.Object.Rotation += new Vector3(0, deltaTime * 0.1f, 0);
+                test.Object.Rotation += new Vector3(0, deltaTime * 0.75f, 0);
 
             var car = complexObjects.FirstOrDefault(x => x.Object.Name == "Car");
             if (car != null)
@@ -38,10 +38,10 @@ namespace GK3D.Graphics.SceneComponents.Test
 
                     //var angleY = 0;
                     var angleY = Vector3.CalculateAngle(vectorY, defaultDirection);
-                    if (vectorY.X * defaultDirection.X < 0)
+                    if (vectorY.X >0)
                         angleY = 2 * (float)Math.PI - angleY;
 
-                    //dynamicCamera.Object.Rotation += new Vector3(angleX, -angleY,0);
+                    dynamicCamera.Object.Rotation = new Vector3(angleX, angleY, 0);
                 }
             }
         }
