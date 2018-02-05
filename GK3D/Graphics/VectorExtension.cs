@@ -32,6 +32,6 @@ namespace GK3D.Graphics
         {
             return (new Vector4(vector, 1).ApplyOnPoint(matrix)).Xyz;
         }
-       
+
     }
 }

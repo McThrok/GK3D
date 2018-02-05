@@ -24,7 +24,7 @@ vec4 getColor(vec3 light_position, vec3 light_color,vec3 light_direction) {
 	vec3 FragPos = v_pos;
 
 	// ambient
-	float ambientStrength = 0.2f;
+	float ambientStrength = 0.05f;
 	vec3 ambient = ambientStrength * lightColor;
 
 	// diffuse 
@@ -32,7 +32,7 @@ vec4 getColor(vec3 light_position, vec3 light_color,vec3 light_direction) {
 	vec3 lightDir = normalize(lightPos - FragPos);
 	float diff = max(dot(norm, lightDir), 0.0);
 	light_direction = normalize(light_direction);
-	float spotlight = pow(max(dot(lightDir, light_direction), 0.0),30);
+	float spotlight = pow(max(dot(lightDir, light_direction), 0.0),1);
 
 	vec3 diffuse = diff * lightColor * spotlight;
 

@@ -91,8 +91,8 @@
     <Compile Include="Graphics\SceneComponents\Base\SceneController.cs" />
     <Compile Include="Graphics\SceneComponents\Test\TestSceneController.cs" />
     <Compile Include="Graphics\SceneComponents\Test\TestSceneScenario.cs" />
-    <Compile Include="Graphics\VectorExtension.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
+    <Compile Include="Graphics\VectorExtension.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

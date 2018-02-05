@@ -92,8 +92,8 @@ namespace GK3D.Graphics.SceneComponents.Test
             Camera carCamera = new Camera()
             {
                 Name = "CarCamera",
-                Position = new Vector3(0, 2, 0),
-                Rotation = new Vector3(0, (float)Math.PI, 0),
+                Position = new Vector3(0, 2, 1),
+                Rotation = new Vector3((float)Math.PI/4, (float)Math.PI, 0),
             };
             car.Cameras.Add(carCamera);
 
@@ -103,7 +103,6 @@ namespace GK3D.Graphics.SceneComponents.Test
             carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             carModel.Position = new Vector3(0, -0.12f, 0);
             carModel.Rotation = new Vector3(0, 0.415f, 0);
-            carModel.Rotation += new Vector3(0, (float)Math.PI, 0);
             var colorData = new List<Vector3>();
             colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 320 * 3));
             colorData.AddRange(Enumerable.Repeat(new Vector3(1, 0, 0), 88 * 6));
@@ -116,7 +115,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 168 * 6));//wheel out
             colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 672));//wheel in
             carModel.ColorData = colorData.ToArray();
-            carModel.Scale = new Vector3(0.005f, 0.005f, 0.005f);
+            carModel.Scale = new Vector3(0.003f, 0.003f, 0.003f);
             car.Primitives.Add(carModel);
 
 

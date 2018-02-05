@@ -23,7 +23,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             var car = complexObjects.FirstOrDefault(x => x.Object.Name == "Car");
             if (car != null)
             {
-                car.Object.Rotation += new Vector3(0, deltaTime * 1f, 0);
+               // car.Object.Rotation += new Vector3(0, deltaTime * 1f, 0);
 
                 var dynamicCamera = cameras.FirstOrDefault(x => x.Object.Name == "DynamicCam");
                 if (dynamicCamera != null)
