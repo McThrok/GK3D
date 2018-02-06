@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="150">
     <DockPanel LastChildFill="False">
-        <Button Name="cameraChangeButton" Content="Change camera" DockPanel.Dock="Top" Click="CameraChangeButton_Click"/>
+        <Button Name="cameraChangeButton" Content="Change camera" DockPanel.Dock="Top" Click="CameraChangeButton_Click" Margin="10"/>
+        <TextBlock Name="shadingModel" Text="shading model: Phong" DockPanel.Dock="Top" Margin="10"/>
+        <Button Name="shadingChangeButton" Content="Change shading" DockPanel.Dock="Top" Click="shadingChangeButton_Click" Margin="10"/>
+        <TextBlock Name="lightingModel" Text="lighting model: Phong" DockPanel.Dock="Top" Margin="10"/>
+        <Button Name="lightingChangeButton" Content="Change lighting" DockPanel.Dock="Top" Click="lightingChangeButton_Click" Margin="10"/>
     </DockPanel>
 </Window>

@@ -13,7 +13,6 @@ namespace GK3D.Graphics.SceneComponents.Base
         public SceneScenario Scenario { get; set; }
         public SceneCollection Collection { get; set; }
 
-        public abstract void ChangeCamera();
 
         public SceneController(SceneLoader loader = null, SceneScenario scenario = null)
         {
@@ -22,6 +21,9 @@ namespace GK3D.Graphics.SceneComponents.Base
             Collection = Loader.Load();
         }
 
+        public abstract void ChangeCamera();
+        public abstract void ChangeShading();
+        public abstract void ChangeLighting();
     }
-   
+
 }

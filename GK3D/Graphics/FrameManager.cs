@@ -39,7 +39,7 @@ namespace GK3D.Graphics
 
             foreach (var primitive in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
-                var shader = primitive.Object.IsTextured ? Collection.Shaders["colored"] : Collection.Shaders["colored"];
+                var shader = Collection.Shaders[Collection.ActiveShader];
                 GL.UseProgram(shader.ProgramID);
                 shader.EnableVertexAttribArrays();
 

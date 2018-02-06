@@ -37,7 +37,7 @@ namespace GK3D
             WindowStartupLocation = WindowStartupLocation.Manual;
             Left = 100;
             Top = 100;
-            Width = 200;
+            Width = 300;
             Height = SystemParameters.PrimaryScreenHeight - 2 * Top;
         }
         private void InitGame()
@@ -61,6 +61,30 @@ namespace GK3D
         {
             if (_game != null)
                 _game.SceneController.ChangeCamera();
+        }
+
+        private void shadingChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_game != null)
+            {
+                _game.SceneController.ChangeShading();
+                if (shadingModel.Text == "shading model: Phong")
+                    shadingModel.Text = "shading model: Gouraud";
+                else
+                    shadingModel.Text = "shading model: Phong";
+            }
+        }
+
+        private void lightingChangeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_game != null)
+            {
+                _game.SceneController.ChangeLighting();
+                if (lightingModel.Text == "lighting model: Phong")
+                    lightingModel.Text = "lighting model: Blinn";
+                else
+                    lightingModel.Text = "lighting model: Phong";
+            }
         }
     }
 }

@@ -17,5 +17,6 @@ namespace GK3D.Graphics.SceneComponents.Base
         public ComplexObject SceneObjects { get; set; } = new ComplexObject();
 
         public CollectionItem<Camera> ActiveCamera { get; set; }
+        public string ActiveShader { get; set; }
     }
 }

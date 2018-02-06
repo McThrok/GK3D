@@ -85,6 +85,9 @@
     <Compile Include="Graphics\Objects\TexturedCube.cs" />
     <Compile Include="Graphics\Objects\Primitive.cs" />
     <Compile Include="Graphics\SceneComponents\Base\SceneScenario.cs" />
+    <Compile Include="Graphics\SceneComponents\Main\MainScene.cs" />
+    <Compile Include="Graphics\SceneComponents\Main\MainSceneController.cs" />
+    <Compile Include="Graphics\SceneComponents\Main\MainSceneScenario.cs" />
     <Compile Include="Graphics\SceneComponents\Test\TestScene.cs" />
     <Compile Include="Graphics\SceneComponents\Base\SceneLoader.cs" />
     <Compile Include="Graphics\SceneComponents\Base\SceneCollection.cs" />
@@ -137,9 +140,6 @@
     <None Include="Graphics\Resources\Shaders\old\fs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\test\fs_color.glsl">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Graphics\Resources\Shaders\old\fs_lit_color.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -152,19 +152,28 @@
     <None Include="Graphics\Resources\Shaders\old\vs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Graphics\Resources\Shaders\test\fs_color.glsl">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Graphics\Resources\Shaders\test\fs_texture.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Graphics\Resources\Shaders\ready\fs_gouraud.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Graphics\Resources\Shaders\ready\vs_gouraud.c">
+    <Content Include="Graphics\Resources\Shaders\ready\fs_phong_blinn.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Graphics\Resources\Shaders\ready\vs_gouraud_blinn.c">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Graphics\Resources\Shaders\ready\vs_gouraud_phong.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Graphics\Resources\Shaders\ready\vs_phong.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Graphics\Resources\Shaders\ready\fs_phong.c">
+    <Content Include="Graphics\Resources\Shaders\ready\fs_phong_phong.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Graphics\Resources\Shaders\test\vs_texture.glsl">
@@ -200,8 +209,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Graphics\SceneComponents\Main\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -24,5 +24,18 @@ namespace GK3D.Graphics.SceneComponents.Test
                 }
             }
         }
+
+        public override void ChangeLighting()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void ChangeShading()
+        {
+            if (Collection.ActiveShader == "phong")
+                Collection.ActiveShader = "gouraud";
+            else
+                Collection.ActiveShader = "phong";
+        }
     }
 }

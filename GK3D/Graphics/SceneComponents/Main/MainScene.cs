@@ -10,16 +10,18 @@ using System.Windows.Media.Media3D;
 
 namespace GK3D.Graphics.SceneComponents.Test
 {
-    public class TestSceneLoader : SceneLoader
+    public class MainSceneLoader : SceneLoader
     {
-        public TestSceneLoader() : base() { }
+        public MainSceneLoader() : base() { }
 
         public override SceneCollection Load()
         {
             var collection = new SceneCollection();
 
-            collection.Shaders.Add("phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong.c", true));
-            collection.Shaders.Add("gouraud", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
+            collection.Shaders.Add("phong_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_phong.c", true));
+            collection.Shaders.Add("gouraud_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
+            collection.Shaders.Add("phong_blinn", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_blinn.c", true));
+            collection.Shaders.Add("gouraud_blinn", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_blinn.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
 
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
 
@@ -36,15 +38,12 @@ namespace GK3D.Graphics.SceneComponents.Test
             dynamicCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
             collection.SceneObjects.Cameras.Add(dynamicCam);
 
-            
-
-
             LoadMap(collection);
             LoadCar(collection);
             LoadLamp(collection);
 
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
-            collection.ActiveShader = "phong";
+            collection.ActiveShader = "phong_phong";
 
             return collection;
         }
@@ -143,7 +142,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             plain.CalculateNormals();
             map.Primitives.Add(plain);
 
-            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.15f, 0.15f, 0.15f), 100);
+            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.25f, 0.25f, 0.25f), 100);
             roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadOut.Position = new Vector3(0, 0, 0);
             roadOut.Scale = new Vector3(1.2f, 1.2f, 1.2f);

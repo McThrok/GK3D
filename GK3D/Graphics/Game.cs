@@ -15,6 +15,7 @@ using GK3D.Graphics.SceneComponents;
 using GK3D.Graphics.SceneComponents.Test;
 using GK3D.Graphics.SceneComponents.Base;
 using GK3D.Graphics.Common;
+using GK3D.Graphics.SceneComponents.Main;
 
 namespace GK3D.Graphics
 {
@@ -32,8 +33,7 @@ namespace GK3D.Graphics
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            //_scene = new MainScene();
-            SceneController = new TestSceneController(new TestSceneLoader(), new TestSceneScenario());
+            SceneController = new MainSceneController(new MainSceneLoader(), new MainSceneScenario());
             _frameManeger = new FrameManager();
             _frameManeger.Collection = SceneController.Collection;
             _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
