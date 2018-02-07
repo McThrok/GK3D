@@ -24,6 +24,7 @@ namespace GK3D.Graphics
             Type = LightType.Point;
             Rotation = new Vector3(0, 0, 1);
             ConeAngle = 15.0f;
+            ConeExponent = 16;
         }
 
         public Vector3 Color;
@@ -32,6 +33,6 @@ namespace GK3D.Graphics
 
         public LightType Type;
         public float ConeAngle;
-        public float ConeExponent=32;
+        public float ConeExponent;
     }
 }

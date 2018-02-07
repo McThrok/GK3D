@@ -37,8 +37,8 @@ vec4 getColor(vec3 light_position, vec3 light_color, vec3 light_direction) {
 
 	float specularStrength = 0.2f;
 	vec3 viewDir = normalize(viewPos - v_pos);
-	vec3 reflectDir = reflect(-dirToLight, norm);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+	vec3 blinnH = normalize(viewDir + dirToLight);
+	float spec = pow(max(dot(viewDir, blinnH), 0.0), 32);
 	vec3 specular = specularStrength * spec * light_color * spotlight;
 
 	vec4 colorToAdd = vec4((ambient + diffuse + specular), 1)* color;

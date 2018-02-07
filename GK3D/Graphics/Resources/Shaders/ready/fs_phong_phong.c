@@ -1,55 +1,75 @@
 ﻿#version 330
 
+struct Light {
+	vec3 position;
+	vec3 color;
+	float ambientIntensity;
+	float diffuseIntensity;
+
+	int type;
+	vec3 direction;
+	float coneAngle;
+	float coneExponent;
+};
+
 in vec3 v_norm;
 in vec3 v_pos;
-in vec4 color;
+in vec4 v_color;
 out vec4 outputColor;
 
-//light
-uniform vec3 light_position_0;
-uniform vec3 light_direction_0;
-uniform vec3 light_color_0;
+uniform mat4 view;
 
-uniform vec3 light_position_1;
-uniform vec3 light_direction_1;
-uniform vec3 light_color_1;
+uniform vec3 material_ambient;
+uniform vec3 material_diffuse;
+uniform vec3 material_specular;
+uniform float material_specExponent;
 
-uniform vec3 light_position_2;
-uniform vec3 light_direction_2;
-uniform vec3 light_color_2;
+uniform Light lights[30];
 
-uniform vec3 viewPos;
-
-vec4 getColor(vec3 light_position, vec3 light_color, vec3 light_direction) {
-
-	light_direction = normalize(light_direction);
-	vec3 norm = normalize(v_norm);
-
-	vec3 dirToLight = normalize(light_position - v_pos);
-	float spotlight = pow(max(dot(dirToLight, light_direction), 0.0), 8);
-
-
-	float ambientStrength = 0.05f;
-	vec3 ambient = ambientStrength * light_color;
-
-	float diff = max(dot(norm, dirToLight), 0.0);
-	vec3 diffuse = diff * light_color * spotlight;
-
-	float specularStrength = 0.2f;
-	vec3 viewDir = normalize(viewPos - v_pos);
-	vec3 reflectDir = reflect(-dirToLight, norm);
-	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-	vec3 specular = specularStrength * spec * light_color * spotlight;
-
-	vec4 colorToAdd = vec4((ambient + diffuse + specular), 1)* color;
-
-	return colorToAdd;
-}
-
-void main()
+void
+main()
 {
 	outputColor = vec4(0, 0, 0, 1);
-	outputColor += getColor(light_position_0, light_color_0, light_direction_0);
-	outputColor += getColor(light_position_1, light_color_1, light_direction_1);
-	outputColor += getColor(light_position_2, light_color_2, light_direction_2);
+	vec3 n = normalize(v_norm);
+
+	for (int i = 0; i < 30; i++) {
+
+		if (lights[i].color == vec3(0, 0, 0)) continue;
+
+		//vector to light
+		vec3 lightvec = normalize(lights[i].position - v_pos);
+		if (lights[i].type == 2)
+			lightvec = lights[i].direction;
+
+
+		//spotlight
+		float cone_factor = 0;
+
+		if (lights[i].type == 1 && degrees(acos(dot(lightvec, lights[i].direction))) < lights[i].coneAngle)
+			cone_factor = pow(max(dot(lightvec, lights[i].direction),0.0), 16);
+
+
+		//ambient lighting
+		vec4 ambient = lights[i].ambientIntensity * vec4(material_ambient, 0.0) * vec4(lights[i].color, 0.0);
+
+
+		//diffuse lighting
+		float lambertmaterial_diffuse = max(dot(n, lightvec), 0.0);
+		vec4 diffuse = lights[i].diffuseIntensity * vec4(material_diffuse, 0.0) * vec4(lights[i].color, 0.0) * lambertmaterial_diffuse;
+
+		if (lights[i].type == 1)
+			diffuse *= cone_factor;
+
+
+		//specular lighting
+		vec3 reflectionvec = normalize(reflect(-lightvec, v_norm));
+		vec3 viewvec = normalize(vec3(inverse(view) * vec4(0, 0, 0, 1)) - v_pos);
+		float material_specularreflection = pow(max(dot(reflectionvec, viewvec), 0.0), material_specExponent);
+		vec4 specular = vec4(material_specular * lights[i].color, 0.0) * material_specularreflection;
+
+		if (lights[i].type == 1)
+			specular *= cone_factor;
+
+		outputColor += (ambient + diffuse + specular)* v_color;
+	}
 }

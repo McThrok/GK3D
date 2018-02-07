@@ -49,8 +49,6 @@ namespace GK3D.Graphics.SceneComponents.Main
 
         public override void ChangeLighting()
         {
-
-
             switch (Collection.ActiveShader)
             {
                 case "phong_phong":
@@ -62,7 +60,7 @@ namespace GK3D.Graphics.SceneComponents.Main
                     break;
 
                 case "phong_blinn":
-                    Collection.ActiveShader = "gouraud_phong";
+                    Collection.ActiveShader = "phong_phong";
                     break;
 
                 case "gouraud_blinn":

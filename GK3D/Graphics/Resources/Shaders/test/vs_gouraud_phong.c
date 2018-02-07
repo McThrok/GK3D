@@ -1,9 +1,16 @@
 ﻿#version 330
 
-in vec3 v_norm;
-in vec3 v_pos;
-in vec4 color;
-out vec4 outputColor;
+in vec3 vPosition;
+in vec3 vColor;
+in vec3 vNormal;
+
+out vec4 color;
+
+uniform mat4 projection;
+uniform mat4 model;
+uniform mat4 view;
+
+
 
 //light
 uniform vec3 light_position_0;
@@ -20,7 +27,9 @@ uniform vec3 light_color_2;
 
 uniform vec3 viewPos;
 
-vec4 getColor(vec3 light_position, vec3 light_color, vec3 light_direction) {
+
+vec4 getColor(vec3 light_position, vec3 light_color, vec3 light_direction, vec3 v_norm, vec3 v_pos) 
+{
 
 	light_direction = normalize(light_direction);
 	vec3 norm = normalize(v_norm);
@@ -41,15 +50,26 @@ vec4 getColor(vec3 light_position, vec3 light_color, vec3 light_direction) {
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	vec3 specular = specularStrength * spec * light_color * spotlight;
 
-	vec4 colorToAdd = vec4((ambient + diffuse + specular), 1)* color;
+	vec4 colorToAdd = vec4((ambient + diffuse + specular), 1)* vec4(vColor, 1.0);
 
 	return colorToAdd;
 }
 
 void main()
 {
-	outputColor = vec4(0, 0, 0, 1);
-	outputColor += getColor(light_position_0, light_color_0, light_direction_0);
-	outputColor += getColor(light_position_1, light_color_1, light_direction_1);
-	outputColor += getColor(light_position_2, light_color_2, light_direction_2);
+
+
+	gl_Position = projection * view * model * vec4(vPosition, 1.0);
+
+	mat3 normMatrix = transpose(inverse(mat3(model)));
+	vec3 v_norm = normMatrix * vNormal;
+	vec3 v_pos = (model * vec4(vPosition, 1.0)).xyz;
+
+
+	color = vec4(0.0, 0.0, 0.0, 1.0);
+	color += getColor(light_position_0, light_color_0, light_direction_0, v_norm, v_pos);
+	color += getColor(light_position_1, light_color_1, light_direction_1, v_norm, v_pos);
+	color += getColor(light_position_2, light_color_2, light_direction_2, v_norm, v_pos);
 }
+
+

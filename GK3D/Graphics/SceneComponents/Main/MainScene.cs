@@ -18,10 +18,9 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
             var collection = new SceneCollection();
 
-            //collection.Shaders.Add("phong_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_phong.c", true));
-            collection.Shaders.Add("phong_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\test\\vs_phong.c", "Graphics\\Resources\\Shaders\\test\\fs_phong_phong.c", true));
-            collection.Shaders.Add("gouraud_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
+            collection.Shaders.Add("phong_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_phong.c", true));
             collection.Shaders.Add("phong_blinn", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_blinn.c", true));
+            collection.Shaders.Add("gouraud_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
             collection.Shaders.Add("gouraud_blinn", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_blinn.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
 
             LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
@@ -115,7 +114,6 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0.5f)
             {
-                //Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 7 / 8, 0),
                 Rotation = new Vector3((float)Math.PI /16, (float)Math.PI * 15 / 16, 0),
                 ConeAngle = 60,
                 Type = LightType.Spot
@@ -125,7 +123,6 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0.5f)
             {
-                //Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 9 / 8, 0),
                 Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 17 / 16, 0),
                 ConeAngle = 60,
                 Type = LightType.Spot
