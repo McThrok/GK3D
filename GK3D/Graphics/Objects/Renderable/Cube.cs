@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GK3D.Graphics.Objects
+namespace GK3D.Graphics.Objects.Renderable
 {
     public class Cube : Primitive
     {

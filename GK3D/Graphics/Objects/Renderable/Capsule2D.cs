@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using OpenTK;
 using GK3D.Graphics.Common;
 
-namespace GK3D.Graphics.Objects
+namespace GK3D.Graphics.Objects.Renderable
 {
     public class Capsule2D : Primitive
     {

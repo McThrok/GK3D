@@ -1,4 +1,5 @@
 ﻿using GK3D.Graphics.Objects;
+using GK3D.Graphics.Objects.Renderable;
 using GK3D.Graphics.SceneComponents.Base;
 using OpenTK;
 using System;
@@ -18,13 +19,28 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
             var collection = new SceneCollection();
 
+           LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
+
+            LoadShaders(collection);
+            LoadMainCameras(collection);
+
+            LoadMap(collection);
+            LoadCar(collection);
+            LoadLamp(collection);
+
+
+            return collection;
+        }
+        public void LoadShaders(SceneCollection collection)
+        {
             collection.Shaders.Add("phong_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_phong.c", true));
             collection.Shaders.Add("phong_blinn", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_blinn.c", true));
             collection.Shaders.Add("gouraud_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
             collection.Shaders.Add("gouraud_blinn", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_blinn.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
-
-            LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
-
+            collection.ActiveShader = "phong_phong";
+        }
+        public void LoadMainCameras(SceneCollection collection)
+        {
             Camera staticCam = new Camera();
             staticCam.Name = "StaticCamera";
             staticCam.Position = new Vector3(0, 8f, 8);
@@ -38,14 +54,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             dynamicCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
             collection.SceneObjects.Cameras.Add(dynamicCam);
 
-            LoadMap(collection);
-            LoadCar(collection);
-            LoadLamp(collection);
-
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
-            collection.ActiveShader = "phong_phong";
-
-            return collection;
         }
         public void LoadLamp(SceneCollection collection)
         {

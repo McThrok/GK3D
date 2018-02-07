@@ -4,25 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenTK.Input;
 
 namespace GK3D.Graphics.SceneComponents.Test
 {
     public class TestSceneController : SceneController
     {
-        public TestSceneController(SceneLoader loader = null, SceneScenario scenario = null) : base(loader, scenario)
+        public TestSceneController(SceneLoader loader = null) : base(loader)
         { }
 
         public override void ChangeCamera()
         {
-            if (Collection.ActiveCamera != null)
-            {
-                var cameraList = Collection.SceneObjects.GetCamerasWiThGlobalModelMatrices();
-                var activeCam = cameraList.SingleOrDefault(x => x.Object == Collection.ActiveCamera.Object);
-                if (activeCam != null)
-                {
-                    Collection.ActiveCamera = cameraList[(cameraList.IndexOf(activeCam) + 1) % cameraList.Count];
-                }
-            }
+            throw new NotImplementedException();
         }
 
         public override void ChangeLighting()
@@ -32,10 +25,17 @@ namespace GK3D.Graphics.SceneComponents.Test
 
         public override void ChangeShading()
         {
-            if (Collection.ActiveShader == "phong")
-                Collection.ActiveShader = "gouraud";
-            else
-                Collection.ActiveShader = "phong";
+            throw new NotImplementedException();
+        }
+
+        public override void HandleFocusChange(bool focused)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void HandleInput(KeyboardState keybordState, MouseState mouseState)
+        {
+            throw new NotImplementedException();
         }
     }
 }

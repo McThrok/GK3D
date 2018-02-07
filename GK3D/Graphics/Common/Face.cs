@@ -11,6 +11,5 @@ namespace GK3D.Graphics.Common
     public class FaceInd
     {
         public List<FaceVertexInd> Vertices { get; set; } = new List<FaceVertexInd>();
-
     }
 }

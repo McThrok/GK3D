@@ -1,5 +1,6 @@
 ﻿using GK3D.Graphics.Common;
 using GK3D.Graphics.Objects;
+using GK3D.Graphics.Objects.Renderable;
 using OpenTK;
 using System;
 using System.Collections.Generic;

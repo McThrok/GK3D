@@ -66,7 +66,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\Objects\Camera.cs" />
     <Compile Include="Graphics\Common\CollectionItem.cs" />
     <Compile Include="Graphics\Common\Face.cs" />
     <Compile Include="Graphics\Common\FaceVertex.cs" />
@@ -74,21 +74,21 @@
     <Compile Include="Graphics\Common\GameObject.cs" />
     <Compile Include="Graphics\FrameManager.cs" />
     <Compile Include="Graphics\Game.cs" />
-    <Compile Include="Graphics\Light.cs" />
-    <Compile Include="Graphics\Material.cs" />
+    <Compile Include="Graphics\Objects\Light.cs" />
+    <Compile Include="Graphics\Objects\Material.cs" />
     <Compile Include="Graphics\MatrixHelper.cs" />
-    <Compile Include="Graphics\Objects\Capsule2D.cs" />
-    <Compile Include="Graphics\Objects\ComplexObject.cs" />
-    <Compile Include="Graphics\Objects\ColoredCube.cs" />
-    <Compile Include="Graphics\Objects\Cube.cs" />
-    <Compile Include="Graphics\Objects\ObjVolume.cs" />
-    <Compile Include="Graphics\Objects\TexturedCube.cs" />
-    <Compile Include="Graphics\Objects\Primitive.cs" />
+    <Compile Include="Graphics\Objects\Renderable\Capsule2D.cs" />
+    <Compile Include="Graphics\Objects\Renderable\ComplexObject.cs" />
+    <Compile Include="Graphics\Objects\Renderable\ColoredCube.cs" />
+    <Compile Include="Graphics\Objects\Renderable\Cube.cs" />
+    <Compile Include="Graphics\Objects\Renderable\ObjVolume.cs" />
+    <Compile Include="Graphics\Objects\Renderable\TexturedCube.cs" />
+    <Compile Include="Graphics\Objects\Renderable\Primitive.cs" />
     <Compile Include="Graphics\SceneComponents\Base\SceneScenario.cs" />
-    <Compile Include="Graphics\SceneComponents\Main\MainScene.cs" />
+    <Compile Include="Graphics\SceneComponents\Main\MainSceneLoader.cs" />
     <Compile Include="Graphics\SceneComponents\Main\MainSceneController.cs" />
     <Compile Include="Graphics\SceneComponents\Main\MainSceneScenario.cs" />
-    <Compile Include="Graphics\SceneComponents\Test\TestScene.cs" />
+    <Compile Include="Graphics\SceneComponents\Test\TestSceneLoader.cs" />
     <Compile Include="Graphics\SceneComponents\Base\SceneLoader.cs" />
     <Compile Include="Graphics\SceneComponents\Base\SceneCollection.cs" />
     <Compile Include="Graphics\SceneComponents\Base\SceneController.cs" />

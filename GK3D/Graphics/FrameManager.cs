@@ -10,6 +10,7 @@ using GK3D.Graphics.SceneComponents;
 using GK3D.Graphics.SceneComponents.Base;
 using GK3D.Graphics.Objects;
 using GK3D.Graphics.Common;
+using GK3D.Graphics.Objects.Renderable;
 
 namespace GK3D.Graphics
 {

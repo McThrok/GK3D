@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using GK3D.Graphics.Objects;
 using OpenTK;
+using GK3D.Graphics.Objects.Renderable;
 
 namespace GK3D.Graphics.SceneComponents.Test
 {
