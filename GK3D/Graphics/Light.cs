@@ -32,5 +32,6 @@ namespace GK3D.Graphics
 
         public LightType Type;
         public float ConeAngle;
+        public float ConeExponent=32;
     }
 }

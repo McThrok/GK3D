@@ -18,7 +18,8 @@ namespace GK3D.Graphics.SceneComponents.Test
         {
             var collection = new SceneCollection();
 
-            collection.Shaders.Add("phong_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_phong.c", true));
+            //collection.Shaders.Add("phong_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_phong.c", true));
+            collection.Shaders.Add("phong_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\test\\vs_phong.c", "Graphics\\Resources\\Shaders\\test\\fs_phong_phong.c", true));
             collection.Shaders.Add("gouraud_phong", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
             collection.Shaders.Add("phong_blinn", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_phong.c", "Graphics\\Resources\\Shaders\\ready\\fs_phong_blinn.c", true));
             collection.Shaders.Add("gouraud_blinn", new ShaderProgram("Graphics\\Resources\\Shaders\\ready\\vs_gouraud_blinn.c", "Graphics\\Resources\\Shaders\\ready\\fs_gouraud.c", true));
@@ -62,10 +63,12 @@ namespace GK3D.Graphics.SceneComponents.Test
             lampModel.CalculateNormals();
             lamp.Primitives.Add(lampModel);
 
-            Light lampLight = new Light(new Vector3(0, 4, 0), new Vector3(1, 1, 1))
+            Light lampLight = new Light(new Vector3(0, 4, 0), new Vector3(1, 1, 1),0.5f,0.5f)
             {
                 Position = new Vector3(1.1f, 2, 0),
                 Rotation = new Vector3((float)Math.PI / 2, (float)Math.PI, 0),
+                ConeAngle = 30f,
+                Type = LightType.Spot
             };
             lamp.Lights.Add(lampLight);
 
@@ -110,16 +113,22 @@ namespace GK3D.Graphics.SceneComponents.Test
             car.Primitives.Add(carModel);
 
 
-            Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1))
+            Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0.5f)
             {
-                Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 7 / 8, 0),
+                //Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 7 / 8, 0),
+                Rotation = new Vector3((float)Math.PI /16, (float)Math.PI * 15 / 16, 0),
+                ConeAngle = 60,
+                Type = LightType.Spot
             };
             car.Lights.Add(light1);
 
 
-            Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1))
+            Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0.5f)
             {
-                Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 9 / 8, 0),
+                //Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 9 / 8, 0),
+                Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 17 / 16, 0),
+                ConeAngle = 60,
+                Type = LightType.Spot
             };
             car.Lights.Add(light2);
         }
@@ -142,9 +151,9 @@ namespace GK3D.Graphics.SceneComponents.Test
             plain.CalculateNormals();
             map.Primitives.Add(plain);
 
-            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.25f, 0.25f, 0.25f), 100);
+            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.55f, 0.55f, 0.55f), 100);
+            //Capsule2D roadOut = new Capsule2D(1, new Vector3(0.25f, 0.25f, 0.25f), 100);
             roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
-            roadOut.Position = new Vector3(0, 0, 0);
             roadOut.Scale = new Vector3(1.2f, 1.2f, 1.2f);
             roadOut.CalculateNormals();
             map.Primitives.Add(roadOut);

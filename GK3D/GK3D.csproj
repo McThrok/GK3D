@@ -152,9 +152,9 @@
     <None Include="Graphics\Resources\Shaders\old\vs.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\test\fs_color.glsl">
+    <Content Include="Graphics\Resources\Shaders\test\fs_phong_phong.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Graphics\Resources\Shaders\test\fs_texture.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -179,9 +179,9 @@
     <None Include="Graphics\Resources\Shaders\test\vs_texture.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Graphics\Resources\Shaders\test\vs_color.glsl">
+    <Content Include="Graphics\Resources\Shaders\test\vs_phong.c">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Graphics\Resources\Shaders\old\vs_lit_color.glsl">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

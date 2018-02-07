@@ -77,7 +77,7 @@ namespace GK3D.Graphics
         private void LoadPrimitiveData(ShaderProgram shader, Primitive primitive)
         {
             LoadPrimitiveArrayData(shader, primitive);
-            // LoadMaterial(shader, primitive.Material);
+             LoadMaterial(shader, primitive.Material);
         }
         private void LoadPrimitiveArrayData(ShaderProgram shader, Primitive primitive)
         {
@@ -157,36 +157,38 @@ namespace GK3D.Graphics
 
         private void LoadLights(ShaderProgram shader, List<CollectionItem<Light>> lights)
         {
-            LoadLightsTemp(shader, lights);
-            //for (int i = 0; i < Math.Min(lights.Count, MaxLight); i++)
-            //{
-            //    if (shader.GetUniform("lights[" + i + "].position") != -1)
-            //    {
-            //        GL.Uniform3(shader.GetUniform("lights[" + i + "].position"), lights[i].Position);
-            //    }
-            //}
-        }
-        private void LoadLightsTemp(ShaderProgram shader, List<CollectionItem<Light>> lights)
-        {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < Math.Min(lights.Count, MaxLight); i++)
             {
-                if (shader.GetUniform("light_position_" + i) != -1)
+                if (shader.GetUniform("lights[" + i + "].position") != -1)
                 {
                     var position = (Vector3.Zero).ApplyOnPoint(lights[i].GlobalModelMatrix);
-                    GL.Uniform3(shader.GetUniform("light_position_" + i), position);
+                    GL.Uniform3(shader.GetUniform("lights[" + i + "].position"), position);
                 }
-
-                if (shader.GetUniform("light_direction_" + i) != -1)
+                if (shader.GetUniform("lights[" + i + "].direction") != -1)
                 {
                     var direction = (-Vector3.UnitZ).ApplyOnVector(lights[i].GlobalModelMatrix);
-                    GL.Uniform3(shader.GetUniform("light_direction_" + i), direction);
+                    GL.Uniform3(shader.GetUniform("lights[" + i + "].direction"), direction);
                 }
-
-                if (shader.GetUniform("light_color_" + i) != -1)
+                if (shader.GetUniform("lights[" + i + "].color") != -1)
                 {
-                    GL.Uniform3(shader.GetUniform("light_color_" + i), lights[i].Object.Color);
+                    GL.Uniform3(shader.GetUniform("lights[" + i + "].color"), lights[i].Object.Color);
                 }
-
+                if (shader.GetUniform("lights[" + i + "].ambientIntensity") != -1)
+                {
+                    GL.Uniform1(shader.GetUniform("lights[" + i + "].ambientIntensity"), lights[i].Object.AmbientIntensity);
+                }
+                if (shader.GetUniform("lights[" + i + "].diffuseIntensity") != -1)
+                {
+                    GL.Uniform1(shader.GetUniform("lights[" + i + "].diffuseIntensity"), lights[i].Object.DiffuseIntensity);
+                }
+                if (shader.GetUniform("lights[" + i + "].type") != -1)
+                {
+                    GL.Uniform1(shader.GetUniform("lights[" + i + "].type"), (int)lights[i].Object.Type);
+                }
+                if (shader.GetUniform("lights[" + i + "].coneAngle") != -1)
+                {
+                    GL.Uniform1(shader.GetUniform("lights[" + i + "].coneAngle"),lights[i].Object.ConeAngle);
+                }
             }
         }
     }
