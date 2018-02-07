@@ -40,7 +40,7 @@ namespace GK3D.Graphics
         {
             ProgramID = GL.CreateProgram();
         }
-      
+
         public ShaderProgram(string vshader, string fshader, bool fromFile = false)
         {
             ProgramID = GL.CreateProgram();
@@ -94,20 +94,16 @@ namespace GK3D.Graphics
             for (int i = 0; i < AttributeCount; i++)
             {
                 var info = new AttributeInfo();
-                StringBuilder name = new StringBuilder();
-                GL.GetActiveAttrib(ProgramID, i, 256, out int length, out info.size, out info.type, name);
-                info.name = name.ToString();
+                info.name = GL.GetActiveAttrib(ProgramID, i, out info.size, out info.type);
                 info.address = GL.GetAttribLocation(ProgramID, info.name);
-                Attributes.Add(name.ToString(), info);
+                Attributes.Add(info.name.ToString(), info);
             }
 
             for (int i = 0; i < UniformCount; i++)
             {
                 var info = new UniformInfo();
-                StringBuilder name = new StringBuilder();
-                GL.GetActiveUniform(ProgramID, i, 256, out int length, out info.size, out info.type, name);
-                info.name = name.ToString();
-                Uniforms.Add(name.ToString(), info);
+                info.name = GL.GetActiveUniform(ProgramID, i, out info.size, out info.type);
+                Uniforms.Add(info.name, info);
                 info.address = GL.GetUniformLocation(ProgramID, info.name);
             }
         }
