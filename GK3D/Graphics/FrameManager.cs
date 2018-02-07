@@ -31,41 +31,24 @@ namespace GK3D.Graphics
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
             GL.Enable(EnableCap.DepthTest);
 
-
+            var shader = Collection.Shaders[Collection.ActiveShader];
             Collection.ActiveCamera.GlobalModelMatrix = Collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == Collection.ActiveCamera.Object.Name).GlobalModelMatrix;
-
             var view = Collection.ActiveCamera.Object.GetViewMatrix(Collection.ActiveCamera.GlobalModelMatrix);
             var projection = MatrixHelper.CreatePerspectiveFieldOfView(1.3f, aspect, 0.1f, 80.0f);
 
             foreach (var primitive in Collection.SceneObjects.GetPrimitivesWiThGlobalModelMatrices())
             {
-                var shader = Collection.Shaders[Collection.ActiveShader];
                 GL.UseProgram(shader.ProgramID);
                 shader.EnableVertexAttribArrays();
 
-                GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-
-                GL.BindBuffer(BufferTarget.ElementArrayBuffer, _iboElements);
-                var inds = primitive.Object.GetIndices().ToArray();
-                GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(inds.Length * sizeof(int)), inds, BufferUsageHint.StaticDraw);
-
-
+                // GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
+                var modelMatrix = primitive.GlobalModelMatrix;
+                GL.UniformMatrix4(shader.GetUniform("model"), false, ref modelMatrix);
+                GL.UniformMatrix4(shader.GetUniform("view"), false, ref view);
                 GL.UniformMatrix4(shader.GetUniform("projection"), false, ref projection);
 
-                GL.BindTexture(TextureTarget.Texture2D, primitive.Object.TextureID);
-                if (shader.GetUniform("maintexture") != -1)
-                {
-                    GL.Uniform1(shader.GetUniform("maintexture"), 0);
-                }
-
-                if (shader.GetUniform("model") != -1)
-                {
-                    var modelMatrix = primitive.GlobalModelMatrix;
-                    GL.UniformMatrix4(shader.GetUniform("model"), false, ref modelMatrix);
-                }
-
-                LoadPrimitiveData(shader, primitive.Object);
-                LoadCamera(shader, view, Vector3.Zero.ApplyOnPoint(Collection.ActiveCamera.GlobalModelMatrix));
+                LoadPrimitiveArrayData(shader, primitive.Object);
+                LoadMaterial(shader, primitive.Object.Material);
                 LoadLights(shader, Collection.SceneObjects.GetLightsWiThGlobalModelMatrices());
 
                 GL.DrawElements(BeginMode.Triangles, primitive.Object.IndiceCount, DrawElementsType.UnsignedInt, 0);
@@ -74,13 +57,12 @@ namespace GK3D.Graphics
 
             GL.Flush();
         }
-        private void LoadPrimitiveData(ShaderProgram shader, Primitive primitive)
-        {
-            LoadPrimitiveArrayData(shader, primitive);
-             LoadMaterial(shader, primitive.Material);
-        }
         private void LoadPrimitiveArrayData(ShaderProgram shader, Primitive primitive)
         {
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, _iboElements);
+            var inds = primitive.GetIndices().ToArray();
+            GL.BufferData(BufferTarget.ElementArrayBuffer, (IntPtr)(inds.Length * sizeof(int)), inds, BufferUsageHint.StaticDraw);
+
             var verts = primitive.GetVerts().ToArray();
             var colors = primitive.GetColorData().ToArray();
             var texcoords = primitive.GetTextureCoords().ToArray();
@@ -117,7 +99,6 @@ namespace GK3D.Graphics
             {
                 GL.Uniform3(shader.GetUniform("material_ambient"), ref material.AmbientColor);
             }
-
             if (shader.GetUniform("material_diffuse") != -1)
             {
                 GL.Uniform3(shader.GetUniform("material_diffuse"), ref material.DiffuseColor);
@@ -126,32 +107,17 @@ namespace GK3D.Graphics
             {
                 GL.Uniform3(shader.GetUniform("material_ambient"), ref material.AmbientColor);
             }
-
             if (shader.GetUniform("material_diffuse") != -1)
             {
                 GL.Uniform3(shader.GetUniform("material_diffuse"), ref material.DiffuseColor);
             }
-
             if (shader.GetUniform("material_specular") != -1)
             {
                 GL.Uniform3(shader.GetUniform("material_specular"), ref material.SpecularColor);
             }
-
             if (shader.GetUniform("material_specExponent") != -1)
             {
                 GL.Uniform1(shader.GetUniform("material_specExponent"), material.SpecularExponent);
-            }
-        }
-        private void LoadCamera(ShaderProgram shader, Matrix4 view, Vector3 cameraPosition)
-        {
-            if (shader.GetUniform("viewPos") != -1)
-            {
-                GL.Uniform3(shader.GetUniform("viewPos"), ref cameraPosition);
-            }
-
-            if (shader.GetUniform("view") != -1)
-            {
-                GL.UniformMatrix4(shader.GetUniform("view"), false, ref view);
             }
         }
 
@@ -187,7 +153,11 @@ namespace GK3D.Graphics
                 }
                 if (shader.GetUniform("lights[" + i + "].coneAngle") != -1)
                 {
-                    GL.Uniform1(shader.GetUniform("lights[" + i + "].coneAngle"),lights[i].Object.ConeAngle);
+                    GL.Uniform1(shader.GetUniform("lights[" + i + "].coneAngle"), lights[i].Object.ConeAngle);
+                }
+                if (shader.GetUniform("lights[" + i + "].coneExponent") != -1)
+                {
+                    GL.Uniform1(shader.GetUniform("lights[" + i + "].coneExponent"), lights[i].Object.ConeExponent);
                 }
             }
         }

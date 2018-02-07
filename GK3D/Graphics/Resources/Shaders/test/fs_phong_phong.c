@@ -67,7 +67,7 @@ main()
 			diffuse *= cone_factor;
 
 
-				//specular lighting
+		//specular lighting
 		vec3 reflectionvec = normalize(reflect(-lightvec, v_norm));
 		vec3 viewvec = normalize(vec3(inverse(view) * vec4(0, 0, 0, 1)) - v_pos);
 		float material_specularreflection = max(dot(v_norm, lightvec), 0.0) * pow(max(dot(reflectionvec, viewvec), 0.0), material_specExponent);
