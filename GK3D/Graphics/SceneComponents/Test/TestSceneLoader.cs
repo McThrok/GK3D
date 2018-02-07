@@ -64,7 +64,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             lampModel.CalculateNormals();
             lamp.Primitives.Add(lampModel);
 
-            Light lampLight = new Light(new Vector3(0, 4, 0), new Vector3(1, 1, 1))
+            Light lampLight = new Light(new Vector3(0, 4, 0), new Vector3(1, 1, 1),1,0)
             {
                 Position = new Vector3(1.1f, 2, 0),
                 Rotation = new Vector3((float)Math.PI / 2, (float)Math.PI, 0),

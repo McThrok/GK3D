@@ -46,7 +46,7 @@ main()
 		float cone_factor = 0;
 
 		if (lights[i].type == 1 && degrees(acos(dot(lightvec, lights[i].direction))) < lights[i].coneAngle)
-			cone_factor = pow(max(dot(lightvec, lights[i].direction),0.0), 16);
+			cone_factor = pow(max(dot(lightvec, lights[i].direction),0.0), lights[i].coneExponent);
 
 		//ambient lighting
 		vec4 ambient = lights[i].ambientIntensity * vec4(material_ambient, 0.0) * vec4(lights[i].color, 0.0);

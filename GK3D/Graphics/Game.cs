@@ -37,7 +37,6 @@ namespace GK3D.Graphics
             SceneScenario = new MainSceneScenario();
             _frameManeger = new FrameManager();
             _frameManeger.Collection = SceneController.Collection;
-            _lastMousePos = new Vector2(Mouse.X, Mouse.Y);
 
             GL.ClearColor(Color.CornflowerBlue);
             GL.PointSize(5f);
