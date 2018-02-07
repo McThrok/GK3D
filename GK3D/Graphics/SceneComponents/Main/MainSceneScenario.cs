@@ -12,7 +12,27 @@ namespace GK3D.Graphics.SceneComponents.Main
 {
     public class MainSceneScenario : SceneScenario
     {
+        public bool IsSunAnimated { get; set; } = true;
+        public float SunAnimationSpeed { get; set; } = 0.4f;
+
         public override void Process(ComplexObject sceneObjects, float deltaTime)
+        {
+            MoveDynamicCamera(sceneObjects);
+            MoveSun(sceneObjects, deltaTime);
+        }
+
+        private void MoveSun(ComplexObject sceneObjects, float deltaTime)
+        {
+            if (IsSunAnimated)
+            {
+                var lights = sceneObjects.GetLightsWiThGlobalModelMatrices();
+                var light = lights.FirstOrDefault(x => x.Object.Name == "Sun");
+                if (light != null)
+                    light.Object.Rotation.X += deltaTime * SunAnimationSpeed;
+            }
+        }
+
+        private void MoveDynamicCamera(ComplexObject sceneObjects)
         {
             var complexObjects = sceneObjects.GetComplexObjectsWiThGlobalModelMatrices();
             var cameras = sceneObjects.GetCamerasWiThGlobalModelMatrices();

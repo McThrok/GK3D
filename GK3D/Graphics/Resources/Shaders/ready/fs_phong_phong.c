@@ -62,7 +62,7 @@ main()
 
 
 		//specular lighting
-		vec3 reflectionvec = normalize(reflect(-lightvec, v_norm));
+		vec3 reflectionvec = normalize(reflect(lightvec, v_norm));
 		vec3 viewvec = normalize(vec3(inverse(view) * vec4(0, 0, 0, 1)) - v_pos);
 		float material_specularreflection = pow(max(dot(reflectionvec, viewvec), 0.0), material_specExponent);
 		vec4 specular = vec4(material_specular * lights[i].color, 0.0) * material_specularreflection;

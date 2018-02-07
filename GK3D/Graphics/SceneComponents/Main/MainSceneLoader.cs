@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Media3D;
 
-namespace GK3D.Graphics.SceneComponents.Test
+namespace GK3D.Graphics.SceneComponents.Main
 {
     public class MainSceneLoader : SceneLoader
     {
@@ -30,7 +30,6 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             var car = LoadCar();
             collection.SceneObjects.ComplexObjects.Add(car);
-
 
             var light = LoadMainLight();
             collection.SceneObjects.Lights.Add(light);
@@ -63,6 +62,7 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
         }
+
         private ComplexObject LoadCar()
         {
             ComplexObject car = new ComplexObject();
@@ -101,7 +101,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             car.Primitives.Add(carModel);
 
 
-            Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0.5f)
+            Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0)
             {
                 Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 15 / 16, 0),
                 ConeAngle = 60,
@@ -110,7 +110,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             car.Lights.Add(light1);
 
 
-            Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0.5f)
+            Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0f)
             {
                 Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 17 / 16, 0),
                 ConeAngle = 60,
@@ -122,9 +122,10 @@ namespace GK3D.Graphics.SceneComponents.Test
         }
         private Light LoadMainLight()
         {
-            Light mainLight = new Light(new Vector3(1f,1f, 1f), new Vector3(1, 1, 1), 1f, 0.5f)
+            Light mainLight = new Light(new Vector3(0,0,0), new Vector3(1, 1, 0.8f), 0.5f, 0.001f)
             {
-                Rotation = new Vector3((float)Math.PI / 4, (float)Math.PI * 15 / 16, 0),
+                Name = "Sun",
+                Rotation = new Vector3((float)Math.PI/8, 0, 0),
                 Type = LightType.Directional,
             };
 
@@ -184,7 +185,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             lampModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             lampModel.Position = new Vector3(0, 0, 0);
             lampModel.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
-            lampModel.ColorData = Enumerable.Repeat(new Vector3(0.3f, 0.3f, 0.3f), lampModel.ColorDataCount).ToArray();
+            lampModel.ColorData = Enumerable.Repeat(new Vector3(0.5f, 0.3f, 0.3f), lampModel.ColorDataCount).ToArray();
             lampModel.Scale = new Vector3(0.15f, 0.15f, 0.15f);
             lampModel.CalculateNormals();
             lamp.Primitives.Add(lampModel);
@@ -200,21 +201,20 @@ namespace GK3D.Graphics.SceneComponents.Test
 
             return lamp;
         }
-
         private void LoadTerrain(ComplexObject map)
         {
             float layerOffset = 0.001f;
             Vector3 grassColor = new Vector3(0.12f, 0.35f, 0.12f);
 
             Capsule2D plain = new Capsule2D(1, grassColor, 1);
-            plain.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            plain.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.1f), 5);
             plain.Scale = new Vector3(5f, 5f, 5f);
             plain.Rotation = new Vector3(-(float)Math.PI / 2, -(float)Math.PI / 2, 0);
             plain.Position = new Vector3(0, -layerOffset, 0);
             plain.CalculateNormals();
             map.Primitives.Add(plain);
 
-            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.25f, 0.25f, 0.25f), 100);
+            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.2f, 0.15f, 0.15f), 100);
             roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadOut.Rotation = new Vector3(-(float)Math.PI / 2, -(float)Math.PI / 2, 0);
             roadOut.Scale = new Vector3(1.2f, 1.2f, 1.2f);
@@ -222,7 +222,7 @@ namespace GK3D.Graphics.SceneComponents.Test
             map.Primitives.Add(roadOut);
 
             Capsule2D roadIn = new Capsule2D(1, grassColor, 100);
-            roadIn.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            roadIn.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.1f), 5);
             roadIn.Position = new Vector3(0, layerOffset, 0);
             roadIn.Scale = new Vector3(0.7f, 0.8f, 0.7f);
             roadIn.Rotation = new Vector3(-(float)Math.PI / 2, -(float)Math.PI / 2, 0);

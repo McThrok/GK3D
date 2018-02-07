@@ -16,7 +16,7 @@ namespace GK3D.Graphics.SceneComponents.Main
         private Vector2 _lastMousePos;
         private bool _focused = true;
         private bool isMouseDown;
-        public MainSceneController(SceneLoader loader = null) : base(loader)
+        public MainSceneController(MainSceneLoader loader, MainSceneScenario scenario) : base(loader, scenario)
         { }
 
         public override void ChangeCamera()

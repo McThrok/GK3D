@@ -12,11 +12,12 @@ namespace GK3D.Graphics.SceneComponents.Base
     {
         public SceneLoader Loader { get; set; }
         public SceneCollection Collection { get; set; }
+        public SceneScenario SceneScenario { get; set; }
 
-
-        public SceneController(SceneLoader loader = null)
+        public SceneController(SceneLoader loader, SceneScenario scenario)
         {
             Loader = loader;
+            SceneScenario = scenario;
             Collection = Loader.Load();
         }
 

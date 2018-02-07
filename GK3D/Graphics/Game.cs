@@ -12,7 +12,6 @@ using OpenTK.Input;
 using System.Drawing.Imaging;
 using GK3D.Graphics.Objects;
 using GK3D.Graphics.SceneComponents;
-using GK3D.Graphics.SceneComponents.Test;
 using GK3D.Graphics.SceneComponents.Base;
 using GK3D.Graphics.Common;
 using GK3D.Graphics.SceneComponents.Main;
@@ -23,7 +22,6 @@ namespace GK3D.Graphics
     public class Game : GameWindow
     {
         public SceneController SceneController { get; private set; }
-        public SceneScenario SceneScenario { get; private set; }
 
         private FrameManager _frameManeger;
 
@@ -33,8 +31,7 @@ namespace GK3D.Graphics
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            SceneController = new MainSceneController(new MainSceneLoader());
-            SceneScenario = new MainSceneScenario();
+            SceneController = new MainSceneController(new MainSceneLoader(), new MainSceneScenario());
             _frameManeger = new FrameManager();
             _frameManeger.Collection = SceneController.Collection;
 
@@ -54,7 +51,7 @@ namespace GK3D.Graphics
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            SceneScenario.Process(SceneController.Collection.SceneObjects, (float)e.Time);
+            SceneController.SceneScenario.Process(SceneController.Collection.SceneObjects, (float)e.Time);
             SceneController.HandleInput(Keyboard.GetState(), Mouse.GetState());
         }
         protected override void OnFocusedChanged(EventArgs e)
