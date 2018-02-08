@@ -92,7 +92,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             var carModel = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
             var c = carModel.faces.Min(x => x.Item3.Position.Y);
             carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.3f), 32);
-            carModel.Position = new Vector3(0, -0.12f, 0);
+            carModel.Position = new Vector3(0, -0.07f, 0);
             carModel.Rotation = new Vector3(0, 0.415f, 0);
 
             var red = new Vector3(0.8f, 0.1f, 0.1f);
@@ -105,7 +105,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             colorData.AddRange(Enumerable.Repeat(white, 182 * 6));
             colorData.AddRange(Enumerable.Repeat(red, 161 * 6));
             colorData.AddRange(Enumerable.Repeat(blue, 10 * 6));//glass
-            colorData.AddRange(Enumerable.Repeat(white, 4 * 6));//light
+            colorData.AddRange(Enumerable.Repeat(blue, 4 * 6));//light
             colorData.AddRange(Enumerable.Repeat(white, 168 * 6));//wheel out
             colorData.AddRange(Enumerable.Repeat(black, 672));//wheel in
             colorData.AddRange(Enumerable.Repeat(white, 168 * 6));//wheel out
@@ -152,7 +152,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             var carModel = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
             var c = carModel.faces.Min(x => x.Item3.Position.Y);
             carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.3f), 32);
-            carModel.Position = new Vector3(0, -0.12f, 0);
+            carModel.Position = new Vector3(0, -0.07f, 0);
             carModel.Rotation = new Vector3(0, 0.415f, 0);
 
             var green = new Vector3(0.2f,0.8f,  0.05f);
@@ -165,7 +165,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             colorData.AddRange(Enumerable.Repeat(white, 182 * 6));
             colorData.AddRange(Enumerable.Repeat(green, 161 * 6));
             colorData.AddRange(Enumerable.Repeat(blue, 10 * 6));//glass
-            colorData.AddRange(Enumerable.Repeat(white, 4 * 6));//light
+            colorData.AddRange(Enumerable.Repeat(blue, 4 * 6));//light
             colorData.AddRange(Enumerable.Repeat(white, 168 * 6));//wheel out
             colorData.AddRange(Enumerable.Repeat(black, 672));//wheel in
             colorData.AddRange(Enumerable.Repeat(white, 168 * 6));//wheel out

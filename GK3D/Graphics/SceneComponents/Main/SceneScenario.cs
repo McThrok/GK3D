@@ -42,7 +42,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             _isMovieMode = !_isMovieMode;
 
             if (_isMovieMode)
-                _delay = 4;
+                _delay = 5f;
 
             StartStopAnimation();
         }
@@ -279,18 +279,50 @@ namespace GK3D.Graphics.SceneComponents.Main
         }
         private void AnimateBeginningScenes(Camera camera, ComplexObject redCar, ComplexObject greenCar)
         {
+            var time = 5f - _delay;
+
+            //test
+            time += 4.5f;
             //beginning
-            if (_delay > 2)
+            if (time < 2)
+            {
+                camera.Rotation = greenCar.Rotation;
+                camera.Rotation += new Vector3(0, (float)Math.PI, 0);
+
+                camera.Position = greenCar.Position;
+                camera.Position += new Vector3(-0.6f, 0.14f, -0.1f - time * 0.4f);
+            }
+            else if (time < 3f)
+            {
+                camera.Rotation = greenCar.Rotation;
+                var rotationY = Math.Max(Math.Min((float)Math.PI / 2, (time - 2.5f) * 7.2f), 0);
+                camera.Rotation += new Vector3(0.2f, (float)Math.PI + rotationY, 0);
+
+                camera.Position = greenCar.Position;
+                camera.Position += new Vector3(0, 0.3f, -0.15f);
+            }
+            else if (time < 3.75f)
             {
                 camera.Rotation = redCar.Rotation;
+                camera.Rotation += new Vector3(0, (float)Math.PI / 2, 0);
+
                 camera.Position = redCar.Position;
-                //camera.Position += new Vector3(-0.5f, 0.14f, 0);
+                camera.Position += new Vector3(0, 0.3f, 0.1f);
             }
-            else if (_delay > 0.5f)
+            else if (time < 4.5f)
             {
+                camera.Rotation = greenCar.Rotation;
+                var rotationY = Math.Min((float)Math.PI / 2, (time - 3.75f) * 7.2f);
+                camera.Rotation += new Vector3(0.2f, (float)Math.PI * 3 / 2 - rotationY, 0);
 
+                camera.Position = greenCar.Position;
+                camera.Position += new Vector3(0, 0.3f, -0.15f);
             }
-
+            else if (time < 5f)
+            {
+                camera.Rotation = new Vector3(0, -(float)Math.PI/2, 0);
+                camera.Position = new Vector3(1.1f, 0.1f, 4.8f);
+            }
         }
     }
 }
