@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GK3D"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="300">
+        Title="Control Panel" Height="500" Width="300">
     <DockPanel LastChildFill="False">
         <Button Name="cameraChangeButton" Content="Change camera" DockPanel.Dock="Top" Click="CameraChangeButton_Click" Margin="5"/>
         <TextBlock Name="shadingModel" Text="shading model: Phong" DockPanel.Dock="Top" Margin="5,5,5,0"/>
