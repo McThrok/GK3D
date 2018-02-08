@@ -198,7 +198,7 @@ namespace GK3D.Graphics.SceneComponents.Main
         }
         private Light LoadSunLight()
         {
-            Light mainLight = new Light(new Vector3(0,0,0), new Vector3(1, 1, 0.8f), 0.5f, 0.001f)
+            Light mainLight = new Light(new Vector3(0,0,0), new Vector3(1, 1, 0.8f), 0.5f, 1f)
             {
                 Name = "Sun",
                 Rotation = new Vector3((float)Math.PI/8, 0, 0),
@@ -266,11 +266,11 @@ namespace GK3D.Graphics.SceneComponents.Main
             lampModel.CalculateNormals();
             lamp.Primitives.Add(lampModel);
 
-            Light lampLight = new Light(new Vector3(0, 2, 1.1f), new Vector3(1, 0.85f, 0.55f), 1, 0)
+            Light lampLight = new Light(new Vector3(0, 2, 1.1f), new Vector3(1, 0.85f, 0.8f), 1, 0)
             {
                 Rotation = new Vector3((float)Math.PI / 2, 0, 0),
-                ConeAngle = 60f,
-                ConeExponent = 5,
+                ConeAngle = 80f,
+                ConeExponent = 8,
                 Type = LightType.Spot
             };
             lamp.Lights.Add(lampLight);
@@ -290,7 +290,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             plain.CalculateNormals();
             map.Primitives.Add(plain);
 
-            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.15f, 0.15f, 0.23f), 100);
+            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.25f, 0.25f, 0.33f), 100);
             roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadOut.Rotation = new Vector3(-(float)Math.PI / 2, -(float)Math.PI / 2, 0);
             roadOut.Scale = new Vector3(1.2f, 1.2f, 1.2f);

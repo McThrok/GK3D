@@ -74,17 +74,32 @@ namespace GK3D.Graphics.Objects.Renderable
             List<Vector3> verticiesRect = new List<Vector3>();
             List<int> indicesRect = new List<int>();
 
-            verticiesRect.Add(new Vector3(r, l / 2, 0));
-            verticiesRect.Add(new Vector3(-r, l / 2, 0));
-            verticiesRect.Add(new Vector3(-r, -l / 2, 0));
-            verticiesRect.Add(new Vector3(r, -l / 2, 0));
+            var sqrtLod = (float)Math.Sqrt(Lod);
+            var squareX = 2 * r / sqrtLod;
+            var squareY = l / sqrtLod;
 
-            indicesRect.Add(0);
-            indicesRect.Add(1);
-            indicesRect.Add(2);
-            indicesRect.Add(2);
-            indicesRect.Add(3);
-            indicesRect.Add(0);
+            for (int i = 0; i < sqrtLod; i++)
+                for (int j = 0; j < sqrtLod; j++)
+                {
+                    verticiesRect.Add(new Vector3(squareX * (i + 1)-r, squareY*(j+1) - l / 2, 0));
+                    verticiesRect.Add(new Vector3(squareX * i - r, squareY * (j + 1) - l / 2, 0));
+                    verticiesRect.Add(new Vector3(squareX * i - r, squareY * j - l / 2, 0));
+                    verticiesRect.Add(new Vector3(squareX * (i + 1) - r, squareY * j - l / 2, 0));
+
+                    //verticiesRect.Add(new Vector3(r, l / 2, 0));
+                    //verticiesRect.Add(new Vector3(-r, l / 2, 0));
+                    //verticiesRect.Add(new Vector3(-r, -l / 2, 0));
+                    //verticiesRect.Add(new Vector3(r, -l / 2, 0));
+
+                    var offset = (i * (int)Math.Floor(sqrtLod) + j) * 4;
+
+                    indicesRect.Add(offset + 0);
+                    indicesRect.Add(offset + 1);
+                    indicesRect.Add(offset + 2);
+                    indicesRect.Add(offset + 2);
+                    indicesRect.Add(offset + 3);
+                    indicesRect.Add(offset + 0);
+                }
 
 
             //add all

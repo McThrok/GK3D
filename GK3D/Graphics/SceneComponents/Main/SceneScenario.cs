@@ -64,7 +64,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             var light = lights.FirstOrDefault(x => x.Object.Name == "Sun");
             if (light != null)
             {
-                light.Object.Color = Vector3.One * SunBrightness;
+                light.Object.DiffuseIntensity = SunBrightness;
                 light.Object.Rotation.X += deltaTime * SunAnimationSpeed;
             }
         }
