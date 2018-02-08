@@ -37,8 +37,8 @@ namespace GK3D.Graphics.SceneComponents.Main
             var complexObjects = sceneObjects.GetComplexObjectsWiThGlobalModelMatrices();
             var cameras = sceneObjects.GetCamerasWiThGlobalModelMatrices();
 
-            var car = complexObjects.FirstOrDefault(x => x.Object.Name == "Car");
-            var dynamicCamera = cameras.FirstOrDefault(x => x.Object.Name == "DynamicCam");
+            var car = complexObjects.FirstOrDefault(x => x.Object.Name == "RedCar");
+            var dynamicCamera = cameras.FirstOrDefault(x => x.Object.Name == "DynamicCamera");
             if (car != null && dynamicCamera != null)
             {
                 var direction = dynamicCamera.Object.Position - car.Object.Position;

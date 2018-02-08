@@ -28,10 +28,19 @@ namespace GK3D.Graphics.SceneComponents.Main
             map.Scale = new Vector3(10, 10, 10);
             collection.SceneObjects.ComplexObjects.Add(map);
 
-            var car = LoadCar();
-            collection.SceneObjects.ComplexObjects.Add(car);
+            var redCar = LoadRedCar();
+            redCar.Name = "RedCar";
+            redCar.Position = new Vector3(0, 0, 4.25f);
+            redCar.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
+            collection.SceneObjects.ComplexObjects.Add(redCar);
 
-            var light = LoadMainLight();
+            var greenCar = LoadGreenCar();
+            greenCar.Name = "GreenCar";
+            greenCar.Position = new Vector3(0, 0, 5.25f);
+            greenCar.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
+            collection.SceneObjects.ComplexObjects.Add(greenCar);
+
+            var light = LoadSunLight();
             collection.SceneObjects.Lights.Add(light);
 
 
@@ -54,7 +63,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             collection.SceneObjects.Cameras.Add(staticCam);
 
             Camera dynamicCam = new Camera();
-            dynamicCam.Name = "DynamicCam";
+            dynamicCam.Name = "DynamicCamera";
             dynamicCam.Position = new Vector3(0, 5f, 0);
             dynamicCam.Rotation = new Vector3(-(float)Math.PI / 4, (float)Math.PI, 0);
             dynamicCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
@@ -63,16 +72,13 @@ namespace GK3D.Graphics.SceneComponents.Main
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
         }
 
-        private ComplexObject LoadCar()
+        private ComplexObject LoadRedCar()
         {
             ComplexObject car = new ComplexObject();
-            car.Name = "Car";
-            car.Position = new Vector3(0, 0, 4.5f);
-            car.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
 
             Camera carCamera = new Camera()
             {
-                Name = "CarCamera",
+                Name = "RedCarCamera",
                 Position = new Vector3(0, 2, 1),
                 Rotation = new Vector3((float)Math.PI / 4, (float)Math.PI, 0),
             };
@@ -81,21 +87,27 @@ namespace GK3D.Graphics.SceneComponents.Main
 
             var carModel = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
             var c = carModel.faces.Min(x => x.Item3.Position.Y);
-            carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
+            carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.3f), 32);
             carModel.Position = new Vector3(0, -0.12f, 0);
             carModel.Rotation = new Vector3(0, 0.415f, 0);
+
+            var red = new Vector3(0.8f, 0.1f, 0.1f);
+            var blue = new Vector3(0.1f, 0.6f, 0.8f);
+            var black = new Vector3(0, 0, 0);
+            var white = new Vector3(0.9f, 0.9f, 1f);
             var colorData = new List<Vector3>();
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 320 * 3));
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 0, 0), 88 * 6));
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 182 * 6));
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 0, 0), 161 * 6));
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 1), 10 * 6));//glass
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 4 * 6));//light
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 168 * 6));//wheel out
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 672));//wheel in
-            colorData.AddRange(Enumerable.Repeat(new Vector3(1, 1, 1), 168 * 6));//wheel out
-            colorData.AddRange(Enumerable.Repeat(new Vector3(0, 0, 0), 672));//wheel in
+            colorData.AddRange(Enumerable.Repeat(black, 320 * 3));
+            colorData.AddRange(Enumerable.Repeat(red, 88 * 6));
+            colorData.AddRange(Enumerable.Repeat(white, 182 * 6));
+            colorData.AddRange(Enumerable.Repeat(red, 161 * 6));
+            colorData.AddRange(Enumerable.Repeat(blue, 10 * 6));//glass
+            colorData.AddRange(Enumerable.Repeat(white, 4 * 6));//light
+            colorData.AddRange(Enumerable.Repeat(white, 168 * 6));//wheel out
+            colorData.AddRange(Enumerable.Repeat(black, 672));//wheel in
+            colorData.AddRange(Enumerable.Repeat(white, 168 * 6));//wheel out
+            colorData.AddRange(Enumerable.Repeat(black, 672));//wheel in
             carModel.ColorData = colorData.ToArray();
+
             carModel.Scale = new Vector3(0.003f, 0.003f, 0.003f);
             carModel.CalculateNormals();
             car.Primitives.Add(carModel);
@@ -103,7 +115,7 @@ namespace GK3D.Graphics.SceneComponents.Main
 
             Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0)
             {
-                Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 15 / 16, 0),
+                Rotation = new Vector3(0, (float)Math.PI * 15 / 16, 0),
                 ConeAngle = 60,
                 Type = LightType.Spot
             };
@@ -112,7 +124,7 @@ namespace GK3D.Graphics.SceneComponents.Main
 
             Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0f)
             {
-                Rotation = new Vector3((float)Math.PI / 16, (float)Math.PI * 17 / 16, 0),
+                Rotation = new Vector3(0, (float)Math.PI * 17 / 16, 0),
                 ConeAngle = 60,
                 Type = LightType.Spot
             };
@@ -120,7 +132,67 @@ namespace GK3D.Graphics.SceneComponents.Main
 
             return car;
         }
-        private Light LoadMainLight()
+        private ComplexObject LoadGreenCar()
+        {
+            ComplexObject car = new ComplexObject();
+
+            Camera carCamera = new Camera()
+            {
+                Name = "GreenCarCamera",
+                Position = new Vector3(0, 2, 1),
+                Rotation = new Vector3((float)Math.PI / 4, (float)Math.PI, 0),
+            };
+            car.Cameras.Add(carCamera);
+
+
+            var carModel = ObjVolume.LoadFromFile("Graphics\\Resources\\Models\\racing_car.obj");
+            var c = carModel.faces.Min(x => x.Item3.Position.Y);
+            carModel.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.3f), 32);
+            carModel.Position = new Vector3(0, -0.12f, 0);
+            carModel.Rotation = new Vector3(0, 0.415f, 0);
+
+            var green = new Vector3(0.2f,0.8f,  0.05f);
+            var blue = new Vector3(0.1f, 0.6f, 0.8f);
+            var black = new Vector3(0, 0, 0);
+            var white = new Vector3(0.9f, 0.9f, 1f);
+            var colorData = new List<Vector3>();
+            colorData.AddRange(Enumerable.Repeat(black, 320 * 3));
+            colorData.AddRange(Enumerable.Repeat(green, 88 * 6));
+            colorData.AddRange(Enumerable.Repeat(white, 182 * 6));
+            colorData.AddRange(Enumerable.Repeat(green, 161 * 6));
+            colorData.AddRange(Enumerable.Repeat(blue, 10 * 6));//glass
+            colorData.AddRange(Enumerable.Repeat(white, 4 * 6));//light
+            colorData.AddRange(Enumerable.Repeat(white, 168 * 6));//wheel out
+            colorData.AddRange(Enumerable.Repeat(black, 672));//wheel in
+            colorData.AddRange(Enumerable.Repeat(white, 168 * 6));//wheel out
+            colorData.AddRange(Enumerable.Repeat(black, 672));//wheel in
+            carModel.ColorData = colorData.ToArray();
+
+            carModel.Scale = new Vector3(0.003f, 0.003f, 0.003f);
+            carModel.CalculateNormals();
+            car.Primitives.Add(carModel);
+
+
+            Light light1 = new Light(new Vector3(0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0)
+            {
+                Rotation = new Vector3(0, (float)Math.PI * 15 / 16, 0),
+                ConeAngle = 60,
+                Type = LightType.Spot
+            };
+            car.Lights.Add(light1);
+
+
+            Light light2 = new Light(new Vector3(-0.1f, 0.1f, -0.5f), new Vector3(1, 1, 1), 1f, 0f)
+            {
+                Rotation = new Vector3(0, (float)Math.PI * 17 / 16, 0),
+                ConeAngle = 60,
+                Type = LightType.Spot
+            };
+            car.Lights.Add(light2);
+
+            return car;
+        }
+        private Light LoadSunLight()
         {
             Light mainLight = new Light(new Vector3(0,0,0), new Vector3(1, 1, 0.8f), 0.5f, 0.001f)
             {
@@ -194,7 +266,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             {
                 Rotation = new Vector3((float)Math.PI / 2, 0, 0),
                 ConeAngle = 60f,
-                ConeExponent = 6,
+                ConeExponent = 5,
                 Type = LightType.Spot
             };
             lamp.Lights.Add(lampLight);

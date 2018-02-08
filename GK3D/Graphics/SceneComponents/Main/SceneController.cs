@@ -32,7 +32,8 @@ namespace GK3D.Graphics.SceneComponents.Main
         {
             if (Collection.ActiveCamera != null)
             {
-                var cameraList = Collection.SceneObjects.GetCamerasWiThGlobalModelMatrices();
+                var availableCameras = new List<string>() { "RedCarCamera","StaticCamera","DynamicCamera" };
+                var cameraList = Collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().Where(x => availableCameras.Contains(x.Object.Name)).ToList();
                 var activeCam = cameraList.SingleOrDefault(x => x.Object == Collection.ActiveCamera.Object);
                 if (activeCam != null)
                 {
@@ -84,12 +85,17 @@ namespace GK3D.Graphics.SceneComponents.Main
 
         }
 
+        public void HandleFocusChange(bool focused)
+        {
+            _focused = focused;
+            if (!_focused)
+                isMouseDown = false;
+        }
         public void HandleInput(KeyboardState keyboardState, MouseState mouseState)
         {
             HandleKeyboard(keyboardState);
             HandleMouse(mouseState);
         }
-
         private void HandleMouse(MouseState mouseState)
         {
             if (isMouseDown)
@@ -112,16 +118,9 @@ namespace GK3D.Graphics.SceneComponents.Main
                 isMouseDown = false;
             }
         }
-        public void HandleFocusChange(bool focused)
-        {
-            _focused = focused;
-            if (!_focused)
-                isMouseDown = false;
-        }
-
         private void HandleKeyboard(KeyboardState keyboardState)
         {
-            var car = Collection.SceneObjects.GetComplexObjectsWiThGlobalModelMatrices().FirstOrDefault(x => x.Object.Name == "Car");
+            var car = Collection.SceneObjects.GetComplexObjectsWiThGlobalModelMatrices().FirstOrDefault(x => x.Object.Name == "RedCar");
             if (car != null)
             {
                 float moved = 0;
@@ -143,7 +142,6 @@ namespace GK3D.Graphics.SceneComponents.Main
                     car.Object.Rotation += new Vector3(0, 0.05f * moved, 0);
             }
         }
-
         private void MoveCar(CollectionItem<ComplexObject> car, float distance)
         {
             var direction = (-Vector3.UnitZ).ApplyOnVector(car.GlobalModelMatrix);
