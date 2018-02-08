@@ -19,7 +19,7 @@ namespace GK3D.Graphics.SceneComponents.Main
         private bool _isRaceAnimated;
         private float _delay;
 
-        private float _speed = 1.4f;
+        private float _speed = 1.6f;
         private float _greenMultipleFactor = 1.12f;
 
         private float _redDistance;
@@ -132,7 +132,7 @@ namespace GK3D.Graphics.SceneComponents.Main
                 {
                     collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().FirstOrDefault(x => x.Object.Name == "MovieCamera");
                     if (collection.ActiveCamera != null)
-                        AnimateCameras(collection.ActiveCamera.Object, redCar, greenCar);
+                        AnimateCameras(collection.ActiveCamera.Object, redCar, greenCar, redRadius);
                 }
             }
 
@@ -158,7 +158,7 @@ namespace GK3D.Graphics.SceneComponents.Main
 
             if (distance > 0)
             {
-                distance -= 4;
+                distance -= 6;
             }
 
             //fisrt angle
@@ -201,7 +201,7 @@ namespace GK3D.Graphics.SceneComponents.Main
 
             if (distance > 0)
             {
-                distance -= 4;
+                distance -= 6;
             }
             if (distance > 0)
             {
@@ -215,9 +215,9 @@ namespace GK3D.Graphics.SceneComponents.Main
         {
             if (distance >= 0)
             {
-                car.Position = new Vector3(Math.Min((float)distance, 5), 0, radius);
+                car.Position = new Vector3(Math.Min((float)distance, 7) - 2, 0, radius);
                 car.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
-                distance -= 5;
+                distance -= 7;
             }
 
             if (distance > 0)
@@ -256,28 +256,97 @@ namespace GK3D.Graphics.SceneComponents.Main
             }
         }
 
-        private void AnimateCameras(Camera camera, ComplexObject redCar, ComplexObject greenCar)
+        private void AnimateCameras(Camera camera, ComplexObject redCar, ComplexObject greenCar, float redRadius)
         {
             if (_delay >= 0)
-                AnimateBeginningScenes(camera, redCar, greenCar);
-               // _delay = 0;
+                //AnimateBeginningScenes(camera, redCar, greenCar);
+                _delay = 0;
             else
-                AnimateRace(camera, redCar, greenCar);
+                AnimateRace(camera, redCar, greenCar, redRadius);
 
 
         }
 
-        private void AnimateRace(Camera camera, ComplexObject redCar, ComplexObject greenCar)
+        private void AnimateRace(Camera camera, ComplexObject redCar, ComplexObject greenCar, float redRadius)
         {
-            var distance = Math.Max(_redDistance, _greenDistance);
-            if (distance < 1.5)
+            var distance = Math.Max(_redDistance, _greenDistance / _greenMultipleFactor);
+            if (distance >= 0)
             {
                 camera.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
                 camera.Position = new Vector3(1.1f, 0.1f, 4.8f);
+                distance -= 2;
             }
-            else
+
+            if (distance > 0)
             {
                 camera.Rotation = new Vector3(0, (float)Math.PI / 2, 0);
+                distance -= 5;
+            }
+
+            if (distance > 0)
+            {
+                camera.Position = new Vector3(5, 4, 2);
+                var direction = camera.Position - redCar.Position;
+                var vectorY = new Vector3(direction.X, 0, direction.Z);
+                var defaultDirection = -Vector3.UnitZ;
+
+                var angleX = Vector3.CalculateAngle(direction, vectorY);
+
+                var angleY = Vector3.CalculateAngle(vectorY, defaultDirection);
+                if (vectorY.X > 0)
+                    angleY = 2 * (float)Math.PI - angleY;
+
+                camera.Rotation = new Vector3(angleX, angleY, 0);
+                distance -= (float)Math.PI * redRadius;
+            }
+
+            if (distance > 0)
+            {
+                camera.Position = redCar.Position;
+
+                camera.Position += new Vector3(-0.2f, 0.3f, 0.5f);
+                camera.Rotation = new Vector3(0, (float)Math.PI, 0);
+
+                distance -= 10;
+            }
+            if (distance > 0)
+            {
+                camera.Position = new Vector3(-8, 0.4f, -4);
+                var direction = camera.Position - redCar.Position;
+                var vectorY = new Vector3(direction.X, 0, direction.Z);
+                var defaultDirection = -Vector3.UnitZ;
+
+                var angleX = Vector3.CalculateAngle(direction, vectorY);
+
+                var angleY = Vector3.CalculateAngle(vectorY, defaultDirection);
+                if (vectorY.X > 0)
+                    angleY = 2 * (float)Math.PI - angleY;
+
+                camera.Rotation = new Vector3(angleX, angleY, 0);
+                distance -= (float)Math.PI * redRadius / 2;
+            }
+
+            if (distance > 0)
+            {
+                camera.Position = new Vector3(-8, 0.4f, 4);
+                var direction = camera.Position - redCar.Position;
+                var vectorY = new Vector3(direction.X, 0, direction.Z);
+                var defaultDirection = -Vector3.UnitZ;
+
+                var angleX = Vector3.CalculateAngle(direction, vectorY);
+
+                var angleY = Vector3.CalculateAngle(vectorY, defaultDirection);
+                if (vectorY.X > 0)
+                    angleY = 2 * (float)Math.PI - angleY;
+
+                camera.Rotation = new Vector3(angleX, angleY, 0);
+                distance -= (float)Math.PI * redRadius / 2 + 2;
+            }
+
+            if (distance > 0)
+            {
+                camera.Position = new Vector3(0, 0.2f, 6);
+                camera.Rotation = new Vector3(0, (float)Math.PI, 0);
             }
         }
 
