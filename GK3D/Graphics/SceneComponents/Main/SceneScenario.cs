@@ -19,7 +19,7 @@ namespace GK3D.Graphics.SceneComponents.Main
         private bool _isRaceAnimated;
         private float _delay;
 
-        private float _speed = 1.8f;
+        private float _speed = 1.4f;
         private float _greenMultipleFactor = 1.12f;
 
         private float _redDistance;
@@ -42,7 +42,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             _isMovieMode = !_isMovieMode;
 
             if (_isMovieMode)
-                _delay = 5f;
+                _delay = 5.5f;
 
             StartStopAnimation();
         }
@@ -258,31 +258,33 @@ namespace GK3D.Graphics.SceneComponents.Main
 
         private void AnimateCameras(Camera camera, ComplexObject redCar, ComplexObject greenCar)
         {
-            AnimateBeginningScenes(camera, redCar, greenCar);
-            //beginning
-            if (_delay > 2)
-            {
-
-            }
-            else if (_delay > 0.5f)
-            {
-
-            }
-            else if (_delay > 0)
-            {
-
-            }
-
-            var distance = Math.Max(_redDistance, _greenDistance);
+            if (_delay >= 0)
+                AnimateBeginningScenes(camera, redCar, greenCar);
+               // _delay = 0;
+            else
+                AnimateRace(camera, redCar, greenCar);
 
 
         }
+
+        private void AnimateRace(Camera camera, ComplexObject redCar, ComplexObject greenCar)
+        {
+            var distance = Math.Max(_redDistance, _greenDistance);
+            if (distance < 1.5)
+            {
+                camera.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
+                camera.Position = new Vector3(1.1f, 0.1f, 4.8f);
+            }
+            else
+            {
+                camera.Rotation = new Vector3(0, (float)Math.PI / 2, 0);
+            }
+        }
+
         private void AnimateBeginningScenes(Camera camera, ComplexObject redCar, ComplexObject greenCar)
         {
             var time = 5f - _delay;
 
-            //test
-            time += 4.5f;
             //beginning
             if (time < 2)
             {
@@ -295,13 +297,13 @@ namespace GK3D.Graphics.SceneComponents.Main
             else if (time < 3f)
             {
                 camera.Rotation = greenCar.Rotation;
-                var rotationY = Math.Max(Math.Min((float)Math.PI / 2, (time - 2.5f) * 7.2f), 0);
+                var rotationY = Math.Max(Math.Min((float)Math.PI / 2, (time - 2.25f) * 8f), 0);
                 camera.Rotation += new Vector3(0.2f, (float)Math.PI + rotationY, 0);
 
                 camera.Position = greenCar.Position;
                 camera.Position += new Vector3(0, 0.3f, -0.15f);
             }
-            else if (time < 3.75f)
+            else if (time < 4f)
             {
                 camera.Rotation = redCar.Rotation;
                 camera.Rotation += new Vector3(0, (float)Math.PI / 2, 0);
@@ -309,18 +311,18 @@ namespace GK3D.Graphics.SceneComponents.Main
                 camera.Position = redCar.Position;
                 camera.Position += new Vector3(0, 0.3f, 0.1f);
             }
-            else if (time < 4.5f)
+            else if (time < 4.75f)
             {
                 camera.Rotation = greenCar.Rotation;
-                var rotationY = Math.Min((float)Math.PI / 2, (time - 3.75f) * 7.2f);
+                var rotationY = Math.Min((float)Math.PI / 2, (time - 4f) * 8f);
                 camera.Rotation += new Vector3(0.2f, (float)Math.PI * 3 / 2 - rotationY, 0);
 
                 camera.Position = greenCar.Position;
                 camera.Position += new Vector3(0, 0.3f, -0.15f);
             }
-            else if (time < 5f)
+            else if (time < 5.5f)
             {
-                camera.Rotation = new Vector3(0, -(float)Math.PI/2, 0);
+                camera.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
                 camera.Position = new Vector3(1.1f, 0.1f, 4.8f);
             }
         }
