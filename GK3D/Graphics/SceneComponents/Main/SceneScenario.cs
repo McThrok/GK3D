@@ -18,7 +18,6 @@ namespace GK3D.Graphics.SceneComponents.Main
         private bool _isMovieMode;
         private bool _isRaceAnimated;
         private float _delay;
-        private float _movieTime;
 
         private float _speed = 1.8f;
         private float _greenMultipleFactor = 1.12f;
@@ -43,14 +42,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             _isMovieMode = !_isMovieMode;
 
             if (_isMovieMode)
-            {
-                _delay = 2;
-                _movieTime = 0;
-            }
-            else
-            {
-
-            }
+                _delay = 4;
 
             StartStopAnimation();
         }
@@ -106,15 +98,18 @@ namespace GK3D.Graphics.SceneComponents.Main
                 var redCar = complexObjects.FirstOrDefault(x => x.Object.Name == "RedCar").Object;
                 var greenCar = complexObjects.FirstOrDefault(x => x.Object.Name == "GreenCar").Object;
 
+                var redRadius = 4.3f;
+                var greenRadius = 5.3f;
+
                 if (_isMovieMode && _delay >= 0)
                 {
+                    SetCarPosition(redCar, redRadius, _redDistance);
+                    SetCarPosition(greenCar, greenRadius, _greenDistance);
                     _delay -= deltaTime;
                 }
                 else
                 {
 
-                    var redRadius = 4.3f;
-                    var greenRadius = 5.3f;
 
                     _redVelocity = SetCarVelocity(redRadius, _redDistance);
                     _greenVelocity = SetCarVelocity(greenRadius, _greenDistance) * _greenMultipleFactor;
@@ -135,14 +130,9 @@ namespace GK3D.Graphics.SceneComponents.Main
 
                 if (_isMovieMode)
                 {
-                    if (_movieTime == 0)
-                    {
-                        _movieTime += deltaTime;
-
-                        var camera = collection.ActiveCamera;
-                        if (camera.Object.Name == "MovieCamera")
-                            AnimateCameras(camera.Object, redCar, greenCar);
-                    }
+                    collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().FirstOrDefault(x => x.Object.Name == "MovieCamera");
+                    if (collection.ActiveCamera != null)
+                        AnimateCameras(collection.ActiveCamera.Object, redCar, greenCar);
                 }
             }
 
@@ -268,6 +258,39 @@ namespace GK3D.Graphics.SceneComponents.Main
 
         private void AnimateCameras(Camera camera, ComplexObject redCar, ComplexObject greenCar)
         {
+            AnimateBeginningScenes(camera, redCar, greenCar);
+            //beginning
+            if (_delay > 2)
+            {
+
+            }
+            else if (_delay > 0.5f)
+            {
+
+            }
+            else if (_delay > 0)
+            {
+
+            }
+
+            var distance = Math.Max(_redDistance, _greenDistance);
+
+
+        }
+        private void AnimateBeginningScenes(Camera camera, ComplexObject redCar, ComplexObject greenCar)
+        {
+            //beginning
+            if (_delay > 2)
+            {
+                camera.Rotation = redCar.Rotation;
+                camera.Position = redCar.Position;
+                //camera.Position += new Vector3(-0.5f, 0.14f, 0);
+            }
+            else if (_delay > 0.5f)
+            {
+
+            }
+
         }
     }
 }

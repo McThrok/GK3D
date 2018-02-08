@@ -74,7 +74,6 @@ namespace GK3D.Graphics.SceneComponents.Main
             collection.SceneObjects.Cameras.Add(movieCamera);
 
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
-            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "MovieCamera");
         }
 
         private ComplexObject LoadRedCar()
@@ -84,8 +83,8 @@ namespace GK3D.Graphics.SceneComponents.Main
             Camera carCamera = new Camera()
             {
                 Name = "RedCarCamera",
-                Position = new Vector3(0, 2, 1),
-                Rotation = new Vector3((float)Math.PI / 4, (float)Math.PI, 0),
+                Position = new Vector3(0, 1.5f, 1),
+                Rotation = new Vector3((float)Math.PI / 6, (float)Math.PI, 0),
             };
             car.Cameras.Add(carCamera);
 
@@ -237,19 +236,19 @@ namespace GK3D.Graphics.SceneComponents.Main
                 var lamp1 = LoadLamp();
                 lamp1.Position += new Vector3(x * 0.5f, 0, z * 0.33f);
                 lamp1.Rotation = new Vector3(0, x * z * (float)Math.PI / 5 + rotationZ, 0);
-                lamp1.Scale = new Vector3(0.1f);
+                lamp1.Scale = new Vector3(0.08f);
                 map.ComplexObjects.Add(lamp1);
 
                 var lamp2 = LoadLamp();
                 lamp2.Position += new Vector3(x * 0.17f, 0, z * 0.34f);
                 lamp2.Rotation = new Vector3(0, rotationZ, 0);
-                lamp2.Scale = new Vector3(0.1f);
+                lamp2.Scale = new Vector3(0.08f);
                 map.ComplexObjects.Add(lamp2);
 
                 var lamp3 = LoadLamp();
                 lamp3.Position += new Vector3(x * 0.74f, 0, z * 0.17f);
-                lamp3.Rotation = new Vector3(0, x*z*(float)Math.PI / 2.5f + rotationZ, 0);
-                lamp3.Scale = new Vector3(0.1f);
+                lamp3.Rotation = new Vector3(0, x * z * (float)Math.PI / 2.5f + rotationZ, 0);
+                lamp3.Scale = new Vector3(0.08f);
                 map.ComplexObjects.Add(lamp3);
                 
             }
@@ -267,7 +266,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             lampModel.CalculateNormals();
             lamp.Primitives.Add(lampModel);
 
-            Light lampLight = new Light(new Vector3(0, 2, 1.1f), new Vector3(1, 0.85f, 0.55f), 0.75f, 0)
+            Light lampLight = new Light(new Vector3(0, 2, 1.1f), new Vector3(1, 0.85f, 0.55f), 1, 0)
             {
                 Rotation = new Vector3((float)Math.PI / 2, 0, 0),
                 ConeAngle = 60f,
