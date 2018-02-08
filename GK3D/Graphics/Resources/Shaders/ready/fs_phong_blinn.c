@@ -46,7 +46,8 @@ main()
 		float cone_factor = 0;
 
 		if (lights[i].type == 1 && degrees(acos(dot(lightvec, lights[i].direction))) < lights[i].coneAngle)
-			cone_factor = pow(max(dot(lightvec, lights[i].direction),0.0), lights[i].coneExponent);
+			cone_factor = pow(max(dot(lightvec, lights[i].direction), 0.0), lights[i].coneExponent);
+
 
 		//ambient lighting
 		vec4 ambient = lights[i].ambientIntensity * vec4(material_ambient, 0.0) * vec4(lights[i].color, 0.0);
@@ -63,7 +64,7 @@ main()
 		//specular lighting
 		vec3 viewvec = normalize(vec3(inverse(view) * vec4(0, 0, 0, 1)) - v_pos);
 		vec3 blinnH = normalize(lightvec + viewvec);
-		float material_specularreflection = pow(max(dot(blinnH, v_norm), 0.0), material_specExponent);
+		float material_specularreflection = pow(max(dot(blinnH, n), 0.0), material_specExponent);
 		vec4 specular = vec4(material_specular * lights[i].color, 0.0) * material_specularreflection;
 
 		if (lights[i].type == 1)
