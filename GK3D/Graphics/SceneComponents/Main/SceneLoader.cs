@@ -69,7 +69,6 @@ namespace GK3D.Graphics.SceneComponents.Main
             dynamicCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
             collection.SceneObjects.Cameras.Add(dynamicCam);
 
-
             Camera movieCamera = new Camera();
             dynamicCam.Name = "MovieCamera";
 
