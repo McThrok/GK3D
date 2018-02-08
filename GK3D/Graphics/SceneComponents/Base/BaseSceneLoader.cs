@@ -11,7 +11,7 @@ using System.Drawing.Imaging;
 
 namespace GK3D.Graphics.SceneComponents.Base
 {
-    public abstract class SceneLoader
+    public abstract class BaseSceneLoader
     {
         public abstract SceneCollection Load();
 

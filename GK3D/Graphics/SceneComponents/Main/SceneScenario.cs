@@ -10,12 +10,12 @@ using GK3D.Graphics.Objects.Renderable;
 
 namespace GK3D.Graphics.SceneComponents.Main
 {
-    public class MainSceneScenario : SceneScenario
+    public class SceneScenario
     {
-        public bool IsSunAnimated { get; set; } = true;
-        public float SunAnimationSpeed { get; set; } = 0.4f;
+        public float SunAnimationSpeed { get; set; } = 1;
+        public float SunBrightness { get; set; } = 0.4f;
 
-        public override void Process(ComplexObject sceneObjects, float deltaTime)
+        public void Process(ComplexObject sceneObjects, float deltaTime)
         {
             MoveDynamicCamera(sceneObjects);
             MoveSun(sceneObjects, deltaTime);
@@ -23,13 +23,13 @@ namespace GK3D.Graphics.SceneComponents.Main
 
         private void MoveSun(ComplexObject sceneObjects, float deltaTime)
         {
-            if (IsSunAnimated)
-            {
                 var lights = sceneObjects.GetLightsWiThGlobalModelMatrices();
                 var light = lights.FirstOrDefault(x => x.Object.Name == "Sun");
                 if (light != null)
+                {
+                    light.Object.Color = Vector3.One * SunBrightness;
                     light.Object.Rotation.X += deltaTime * SunAnimationSpeed;
-            }
+                }
         }
 
         private void MoveDynamicCamera(ComplexObject sceneObjects)

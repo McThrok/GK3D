@@ -11,15 +11,24 @@ using GK3D.Graphics.Objects.Renderable;
 
 namespace GK3D.Graphics.SceneComponents.Main
 {
-    public class MainSceneController : SceneController
+    public class SceneController
     {
+        public SceneLoader Loader { get; set; }
+        public SceneCollection Collection { get; set; }
+        public SceneScenario SceneScenario { get; set; }
+
         private Vector2 _lastMousePos;
         private bool _focused = true;
         private bool isMouseDown;
-        public MainSceneController(MainSceneLoader loader, MainSceneScenario scenario) : base(loader, scenario)
-        { }
 
-        public override void ChangeCamera()
+        public SceneController(SceneLoader loader, SceneScenario scenario)
+        {
+            Loader = loader;
+            SceneScenario = scenario;
+            Collection = Loader.Load();
+        }
+
+        public void ChangeCamera()
         {
             if (Collection.ActiveCamera != null)
             {
@@ -31,7 +40,7 @@ namespace GK3D.Graphics.SceneComponents.Main
                 }
             }
         }
-        public override void ChangeShading()
+        public void ChangeShading()
         {
             switch (Collection.ActiveShader)
             {
@@ -52,7 +61,7 @@ namespace GK3D.Graphics.SceneComponents.Main
                     break;
             }
         }
-        public override void ChangeLighting()
+        public void ChangeLighting()
         {
             switch (Collection.ActiveShader)
             {
@@ -75,7 +84,7 @@ namespace GK3D.Graphics.SceneComponents.Main
 
         }
 
-        public override void HandleInput(KeyboardState keyboardState, MouseState mouseState)
+        public void HandleInput(KeyboardState keyboardState, MouseState mouseState)
         {
             HandleKeyboard(keyboardState);
             HandleMouse(mouseState);
@@ -103,7 +112,7 @@ namespace GK3D.Graphics.SceneComponents.Main
                 isMouseDown = false;
             }
         }
-        public override void HandleFocusChange(bool focused)
+        public void HandleFocusChange(bool focused)
         {
             _focused = focused;
             if (!_focused)
@@ -142,6 +151,5 @@ namespace GK3D.Graphics.SceneComponents.Main
 
             car.Object.Position += direction * distance;
         }
-
     }
 }

@@ -84,13 +84,11 @@
     <Compile Include="Graphics\Objects\Renderable\ObjVolume.cs" />
     <Compile Include="Graphics\Objects\Renderable\TexturedCube.cs" />
     <Compile Include="Graphics\Objects\Renderable\Primitive.cs" />
-    <Compile Include="Graphics\SceneComponents\Base\SceneScenario.cs" />
-    <Compile Include="Graphics\SceneComponents\Main\MainSceneLoader.cs" />
-    <Compile Include="Graphics\SceneComponents\Main\MainSceneController.cs" />
-    <Compile Include="Graphics\SceneComponents\Main\MainSceneScenario.cs" />
-    <Compile Include="Graphics\SceneComponents\Base\SceneLoader.cs" />
+    <Compile Include="Graphics\SceneComponents\Main\SceneLoader.cs" />
+    <Compile Include="Graphics\SceneComponents\Main\SceneController.cs" />
+    <Compile Include="Graphics\SceneComponents\Main\SceneScenario.cs" />
+    <Compile Include="Graphics\SceneComponents\Base\BaseSceneLoader.cs" />
     <Compile Include="Graphics\SceneComponents\Base\SceneCollection.cs" />
-    <Compile Include="Graphics\SceneComponents\Base\SceneController.cs" />
     <Compile Include="Graphics\ShaderProgram.cs" />
     <Compile Include="Graphics\VectorExtension.cs" />
     <Compile Include="MainWindow.xaml.cs">

@@ -86,5 +86,17 @@ namespace GK3D
                     lightingModel.Text = "lighting model: Phong";
             }
         }
+
+        private void AnimationSpeed_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_game != null)
+                _game.SceneController.SceneScenario.SunAnimationSpeed = (float)e.NewValue / 3;
+        }
+
+        private void SunBrightness_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_game != null)
+                _game.SceneController.SceneScenario.SunBrightness = (float)e.NewValue/10;
+        }
     }
 }

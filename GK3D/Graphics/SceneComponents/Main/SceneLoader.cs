@@ -11,9 +11,9 @@ using System.Windows.Media.Media3D;
 
 namespace GK3D.Graphics.SceneComponents.Main
 {
-    public class MainSceneLoader : SceneLoader
+    public class SceneLoader : BaseSceneLoader
     {
-        public MainSceneLoader() : base() { }
+        public SceneLoader() : base() { }
 
         public override SceneCollection Load()
         {

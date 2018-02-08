@@ -31,7 +31,7 @@ namespace GK3D.Graphics
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
-            SceneController = new MainSceneController(new MainSceneLoader(), new MainSceneScenario());
+            SceneController = new SceneController(new SceneLoader(), new SceneScenario());
             _frameManeger = new FrameManager();
             _frameManeger.Collection = SceneController.Collection;
 
