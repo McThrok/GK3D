@@ -51,7 +51,7 @@ namespace GK3D.Graphics
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
-            SceneController.SceneScenario.Process(SceneController.Collection.SceneObjects, (float)e.Time);
+            SceneController.SceneScenario.Process(SceneController.Collection, (float)e.Time);
             SceneController.HandleInput(Keyboard.GetState(), Mouse.GetState());
         }
         protected override void OnFocusedChanged(EventArgs e)

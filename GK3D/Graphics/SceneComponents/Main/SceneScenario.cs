@@ -16,8 +16,9 @@ namespace GK3D.Graphics.SceneComponents.Main
         public float SunBrightness { get; set; } = 0.4f;
 
         private bool _isMovieMode;
-        private bool _isMovieAnimated;
+        private bool _isRaceAnimated;
         private float _delay;
+        private float _movieTime;
 
         private float _speed = 1.8f;
         private float _greenMultipleFactor = 1.12f;
@@ -31,24 +32,32 @@ namespace GK3D.Graphics.SceneComponents.Main
 
         private Random rd = new Random();
 
-        public void Process(ComplexObject sceneObjects, float deltaTime)
+        public void Process(SceneCollection collection, float deltaTime)
         {
-            MoveDynamicCamera(sceneObjects);
-            MoveSun(sceneObjects, deltaTime);
-            ProgressMovie(sceneObjects, deltaTime);
+            MoveDynamicCamera(collection.SceneObjects);
+            MoveSun(collection.SceneObjects, deltaTime);
+            ProgressMovie(collection, deltaTime);
         }
         public void StartStopMovie()
         {
             _isMovieMode = !_isMovieMode;
+
             if (_isMovieMode)
+            {
                 _delay = 2;
-            if (_isMovieAnimated != _isMovieMode)
-                StartStopAnimation();
+                _movieTime = 0;
+            }
+            else
+            {
+
+            }
+
+            StartStopAnimation();
         }
         public void StartStopAnimation()
         {
-            _isMovieAnimated = !_isMovieAnimated;
-            if (_isMovieAnimated)
+            _isRaceAnimated = !_isRaceAnimated;
+            if (_isRaceAnimated)
             {
                 _redDistance = 0;
                 _greenDistance = 0;
@@ -67,7 +76,6 @@ namespace GK3D.Graphics.SceneComponents.Main
                 light.Object.Rotation.X += deltaTime * SunAnimationSpeed;
             }
         }
-
         private void MoveDynamicCamera(ComplexObject sceneObjects)
         {
             var complexObjects = sceneObjects.GetComplexObjectsWiThGlobalModelMatrices();
@@ -90,12 +98,11 @@ namespace GK3D.Graphics.SceneComponents.Main
                 dynamicCamera.Object.Rotation = new Vector3(angleX, angleY, 0);
             }
         }
-
-        private void ProgressMovie(ComplexObject sceneObjects, float deltaTime)
+        private void ProgressMovie(SceneCollection collection, float deltaTime)
         {
-            if (_isMovieAnimated)
+            if (_isRaceAnimated)
             {
-                var complexObjects = sceneObjects.GetComplexObjectsWiThGlobalModelMatrices();
+                var complexObjects = collection.SceneObjects.GetComplexObjectsWiThGlobalModelMatrices();
                 var redCar = complexObjects.FirstOrDefault(x => x.Object.Name == "RedCar").Object;
                 var greenCar = complexObjects.FirstOrDefault(x => x.Object.Name == "GreenCar").Object;
 
@@ -124,9 +131,22 @@ namespace GK3D.Graphics.SceneComponents.Main
                     SetCarPosition(redCar, redRadius, _redDistance);
                     SetCarPosition(greenCar, greenRadius, _greenDistance);
                 }
-            }
-        }
 
+
+                if (_isMovieMode)
+                {
+                    if (_movieTime == 0)
+                    {
+                        _movieTime += deltaTime;
+
+                        var camera = collection.ActiveCamera;
+                        if (camera.Object.Name == "MovieCamera")
+                            AnimateCameras(camera.Object, redCar, greenCar);
+                    }
+                }
+            }
+
+        }
         private void RandomizeVelocity(float radius, float distance, ref float velocityChange)
         {
             if (distance > 10 + Math.PI * radius)
@@ -135,7 +155,6 @@ namespace GK3D.Graphics.SceneComponents.Main
                     velocityChange = 0.90f + (float)rd.NextDouble() / 5;
             }
         }
-
         private float SetCarVelocity(float radius, float distance)
         {
             var velocity = 1f;
@@ -245,6 +264,10 @@ namespace GK3D.Graphics.SceneComponents.Main
                 car.Position += new Vector3(Math.Min((float)distance, 10), 0, 0);
                 distance -= 10;
             }
+        }
+
+        private void AnimateCameras(Camera camera, ComplexObject redCar, ComplexObject greenCar)
+        {
         }
     }
 }

@@ -70,9 +70,11 @@ namespace GK3D.Graphics.SceneComponents.Main
             collection.SceneObjects.Cameras.Add(dynamicCam);
 
             Camera movieCamera = new Camera();
-            dynamicCam.Name = "MovieCamera";
+            movieCamera.Name = "MovieCamera";
+            collection.SceneObjects.Cameras.Add(movieCamera);
 
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
+            collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "MovieCamera");
         }
 
         private ComplexObject LoadRedCar()

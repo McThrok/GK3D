@@ -32,13 +32,16 @@ namespace GK3D.Graphics.SceneComponents.Main
         {
             if (Collection.ActiveCamera != null)
             {
-                var availableCameras = new List<string>() { "RedCarCamera","StaticCamera","DynamicCamera" };
+
+                var availableCameras = new List<string>() { "RedCarCamera", "StaticCamera", "DynamicCamera" };
                 var cameraList = Collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().Where(x => availableCameras.Contains(x.Object.Name)).ToList();
                 var activeCam = cameraList.SingleOrDefault(x => x.Object == Collection.ActiveCamera.Object);
                 if (activeCam != null)
                 {
                     Collection.ActiveCamera = cameraList[(cameraList.IndexOf(activeCam) + 1) % cameraList.Count];
                 }
+                else
+                    Collection.ActiveCamera = cameraList.FirstOrDefault();
             }
         }
         public void ChangeShading()
