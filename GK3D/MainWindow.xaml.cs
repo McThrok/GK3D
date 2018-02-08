@@ -98,5 +98,16 @@ namespace GK3D
             if (_game != null)
                 _game.SceneController.SceneScenario.SunBrightness = (float)e.NewValue/10;
         }
+
+        private void movieAnimated_Click(object sender, RoutedEventArgs e)
+        {
+            _game.SceneController.SceneScenario.StartStopAnimation();
+        }
+
+        private void movieMode_Click(object sender, RoutedEventArgs e)
+        {
+            _game.SceneController.SceneScenario.StartStopMovie();
+
+        }
     }
 }

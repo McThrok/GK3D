@@ -30,13 +30,13 @@ namespace GK3D.Graphics.SceneComponents.Main
 
             var redCar = LoadRedCar();
             redCar.Name = "RedCar";
-            redCar.Position = new Vector3(0, 0, 4.25f);
+            redCar.Position = new Vector3(0, 0, 4.3f);
             redCar.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
             collection.SceneObjects.ComplexObjects.Add(redCar);
 
             var greenCar = LoadGreenCar();
             greenCar.Name = "GreenCar";
-            greenCar.Position = new Vector3(0, 0, 5.25f);
+            greenCar.Position = new Vector3(0, 0, 5.3f);
             greenCar.Rotation = new Vector3(0, -(float)Math.PI / 2, 0);
             collection.SceneObjects.ComplexObjects.Add(greenCar);
 
@@ -68,6 +68,10 @@ namespace GK3D.Graphics.SceneComponents.Main
             dynamicCam.Rotation = new Vector3(-(float)Math.PI / 4, (float)Math.PI, 0);
             dynamicCam.Rotation += new Vector3((float)Math.PI / 4, 0, 0);
             collection.SceneObjects.Cameras.Add(dynamicCam);
+
+
+            Camera movieCamera = new Camera();
+            dynamicCam.Name = "MovieCamera";
 
             collection.ActiveCamera = collection.SceneObjects.GetCamerasWiThGlobalModelMatrices().First(x => x.Object.Name == "StaticCamera");
         }
@@ -286,7 +290,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             plain.CalculateNormals();
             map.Primitives.Add(plain);
 
-            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.2f, 0.15f, 0.15f), 100);
+            Capsule2D roadOut = new Capsule2D(1, new Vector3(0.15f, 0.15f, 0.23f), 100);
             roadOut.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.2f), 5);
             roadOut.Rotation = new Vector3(-(float)Math.PI / 2, -(float)Math.PI / 2, 0);
             roadOut.Scale = new Vector3(1.2f, 1.2f, 1.2f);
