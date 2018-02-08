@@ -270,7 +270,7 @@ namespace GK3D.Graphics.SceneComponents.Main
             {
                 Rotation = new Vector3((float)Math.PI / 2, 0, 0),
                 ConeAngle = 80f,
-                ConeExponent = 8,
+                ConeExponent = 5,
                 Type = LightType.Spot
             };
             lamp.Lights.Add(lampLight);
@@ -280,7 +280,7 @@ namespace GK3D.Graphics.SceneComponents.Main
         private void LoadTerrain(ComplexObject map)
         {
             float layerOffset = 0.001f;
-            Vector3 grassColor = new Vector3(0.12f, 0.35f, 0.12f);
+            Vector3 grassColor = new Vector3(0.22f, 0.65f, 0.22f);
 
             Capsule2D plain = new Capsule2D(1, grassColor, 1);
             plain.Material = new Material(new Vector3(0.1f), new Vector3(1), new Vector3(0.1f), 5);

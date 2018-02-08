@@ -90,6 +90,7 @@ namespace GK3D.Graphics.SceneComponents.Main
                 dynamicCamera.Object.Rotation = new Vector3(angleX, angleY, 0);
             }
         }
+
         private void ProgressMovie(SceneCollection collection, float deltaTime)
         {
             if (_isRaceAnimated)
@@ -139,7 +140,7 @@ namespace GK3D.Graphics.SceneComponents.Main
         }
         private void RandomizeVelocity(float radius, float distance, ref float velocityChange)
         {
-            if (distance > 10 + Math.PI * radius)
+            if (distance > 15 + Math.PI * radius)
             {
                 if (velocityChange == 1)
                     velocityChange = 0.90f + (float)rd.NextDouble() / 5;
@@ -259,14 +260,12 @@ namespace GK3D.Graphics.SceneComponents.Main
         private void AnimateCameras(Camera camera, ComplexObject redCar, ComplexObject greenCar, float redRadius)
         {
             if (_delay >= 0)
-                //AnimateBeginningScenes(camera, redCar, greenCar);
-                _delay = 0;
+                AnimateBeginningScenes(camera, redCar, greenCar);
             else
                 AnimateRace(camera, redCar, greenCar, redRadius);
 
 
         }
-
         private void AnimateRace(Camera camera, ComplexObject redCar, ComplexObject greenCar, float redRadius)
         {
             var distance = Math.Max(_redDistance, _greenDistance / _greenMultipleFactor);
@@ -349,7 +348,6 @@ namespace GK3D.Graphics.SceneComponents.Main
                 camera.Rotation = new Vector3(0, (float)Math.PI, 0);
             }
         }
-
         private void AnimateBeginningScenes(Camera camera, ComplexObject redCar, ComplexObject greenCar)
         {
             var time = 5f - _delay;
