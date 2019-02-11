@@ -19,8 +19,6 @@ namespace GK3D.Graphics.SceneComponents.Main
         {
             var collection = new SceneCollection();
 
-            LoadMaterials(collection, "Graphics\\Resources\\Materials\\opentk.mtl");
-
             LoadShaders(collection);
             LoadMainCameras(collection);
 
